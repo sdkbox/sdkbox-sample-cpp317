@@ -1,0 +1,7 @@
+
+*.bak
+backup-*.zip
+
+
+cocos2d/
+
