@@ -2,7 +2,7 @@
 *.bak
 backup-*.zip
 
-
+cocos2d
 cocos2d/
 
 
