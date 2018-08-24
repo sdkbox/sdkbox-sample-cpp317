@@ -29,6 +29,8 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
 @implementation AppController
 
 @synthesize window;
@@ -78,11 +80,24 @@ static AppDelegate s_sharedApplication;
     cocos2d::Director::getInstance()->setOpenGLView(glview);
     
     //run the cocos2d-x game scene
+    
+    BOOL ret = [[FBSDKApplicationDelegate sharedInstance] application:application
+                                        didFinishLaunchingWithOptions:launchOptions];
+
     app->run();
 
-    return YES;
+    return ret;
 }
 
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*
@@ -99,6 +114,7 @@ static AppDelegate s_sharedApplication;
      */
     // We don't need to call this method any more. It will interrupt user defined game pause&resume logic
     /* cocos2d::Director::getInstance()->resume(); */
+    [FBSDKAppEvents activateApp];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {

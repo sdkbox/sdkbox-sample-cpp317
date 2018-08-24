@@ -72,6 +72,9 @@ class FBListener : public sdkbox::FacebookListener {
 
 public:
     virtual void onLogin(bool isLogin, const std::string& msg) {
+        std::stringstream buf;
+        buf << "onLogin:" << isLogin << ":" << msg;
+        showMsg(buf.str());
     }
 
     virtual void onSharedSuccess(const std::string& message) {
@@ -89,7 +92,9 @@ public:
     }
 
     virtual void onPermission(bool isLogin, const std::string& msg) {
-        
+        std::stringstream buf;
+        buf << "onPermission:" << isLogin << ":" << msg;
+        showMsg(buf.str());
     }
 
     virtual void onFetchFriends(bool ok, const std::string& msg) {
@@ -188,16 +193,13 @@ void HelloWorld::createTestMenu() {
     }));
     menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("CheckStatus", "arial", 24), [](Ref*){
         std::stringstream buf;
-        CCLOG("##FB> permission list: ");
         for (auto& permission : sdkbox::PluginFacebook::getPermissionList()) {
             buf.str("");
             buf << "permission:";
             buf << permission.data();
             showMsg(buf.str());
         }
-        buf.str("");
-        buf << "Access token:" << sdkbox::PluginFacebook::getAccessToken();
-        showMsg(buf.str());
+        CCLOG("##FB> Access token: %s", sdkbox::PluginFacebook::getAccessToken().c_str());
         buf.str("");
         buf << "User id:" << sdkbox::PluginFacebook::getUserID();
         showMsg(buf.str());
