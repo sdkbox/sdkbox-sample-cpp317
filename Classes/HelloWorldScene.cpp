@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginFacebook/PluginFacebook.h"
+
 USING_NS_CC;
 
 
@@ -59,6 +61,66 @@ static void showMsg(const std::string& msg) {
     
     label->setString(text);
 }
+
+
+
+/******************
+ * Facebook Listener
+ ******************/
+
+class FBListener : public sdkbox::FacebookListener {
+
+public:
+    virtual void onLogin(bool isLogin, const std::string& msg) {
+    }
+
+    virtual void onSharedSuccess(const std::string& message) {
+    }
+
+    virtual void onSharedFailed(const std::string& message) {
+    }
+
+    virtual void onSharedCancel() {
+        
+    }
+
+    virtual void onAPI(const std::string& key, const std::string& jsonData) {
+        
+    }
+
+    virtual void onPermission(bool isLogin, const std::string& msg) {
+        
+    }
+
+    virtual void onFetchFriends(bool ok, const std::string& msg) {
+        
+    }
+
+    virtual void onRequestInvitableFriends( const sdkbox::FBInvitableFriendsInfo& friends ) {
+        
+    }
+
+    virtual void onInviteFriendsWithInviteIdsResult( bool result, const std::string& msg ) {
+        
+    }
+
+    virtual void onInviteFriendsResult( bool result, const std::string& msg ) {
+        
+    }
+
+    virtual void onGetUserInfo( const sdkbox::FBGraphUser& userInfo ) {
+        
+    }
+
+    virtual void onRequestGiftResult(bool result, const std::string& msg) {
+        
+    }
+
+    virtual void onSendGiftResult(bool result, const std::string& msg) {
+        
+    }
+
+};
 
 
 
@@ -112,10 +174,41 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Login/Logout", "arial", 24), [](Ref*){
+        if (sdkbox::PluginFacebook::isLoggedIn()) {
+            showMsg("FB to Logout");
+            sdkbox::PluginFacebook::logout();
+        } else {
+            showMsg("FB to Login");
+            std::vector<std::string> permissions;
+            permissions.push_back(sdkbox::FB_PERM_READ_EMAIL);
+            permissions.push_back(sdkbox::FB_PERM_READ_USER_FRIENDS);
+            sdkbox::PluginFacebook::login(permissions);
+        }
     }));
-    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("CheckStatus", "arial", 24), [](Ref*){
+        std::stringstream buf;
+        CCLOG("##FB> permission list: ");
+        for (auto& permission : sdkbox::PluginFacebook::getPermissionList()) {
+            buf.str("");
+            buf << "permission:";
+            buf << permission.data();
+            showMsg(buf.str());
+        }
+        buf.str("");
+        buf << "Access token:" << sdkbox::PluginFacebook::getAccessToken();
+        showMsg(buf.str());
+        buf.str("");
+        buf << "User id:" << sdkbox::PluginFacebook::getUserID();
+        showMsg(buf.str());
+        buf.str("");
+        buf << "FBSDK ver:" << sdkbox::PluginFacebook::getSDKVersion();
+        showMsg(buf.str());
+    }));
+
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+
+    sdkbox::PluginFacebook::setListener(new FBListener());
+    sdkbox::PluginFacebook::init();
 }

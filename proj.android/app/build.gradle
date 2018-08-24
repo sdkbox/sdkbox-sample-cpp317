@@ -121,3 +121,4 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':libcocos2dx')
 }
+dependencies { compile 'com.facebook.android:facebook-android-sdk:[4,5)' }
