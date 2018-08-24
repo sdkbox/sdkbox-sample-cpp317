@@ -1,6 +1,7 @@
 
 *.bak
 backup-*.zip
+**/.DS_Store
 
 cocos2d
 cocos2d/
