@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginGoogleAnalytics/PluginGoogleAnalytics.h"
+
 USING_NS_CC;
 
 
@@ -112,10 +114,84 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("logEventTest", "arial", 24), [](Ref*){
+        showMsg("logEventTest Clicked");
+        sdkbox::PluginGoogleAnalytics::logTiming("Startup", 0, "timing name", "timing label");
+        sdkbox::PluginGoogleAnalytics::logEvent("EventCategory 1", "EventAction 1", "EventLabel 1", 10);
+        sdkbox::PluginGoogleAnalytics::logScreen("Screen1");
+        sdkbox::PluginGoogleAnalytics::logEvent("Read", "Press", "Button1", 10);
+        sdkbox::PluginGoogleAnalytics::logEvent("Read", "Press", "Button2", 20);
+        sdkbox::PluginGoogleAnalytics::logEvent("Dispose", "Release", "Button22", 20);
+        sdkbox::PluginGoogleAnalytics::logScreen("Screen2");
+        sdkbox::PluginGoogleAnalytics::logSocial("twitter", "retweet", "retweet esto fu.");
+        sdkbox::PluginGoogleAnalytics::logException("Algo se ha roto", false);
+        sdkbox::PluginGoogleAnalytics::dispatchHits();
+        sdkbox::PluginGoogleAnalytics::dispatchPeriodically(60);
+        
+        /*
+         
+         action:
+         "detail"
+         "click"
+         "add"
+         "remove"
+         "checkout"
+         "checkout_option"
+         "purchase"
+         "refund"
+         
+         */
+        
+        std::map<std::string, std::string> info;
+#if 1
+        // track purchase
+        
+        // transaction info
+        info["action"] = "purchase";
+        // info["transaction"] = "T12345";
+        info["affiliation"] = "Google Store - Online";
+        info["transactionCouponCode"] = "SUMMER2017";
+        info["revenue"] = "37.39";
+        info["tax"] = "2.85";
+        info["shipping"] = "5.34";
+        
+        // product info
+        // info["productID"] = "P12345";
+        info["productName"] = "Android Warhol T-Shirt";
+        info["category"] = "Apparel/T-Shirts";
+        info["brand"] = "SDKBox";
+        info["productVariant"] = "black";
+        info["productCouponCode"] = "APPARELSALE";
+        info["price"] = "29.20";
+        info["quantity"] = "1";
+        
+        // currency code
+        // https://support.google.com/analytics/answer/6205902?#supported-currencies
+        info["currencyCode"] = "EUR";
+#else
+        // track refund
+        
+        // transaction info
+        info["action"] = "refund";
+        info["transaction"] = "T12345";
+        
+        // product info
+        info["productID"] = "P12345";
+        info["quantity"] = "1";
+#endif
+        
+        sdkbox::PluginGoogleAnalytics::logECommerce(info);
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    
+    //Google Analytics init
+    sdkbox::PluginGoogleAnalytics::init();
+    sdkbox::PluginGoogleAnalytics::startSession();
+    sdkbox::PluginGoogleAnalytics::enableExceptionReporting(false);
+    sdkbox::PluginGoogleAnalytics::enableExceptionReporting(true);
+
+
 }
