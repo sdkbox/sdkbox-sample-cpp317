@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginIAP/PluginIAP.h"
+
 USING_NS_CC;
 
 
@@ -60,7 +62,51 @@ static void showMsg(const std::string& msg) {
     label->setString(text);
 }
 
+class IAPPluginListener : public sdkbox::IAPListener {
+public:
 
+    virtual void onInitialized(bool success) {
+        std::stringstream buf;
+        buf << "IAP onInitialized:" << success;
+        showMsg(buf.str());
+    }
+
+    virtual void onSuccess(const sdkbox::Product& p) {}
+    virtual void onFailure(const sdkbox::Product& p, const std::string& msg) {}
+    virtual void onCanceled(const sdkbox::Product& p) {}
+    virtual void onRestored(const sdkbox::Product& p) {
+        std::stringstream buf;
+        buf << "IAP onRestored:" << p.name << ":" << p.price;
+        showMsg(buf.str());
+    }
+
+    virtual void onProductRequestSuccess(const std::vector<sdkbox::Product>& products) {
+        std::stringstream buf;
+        buf << "IAP onProductRequestSuccess:";
+        showMsg(buf.str());
+        for (sdkbox::Product p : products) {
+            buf.str("");
+            buf << p.name << ":" << p.price;
+            showMsg(buf.str());
+        }
+    }
+
+    virtual void onProductRequestFailure(const std::string& msg) {}
+
+    virtual void onRestoreComplete(bool ok, const std::string &msg) {
+        std::stringstream buf;
+        buf << "IAP onRestoreComplete:" << ok << ":" << msg;
+        showMsg(buf.str());
+    }
+
+    virtual bool onShouldAddStorePayment(const std::string& productName) { return true; };
+    virtual void onFetchStorePromotionOrder(const std::vector<std::string>& productNames, const std::string& error) {};
+    virtual void onFetchStorePromotionVisibility(const std::string productName,
+                                                 bool visibility,
+                                                 const std::string& error) {};
+    virtual void onUpdateStorePromotionOrder(const std::string& error) {};
+    virtual void onUpdateStorePromotionVisibility(const std::string& error) {};
+};
 
 
 Scene* HelloWorld::createScene()
@@ -112,10 +158,38 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("List Products", "arial", 12), [](Ref*){
+        auto list = sdkbox::IAP::getProducts();
+        std::stringstream buf;
+        showMsg("List Products");
+        for (auto p : list) {
+            buf.str("");
+            buf << p.name << ":" << p.price;
+            showMsg(buf.str());
+
+            cocos2d::log("IAP: Name: %s", p.name.c_str());
+            cocos2d::log("IAP: ID: %s", p.id.c_str());
+            cocos2d::log("IAP: Title: %s", p.title.c_str());
+            cocos2d::log("IAP: Desc: %s", p.description.c_str());
+            cocos2d::log("IAP: Price: %s", p.price.c_str());
+            cocos2d::log("IAP: Price Currency: %s", p.currencyCode.c_str());
+            cocos2d::log("IAP: Price Value: %f", p.priceValue);
+            cocos2d::log("IAP: transactionID: %s", p.transactionID.c_str());
+        }
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Products", "arial", 12), [](Ref*){
+        showMsg("Request Products");
+        sdkbox::IAP::refresh();
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Restore", "arial", 12), [](Ref*){
+        showMsg("Restore");
+        sdkbox::IAP::restore();
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    sdkbox::IAP::setDebug(true);
+    sdkbox::IAP::setListener(new IAPPluginListener());
+    sdkbox::IAP::init();
 }
