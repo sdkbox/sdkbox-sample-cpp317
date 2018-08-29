@@ -43,6 +43,7 @@ android {
     sourceSets.main {
         java.srcDir "src"
         res.srcDir "res"
+        jniLibs.srcDir "libs"
         manifest.srcFile "AndroidManifest.xml"
         assets.srcDir "../../Resources"
     }
@@ -122,6 +123,10 @@ android.applicationVariants.all { variant ->
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'], excludes: ['sdkbox-firebase.jar', 'android-support-v4.jar'])
     implementation project(':libcocos2dx')
+
+    implementation 'com.google.firebase:firebase-core:12.0.1'
 }
+
+// dependencies { compile 'com.google.android.gms:play-services-ads:12.0.1' }

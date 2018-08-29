@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginFirebase/PluginFirebase.h"
+
 USING_NS_CC;
 
 
@@ -112,10 +114,33 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("LogEvent", "arial", 24), [](Ref*){
+        std::map<std::string, std::string> params;
+
+        // log view item event
+        params[sdkbox::Firebase::Analytics::kFIRParameterItemID] = "id123456";
+        params[sdkbox::Firebase::Analytics::kFIRParameterItemName] = "name123456";
+        params[sdkbox::Firebase::Analytics::kFIRParameterItemCategory] = "category123456";
+        params[sdkbox::Firebase::Analytics::kFIRParameterPrice] = "123.4";
+        sdkbox::Firebase::Analytics::logEvent(sdkbox::Firebase::Analytics::kFIREventViewItem, params);
+
+        // log custom event
+//        params[sdkbox::Firebase::Analytics::kFIRParameterItemID] = "id123456";
+//        params[sdkbox::Firebase::Analytics::kFIRParameterPrice] = "123.4";
+//        params["custom_key"] = "custom_value";
+//        sdkbox::Firebase::Analytics::logEvent("custom_event", params);
+
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    sdkbox::Firebase::Analytics::init();
+    sdkbox::Firebase::Analytics::setUserID("sdkbox_inter_test");
+    sdkbox::Firebase::Analytics::setUserProperty("favorite_food", "hot pot");
+    sdkbox::Firebase::Analytics::setScreenName("login", "");
+    
+    sdkbox::Firebase::Analytics::setAnalyticsCollectionEnabled(true);
+    sdkbox::Firebase::Analytics::resetAnalyticsData();
+
 }
