@@ -125,3 +125,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':libcocos2dx')
 }
+dependencies { compile 'com.twitter.sdk.android:twitter-core:3.1.1' }
+dependencies { compile 'com.twitter.sdk.android:tweet-composer:3.1.1' }

@@ -29,6 +29,8 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 
+#import <TwitterKit/TWTRKit.h>
+
 @implementation AppController
 
 @synthesize window;
@@ -81,6 +83,13 @@ static AppDelegate s_sharedApplication;
     app->run();
 
     return YES;
+}
+
+
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+    return [[Twitter sharedInstance] application:app openURL:url options:options];
 }
 
 

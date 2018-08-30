@@ -41,6 +41,9 @@ public:
     CREATE_FUNC(HelloWorld);
     
     void createTestMenu();
+    
+private:
+    std::string _captureFilename;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

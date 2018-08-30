@@ -1,0 +1,38 @@
+{
+    "android": {
+        "Facebook": {
+            "debug": false
+        }, 
+        "Share": {
+            "platforms": {
+                "SMS": {}, 
+                "Twitter": {
+                    "params": {
+                        "secret": "0mxHbmO8QFHSLnfJVVbGTStjaW6IlcRC6xofSWeFecLcj4jsLn", 
+                        "key": "s5xddoPxy4xIbzAhqrecESSlW"
+                    }
+                }, 
+                "Facebook": {}, 
+                "Mail": {}
+            }
+        }
+    }, 
+    "ios": {
+        "Facebook": {
+            "debug": true
+        }, 
+        "Share": {
+            "platforms": {
+                "SMS": {}, 
+                "Twitter": {
+                    "params": {
+                        "secret": "0mxHbmO8QFHSLnfJVVbGTStjaW6IlcRC6xofSWeFecLcj4jsLn", 
+                        "key": "s5xddoPxy4xIbzAhqrecESSlW"
+                    }
+                }, 
+                "Facebook": {}, 
+                "Mail": {}
+            }
+        }
+    }
+}
