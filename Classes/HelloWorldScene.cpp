@@ -25,6 +25,10 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+
+#include "PluginReview/PluginReview.h"
+
+
 USING_NS_CC;
 
 
@@ -60,6 +64,26 @@ static void showMsg(const std::string& msg) {
     label->setString(text);
 }
 
+
+class RVListener : public sdkbox::ReviewListener {
+public:
+    virtual void onDisplayAlert() override {
+        showMsg("onDisplayAlert");
+    }
+
+    virtual void onDeclineToRate() override {
+        showMsg("onDeclineToRate");
+    }
+
+    virtual void onRate() override {
+        showMsg("onRate");
+    }
+
+    virtual void onRemindLater() override {
+        showMsg("onRemindLater");
+    }
+
+};
 
 
 
@@ -112,10 +136,18 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Rate Directly", "arial", 24), [](Ref*){
+        sdkbox::PluginReview::rate();
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Force Show", "arial", 24), [](Ref*){
+        sdkbox::PluginReview::show(true);
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    
+    sdkbox::PluginReview::setListener(new RVListener());
+    sdkbox::PluginReview::init();
+
 }

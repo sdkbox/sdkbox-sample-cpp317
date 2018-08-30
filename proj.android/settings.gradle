@@ -2,3 +2,6 @@ include ':libcocos2dx'
 project(':libcocos2dx').projectDir = new File(settingsDir, '../cocos2d/cocos/platform/android/libcocos2dx')
 include ':sdkboxcpp317'
 project(':sdkboxcpp317').projectDir = new File(settingsDir, 'app')
+
+include ':libPluginReviewResource'
+project(':libPluginReviewResource').projectDir = new File(settingsDir, 'app/libs/plugin_review_res_project')
