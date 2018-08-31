@@ -43,7 +43,7 @@ static void showMsg(const std::string& msg) {
         label->setPosition(10, size.height*0.1);
         Director::getInstance()->setNotificationNode(label);
     }
-    
+
     msgbuf.push_back(msg);
     if (msgbuf.size() > 10) {
         msgbuf.erase(msgbuf.cbegin());
@@ -58,6 +58,7 @@ static void showMsg(const std::string& msg) {
     }
     
     label->setString(text);
+    cocos2d::log("AdMob: %s", msg.c_str());
 }
 
 
