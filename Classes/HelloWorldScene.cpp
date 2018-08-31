@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginAdMob/PluginAdMob.h"
+
 USING_NS_CC;
 
 
@@ -58,9 +60,39 @@ static void showMsg(const std::string& msg) {
     }
     
     label->setString(text);
+    cocos2d::log("AdMob: %s", msg.c_str());
 }
 
-
+class AMListener : public sdkbox::AdMobListener {
+public:
+    
+    virtual void adViewDidReceiveAd(const std::string &name) {
+        showMsg("adViewDidReceiveAd:" + name);
+    }
+    virtual void adViewDidFailToReceiveAdWithError(const std::string &name, const std::string &msg) {
+        showMsg("adViewDidFailToReceiveAdWithError:" + name + ":" + msg);
+    }
+    virtual void adViewWillPresentScreen(const std::string &name) {
+        showMsg("adViewWillPresentScreen:" + name);
+    }
+    virtual void adViewDidDismissScreen(const std::string &name) {
+        showMsg("adViewDidDismissScreen:" + name);
+    }
+    virtual void adViewWillDismissScreen(const std::string &name) {
+        showMsg("adViewWillDismissScreen:" + name);
+        if (!sdkbox::PluginAdMob::isAvailable(name)) {
+            sdkbox::PluginAdMob::cache(name);
+        }
+    }
+    virtual void adViewWillLeaveApplication(const std::string &name) {
+        showMsg("adViewWillLeaveApplication:" + name);
+    }
+    virtual void reward(const std::string &name, const std::string &currency, double amount) {
+        std::stringstream buf;
+        buf << "reward:" << name << ":" << currency << ":" << amount;
+        showMsg(buf.str());
+    }
+};
 
 
 Scene* HelloWorld::createScene()
@@ -112,10 +144,43 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show Banner", "arial", 24), [](Ref*){
+        if (sdkbox::PluginAdMob::isAvailable("banner")) {
+            sdkbox::PluginAdMob::show("banner");
+        } else {
+            showMsg("banner is not available");
+            sdkbox::PluginAdMob::cache("banner");
+        }
+    }));
+
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Hide Banner", "arial", 24), [](Ref*){
+        sdkbox::PluginAdMob::hide("banner");
+    }));
+
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show Interstitial", "arial", 24), [](Ref*){
+        if (sdkbox::PluginAdMob::isAvailable("interstitial")) {
+            sdkbox::PluginAdMob::show("interstitial");
+        } else {
+            showMsg("interstitial is not available");
+            sdkbox::PluginAdMob::cache("interstitial");
+        }
     }));
     
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show Reward", "arial", 24), [](Ref*){
+        if (sdkbox::PluginAdMob::isAvailable("reward")) {
+            sdkbox::PluginAdMob::show("reward");
+        } else {
+            showMsg("reward is not available");
+            sdkbox::PluginAdMob::cache("reward");
+        }
+    }));
+
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+
+
+    sdkbox::PluginAdMob::setListener(new AMListener());
+    sdkbox::PluginAdMob::init();
+    showMsg("AdMob SDK Version:" + sdkbox::PluginAdMob::getVersion());
 }
+
