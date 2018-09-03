@@ -58,7 +58,7 @@ static void showMsg(const std::string& msg) {
     }
     
     label->setString(text);
-    cocos2d::log("AdMob: %s", msg.c_str());
+    cocos2d::log("Log: %s", msg.c_str());
 }
 
 
