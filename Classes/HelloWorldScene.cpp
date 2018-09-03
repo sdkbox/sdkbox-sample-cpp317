@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginAdColony/PluginAdColony.h"
+
 USING_NS_CC;
 
 
@@ -62,6 +64,34 @@ static void showMsg(const std::string& msg) {
 }
 
 
+class ACListener : public sdkbox::AdColonyListener {
+public:
+
+    virtual void onAdColonyChange(const sdkbox::AdColonyAdInfo& info, bool available) override {
+        std::stringstream buf;
+        buf << "onAdColonyChange" << ":" << info.name << ":"<< available;
+        showMsg(buf.str());
+    }
+
+    virtual void onAdColonyReward(const sdkbox::AdColonyAdInfo& info, const std::string& currencyName, int amount, bool success) override {
+        std::stringstream buf;
+        buf << "onAdColonyReward" << ":" << info.name << ":"<< currencyName << ":" << amount << ":" << success;
+        showMsg(buf.str());
+    }
+
+    virtual void onAdColonyStarted(const sdkbox::AdColonyAdInfo& info) override {
+        std::stringstream buf;
+        buf << "onAdColonyStarted" << ":" << info.name;
+        showMsg(buf.str());
+    }
+
+    virtual void onAdColonyFinished(const sdkbox::AdColonyAdInfo& info) override {
+        std::stringstream buf;
+        buf << "onAdColonyFinished" << ":" << info.name;
+        showMsg(buf.str());
+    }
+
+};
 
 
 Scene* HelloWorld::createScene()
@@ -113,10 +143,18 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("ShowAd", "arial", 24), [](Ref*){
+        if (sdkbox::AdColonyAdStatus::ADCOLONY_ZONE_STATUS_ACTIVE == sdkbox::PluginAdColony::getStatus("video")) {
+            sdkbox::PluginAdColony::show("video");
+        } else {
+            showMsg("video is not ready, to cache");
+            sdkbox::PluginAdColony::requestAllAds();
+        }
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+
+    sdkbox::PluginAdColony::setListener(new ACListener());
+    sdkbox::PluginAdColony::init();
 }
