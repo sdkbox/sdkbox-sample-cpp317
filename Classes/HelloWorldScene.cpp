@@ -184,9 +184,15 @@ void HelloWorld::createTestMenu() {
         }
     }));
     
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show Special Ad", "arial", 24), [](Ref*) {
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show AdMob Interstitial", "arial", 24), [](Ref*) {
         sdkbox::PluginSdkboxAds::playAd("AdMob", "interstitial");
         //sdkbox::PluginSdkboxAds::playAd("UnityAds", "rewardedVideo");
+    }));
+    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Cache AdMob Reward", "arial", 24), [](Ref*) {
+        std::map<std::string, std::string> opts;
+        opts.insert(std::pair<std::string, std::string>("reward", "true"));
+        sdkbox::PluginSdkboxAds::cacheControl("AdMob", opts);
     }));
     
     menu->alignItemsVerticallyWithPadding(10);

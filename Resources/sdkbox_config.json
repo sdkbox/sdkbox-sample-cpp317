@@ -26,61 +26,38 @@
         }, 
         "SdkboxAds": {
             "units": [
-                "AdColony", 
-                "AdMob", 
-                "Chartboost", 
-                "Appnext", 
+                "AdMob",
                 "UnityAds"
             ], 
             "placements": [
                 {
                     "units": [
                         {
-                            "unit": "AdColony", 
-                            "name": "video", 
-                            "weight": 30
+                            "unit": "AdMob", 
+                            "name": "interstitial", 
+                            "weight": 1
                         }, 
                         {
-                            "unit": "Chartboost", 
-                            "name": "Default", 
-                            "weight": 20
+                            "unit": "UnityAds", 
+                            "name": "video", 
+                            "weight": 2
                         }
                     ], 
                     "id": "placement-1", 
                     "strategy": "weight"
-                }, 
+                },
                 {
                     "units": [
                         {
-                            "name": "v4vc", 
-                            "unit": "AdColony"
-                        }, 
+                            "unit": "AdMob", 
+                            "name": "reward"
+                        },
                         {
-                            "name": "Level Complete", 
-                            "unit": "Chartboost"
+                            "unit": "UnityAds", 
+                            "name": "rewardedVideo"
                         }
                     ], 
                     "id": "placement-2", 
-                    "strategy": "round-robin"
-                }, 
-                {
-                    "units": [
-                        {
-                            "name": "gameover", 
-                            "unit": "AdMob"
-                        }
-                    ], 
-                    "id": "placement-admob", 
-                    "strategy": "round-robin"
-                }, 
-                {
-                    "units": [
-                        {
-                            "name": "", 
-                            "unit": "UnityAds"
-                        }
-                    ], 
-                    "id": "placement-unity", 
                     "strategy": "round-robin"
                 }
             ]
