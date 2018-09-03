@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginSdkboxAds/PluginSdkboxAds.h"
+
 USING_NS_CC;
 
 
@@ -58,10 +60,70 @@ static void showMsg(const std::string& msg) {
     }
     
     label->setString(text);
-    cocos2d::log("AdMob: %s", msg.c_str());
+    cocos2d::log("Log: %s", msg.c_str());
 }
 
 
+class SAListener : public sdkbox::PluginSdkboxAdsListener {
+public:
+    virtual void onAdAction( const std::string& ad_unit_id, const std::string& zone, sdkbox::AdActionType action_type) override {
+        std::stringstream buf;
+        buf << "onAdAction:" << ad_unit_id << ":" << zone << ":";
+        switch (action_type) {
+            case sdkbox::AdActionType::LOADED: {
+                buf << "loaded";
+                break;
+            }
+            case sdkbox::AdActionType::LOAD_FAILED: {
+                buf << "load failed";
+                break;
+            }
+            case sdkbox::AdActionType::CLICKED: {
+                buf << "clicked";
+                break;
+            }
+            case sdkbox::AdActionType::REWARD_STARTED: {
+                buf << "reward start";
+                break;
+            }
+            case sdkbox::AdActionType::REWARD_ENDED: {
+                buf << "reward end";
+                break;
+            }
+            case sdkbox::AdActionType::REWARD_CANCELED: {
+                buf << "reward cancel";
+                break;
+            }
+            case sdkbox::AdActionType::AD_STARTED: {
+                buf << "ad start";
+                break;
+            }
+            case sdkbox::AdActionType::AD_CANCELED: {
+                buf << "ad cancel";
+                break;
+            }
+            case sdkbox::AdActionType::AD_ENDED: {
+                buf << "ad end";
+                break;
+            }
+            case sdkbox::AdActionType::ADACTIONTYPE_UNKNOWN: {
+                buf << "unknow";
+                break;
+            }
+            default: {
+                buf << "unknow action";
+                break;
+            }
+        }
+        showMsg(buf.str());
+    }
+
+    virtual void onRewardAction( const std::string& ad_unit_id, const std::string& zone_id, float reward_amount, bool reward_succeed) override {
+        std::stringstream buf;
+        buf << "onRewardAction:" << ad_unit_id << ":" << zone_id << ":" << reward_amount << ":" << reward_succeed;
+        showMsg(buf.str());
+    }
+};
 
 
 Scene* HelloWorld::createScene()
@@ -113,10 +175,23 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show Placement", "arial", 24), [](Ref*) {
+        std::string placementName = "placement-1";
+        if (sdkbox::PluginSdkboxAds::isAvailable(placementName)) {
+            sdkbox::PluginSdkboxAds::placement(placementName);
+        } else {
+            showMsg(placementName + " is not avaiable");
+        }
+    }));
+    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show Special Ad", "arial", 24), [](Ref*) {
+        sdkbox::PluginSdkboxAds::playAd("AdMob", "interstitial");
+        //sdkbox::PluginSdkboxAds::playAd("UnityAds", "rewardedVideo");
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    sdkbox::PluginSdkboxAds::setListener(new SAListener());
+    sdkbox::PluginSdkboxAds::init();
 }
