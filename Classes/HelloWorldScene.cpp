@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginYoutube/PluginYoutube.h"
+
 USING_NS_CC;
 
 
@@ -62,6 +64,15 @@ static void showMsg(const std::string& msg) {
 }
 
 
+class YTListener : public sdkbox::YoutubeListener {
+public:
+    virtual void onPlayEnds( bool played_ok ) override {
+        std::stringstream buf;
+        
+        buf << "onPlayEnds:" << played_ok;
+        showMsg(buf.str());
+    }
+};
 
 
 Scene* HelloWorld::createScene()
@@ -113,10 +124,13 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Play Video", "arial", 24), [](Ref*){
+        sdkbox::PluginYoutube::playVideo("cdgQpa1pUUE", 0, true, true);
     }));
-    
+
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    sdkbox::PluginYoutube::setListener(new YTListener());
+    sdkbox::PluginYoutube::init();
 }
