@@ -76,6 +76,10 @@ public:
             }
             case sdkbox::AdActionType::LOAD_FAILED: {
                 buf << "load failed";
+                
+                std::map<std::string, std::string> opts;
+                opts.insert(std::pair<std::string, std::string>(zone, "true"));
+                sdkbox::PluginSdkboxAds::cacheControl(ad_unit_id, opts);
                 break;
             }
             case sdkbox::AdActionType::CLICKED: {
@@ -88,6 +92,7 @@ public:
             }
             case sdkbox::AdActionType::REWARD_ENDED: {
                 buf << "reward end";
+                
                 break;
             }
             case sdkbox::AdActionType::REWARD_CANCELED: {
