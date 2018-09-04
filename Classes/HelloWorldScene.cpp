@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginChartboost/PluginChartboost.h"
+
 USING_NS_CC;
 
 
@@ -62,6 +64,65 @@ static void showMsg(const std::string& msg) {
 }
 
 
+class CBListener : public sdkbox::ChartboostListener {
+public:
+
+    virtual void onChartboostCached(const std::string& name) override {
+        showMsg("onChartboostCached:" + name);
+    }
+
+    virtual bool onChartboostShouldDisplay(const std::string& name) override {
+        showMsg("onChartboostShouldDisplay:" + name);
+
+        return true;
+    }
+
+    virtual void onChartboostDisplay(const std::string& name) override {
+        showMsg("onChartboostDisplay:" + name);
+    }
+
+    virtual void onChartboostDismiss(const std::string& name) override {
+        showMsg("onChartboostDismiss:" + name);
+    }
+
+    virtual void onChartboostClose(const std::string& name) override {
+        showMsg("onChartboostClose:" + name);
+    }
+
+    virtual void onChartboostClick(const std::string& name) override {
+        showMsg("onChartboostClick:" + name);
+    }
+
+    virtual void onChartboostReward(const std::string& name, int reward) override {
+        std::stringstream buf;
+        
+        buf << "onChartboostReward" << ":" << name << ":" << reward;
+        showMsg(buf.str());
+    }
+
+    virtual void onChartboostFailedToLoad(const std::string& name, sdkbox::CB_LoadError e) override {
+        std::stringstream buf;
+        
+        buf << "onChartboostFailedToLoad" << ":" << name << ":" << e;
+        showMsg(buf.str());
+    }
+
+    virtual void onChartboostFailToRecordClick(const std::string& name, sdkbox::CB_ClickError e) override {
+        std::stringstream buf;
+        
+        buf << "onChartboostFailToRecordClick" << ":" << name << ":" << e;
+        showMsg(buf.str());
+    }
+
+    virtual void onChartboostConfirmation() override {
+        showMsg("onChartboostConfirmation");
+    }
+
+    virtual void onChartboostCompleteStore() override {
+        showMsg("onChartboostCompleteStore");
+    }
+
+};
 
 
 Scene* HelloWorld::createScene()
@@ -113,10 +174,17 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show", "arial", 24), [](Ref*){
+        sdkbox::PluginChartboost::show("Level Complete");
+    }));
+    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Cache", "arial", 24), [](Ref*){
+        sdkbox::PluginChartboost::cache("Level Complete");
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    sdkbox::PluginChartboost::setListener(new CBListener());
+    sdkbox::PluginChartboost::init();
 }
