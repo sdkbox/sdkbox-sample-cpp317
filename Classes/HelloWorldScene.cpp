@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginAppnext/PluginAppnext.h"
+
 USING_NS_CC;
 
 
@@ -62,6 +64,50 @@ static void showMsg(const std::string& msg) {
 }
 
 
+class ANListener : public sdkbox::AppnextListener {
+public:
+    
+    void onAdError(const std::string& msg) {
+        showMsg("onAdError:" + msg);
+    }
+
+    void onAdLoaded() {
+        showMsg("onAdLoaded");
+    }
+
+    void onAdOpened() {
+        showMsg("onAdOpened");
+    }
+
+    void onAdClosed() {
+        showMsg("onAdClosed");
+    }
+
+    void onAdClicked() {
+        showMsg("onAdClicked");
+    }
+
+    void onVideoLoaded(const std::string& name) {
+        showMsg("onVideoLoaded:" + name);
+    }
+
+    void onVideoClicked(const std::string& name) {
+        showMsg("onVideoClicked:" + name);
+    }
+
+    void onVideoClosed(const std::string& name) {
+        showMsg("onVideoClosed:" + name);
+    }
+
+    void onVideoEnded(const std::string& name) {
+        showMsg("onVideoEnded:" + name);
+    }
+
+    void onVideoError(const std::string& name, const std::string& msg) {
+        showMsg("onVideoError:" + name + ":" + msg);
+    }
+
+};
 
 
 Scene* HelloWorld::createScene()
@@ -113,10 +159,28 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("ShowAd", "arial", 24), [](Ref*){
+        if (sdkbox::PluginAppnext::isAdReady()) {
+            sdkbox::PluginAppnext::showAd();
+        } else {
+            showMsg("ad is not ready, to cache");
+            sdkbox::PluginAppnext::cacheAd("default");
+        }
+    }));
+    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("ShowVideo", "arial", 24), [](Ref*){
+        std::string videoName = "fullscreen";
+        if (sdkbox::PluginAppnext::isVideoReady(videoName)) {
+            sdkbox::PluginAppnext::showVideo(videoName);
+        } else {
+            showMsg("video is not ready, to cache");
+            sdkbox::PluginAppnext::cacheVideo(videoName);
+        }
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    sdkbox::PluginAppnext::setListener(new ANListener());
+    sdkbox::PluginAppnext::init();
 }
