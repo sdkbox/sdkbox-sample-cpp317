@@ -29,6 +29,8 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 
+#import <Tune/Tune.h>
+
 @implementation AppController
 
 @synthesize window;
@@ -83,6 +85,12 @@ static AppDelegate s_sharedApplication;
     return YES;
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    [Tune applicationDidOpenURL:[url absoluteString] sourceApplication:sourceApplication];
+    
+    return YES;
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*
@@ -99,6 +107,8 @@ static AppDelegate s_sharedApplication;
      */
     // We don't need to call this method any more. It will interrupt user defined game pause&resume logic
     /* cocos2d::Director::getInstance()->resume(); */
+    
+    [Tune measureSession];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {

@@ -1,0 +1,16 @@
+{
+    "android": {
+        "Tune": {
+            "debug": true, 
+            "id": "187656", 
+            "key": "6feec40f6e1eee0b075ce1ef7678d18c"
+        }
+    }, 
+    "ios": {
+        "Tune": {
+            "debug": false, 
+            "id": "187656", 
+            "key": "6feec40f6e1eee0b075ce1ef7678d18c"
+        }
+    }
+}

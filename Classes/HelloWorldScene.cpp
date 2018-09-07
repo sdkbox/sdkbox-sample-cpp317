@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginTune/PluginTune.h"
+
 USING_NS_CC;
 
 
@@ -62,6 +64,32 @@ static void showMsg(const std::string& msg) {
 }
 
 
+class TListener : public sdkbox::TuneListener {
+public:
+    
+    virtual void onMobileAppTrackerEnqueuedActionWithReferenceId(const std::string &referenceId) override {
+        showMsg("onMobileAppTrackerEnqueuedActionWithReferenceId:" + referenceId);
+    }
+
+    virtual void onMobileAppTrackerDidSucceedWithData(const std::string &data) override {
+        showMsg("onMobileAppTrackerDidSucceedWithData:" + data);
+    }
+
+    virtual void onMobileAppTrackerDidFailWithError(const std::string &errorString) override {
+        showMsg("onMobileAppTrackerDidFailWithError");
+        cocos2d::log("Log::%s", errorString.c_str());
+    }
+
+    virtual void onMobileAppTrackerDidReceiveDeeplink(const std::string &deeplink, bool timeout) override {
+        showMsg("onMobileAppTrackerDidReceiveDeeplink:" + deeplink + ":" + (timeout ? "true" : "false"));
+    }
+
+    virtual void onMobileAppTrackerDidFailDeeplinkWithError(const std::string &errorString) override {
+        showMsg("onMobileAppTrackerDidFailDeeplinkWithError");
+        cocos2d::log("Log::%s", errorString.c_str());
+    }
+
+};
 
 
 Scene* HelloWorld::createScene()
@@ -113,10 +141,97 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Measure Event", "arial", 24), [](Ref*){
+        // https://developers.mobileapptracking.com/event-function-templates/
+        {
+            sdkbox::PluginTune::measureEventId(1122334455);
+            sdkbox::PluginTune::measureEventName("measureEventName-purchase");
+            
+            sdkbox::TuneEvent event;
+            event.eventName = "TuneEvent-2016-02-02";
+            event.refId     = "RJ1357";
+            event.searchString = "sweet srisp red apples";
+            event.attribute1 = "srisp";
+            event.attribute2 = "red";
+            event.quantity = 3;
+            sdkbox::PluginTune::measureEvent(event);
+        }
+        
+        {
+            sdkbox::TuneEventItem item;
+            item.item = "apple";
+            item.unitPrice = 0.99;
+            item.quantity = 2;
+            item.revenue = 1.98;
+            
+            std::vector<sdkbox::TuneEventItem> eventItems(1);
+            eventItems.push_back(item);
+            
+            sdkbox::TuneEvent event = sdkbox::TuneEvent();
+            event.eventName = "Purchase0211";
+            event.revenue = 2.98;
+            event.eventItems = eventItems;
+            
+            sdkbox::PluginTune::measureEvent(event);
+            
+        }
+        
+        // https://developers.mobileapptracking.com/settings-for-pre-loaded-apps/
+        {
+            sdkbox::TunePreloadData pd;
+            pd.publisherId = "112233";
+            pd.offerId = "offer_id";
+            pd.agencyId = "agency_id";
+            pd.publisherReferenceId = "publisher_ref_id";
+            pd.publisherSub1 = "pub_sub1";
+            pd.publisherSub2 = "pub_sub2";
+            pd.publisherSub3 = "pub_sub3";
+            pd.publisherSub4 = "pub_sub4";
+            pd.publisherSub5 = "pub_sub5";
+            pd.publisherSubAd = "pub_sub_ad";
+            pd.publisherSubAdgroup = "pub_sub_adgroup";
+            pd.publisherSubCampaign = "pub_sub_campaign";
+            pd.publisherSubKeyword = "pub_sub_keyword";
+            pd.publisherSubPublisher = "pub_sub_publisher";
+            pd.publisherSubSite = "pub_sub_site";
+            pd.advertiserSubAd = "ad_sub_ad";
+            pd.advertiserSubAdgroup = "ad_sub_adgroup";
+            pd.advertiserSubCampaign = "ad_sub_campaign";
+            pd.advertiserSubKeyword = "ad_sub_keyword";
+            pd.advertiserSubPublisher = "ad_sub_publisher";
+            pd.advertiserSubSite = "ad_sub_site";
+            
+            sdkbox::PluginTune::setPreloadData(pd);
+            sdkbox::PluginTune::measureSession();
+        }
+        
+        sdkbox::PluginTune::setDeepLink("fb://profile/33138223345");
+        sdkbox::PluginTune::checkForDeferredDeepLink();
+
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+
+    sdkbox::PluginTune::setListener(new TListener());
+    sdkbox::PluginTune::init();
+    sdkbox::PluginTune::measureSession();
+
+    sdkbox::PluginTune::setDebugMode(false);
+    sdkbox::PluginTune::setDebugMode(true);
+    sdkbox::PluginTune::setAllowDuplicateRequests(true);
+    sdkbox::PluginTune::automateIapEventMeasurement(true);
+    sdkbox::PluginTune::setCurrencyCode("RMB");
+    sdkbox::PluginTune::setUserEmail("natalie@somedomain.com");
+    sdkbox::PluginTune::setUserName("natalie123");
+    sdkbox::PluginTune::setAge(43);
+    sdkbox::PluginTune::setGender(sdkbox::PluginTune::GenderFemale);
+    sdkbox::PluginTune::setUserId("US13579");
+    sdkbox::PluginTune::setFacebookUserId("321321321321");
+    sdkbox::PluginTune::setGoogleUserId("11223344556677");
+    sdkbox::PluginTune::setTwitterUserId("1357924680");
+    sdkbox::PluginTune::setLatitude(9.142276, -79.724052, 15);
+    sdkbox::PluginTune::setAppAdTracking(true);
+    sdkbox::PluginTune::measureEventName("login");
+
 }
