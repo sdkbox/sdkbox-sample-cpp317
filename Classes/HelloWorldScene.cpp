@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginFyber/PluginFyber.h"
+
 USING_NS_CC;
 
 
@@ -62,6 +64,84 @@ static void showMsg(const std::string& msg) {
 }
 
 
+class FBListener : public sdkbox::FyberListener {
+public:
+    virtual void onVirtualCurrencyConnectorFailed(int error,                    // deprecated filed, always: 0
+                                                  const std::string& errorCode, // deprecated filed, alwasy: ""
+                                                  const std::string& errorMsg) override {
+        std::stringstream buf;
+        
+        buf << "onVirtualCurrencyConnectorFailed:" << error << ":" << errorCode << ":" << errorMsg;
+        showMsg(buf.str());
+    }
+
+    virtual void onVirtualCurrencyConnectorSuccess(double deltaOfCoins,
+                                                   const std::string& currencyId,
+                                                   const std::string& currencyName,
+                                                   const std::string& transactionId) override {
+        std::stringstream buf;
+
+        buf << "onVirtualCurrencyConnectorSuccess:" << deltaOfCoins << ":" << currencyId << ":" << currencyName << ":" << transactionId;
+        showMsg(buf.str());
+    }
+
+    virtual void onCanShowInterstitial(bool canShowInterstitial) override {
+        std::stringstream buf;
+        
+        buf << "onCanShowInterstitial:" << canShowInterstitial;
+        showMsg(buf.str());
+        
+        if (canShowInterstitial) {
+            sdkbox::PluginFyber::showInterstitial();
+        }
+    }
+
+    virtual void onInterstitialDidShow() override {
+        std::stringstream buf;
+        
+        buf << "onInterstitialDidShow";
+        showMsg(buf.str());
+    }
+
+    virtual void onInterstitialDismiss(const std::string& reason) override {
+        std::stringstream buf;
+        
+        buf << "onInterstitialDismiss:" << reason;
+        showMsg(buf.str());
+    }
+
+    virtual void onInterstitialFailed() override {
+        std::stringstream buf;
+        
+        buf << "onInterstitialFailed";
+        showMsg(buf.str());
+    }
+    
+    virtual void onBrandEngageClientReceiveOffers(bool areOffersAvailable) override {
+        std::stringstream buf;
+        
+        buf << "onBrandEngageClientReceiveOffers:" << areOffersAvailable;
+        showMsg(buf.str());
+        if (areOffersAvailable) {
+            sdkbox::PluginFyber::showOffers();
+        }
+    }
+
+    virtual void onBrandEngageClientChangeStatus(int status, const std::string& msg) override {
+        std::stringstream buf;
+        
+        buf << "onBrandEngageClientChangeStatus:" << status << ":" << msg;
+        showMsg(buf.str());
+    }
+
+    virtual void onOfferWallFinish(int status) override {
+        std::stringstream buf;
+        
+        buf << "onOfferWallFinish:" << status;
+        showMsg(buf.str());
+    }
+
+};
 
 
 Scene* HelloWorld::createScene()
@@ -113,10 +193,50 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Interstitial Then Show", "arial", 24), [](Ref*){
+        sdkbox::PluginFyber::requestInterstitial();
+//        sdkbox::PluginFyber::showInterstitial();
     }));
-    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Video Then Show", "arial", 24), [](Ref*){
+        sdkbox::PluginFyber::requestOffers();
+//        sdkbox::PluginFyber::showOffers();
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show OfferWall", "arial", 24), [](Ref*){
+        sdkbox::PluginFyber::showOfferWall();
+    }));
+
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+
+    sdkbox::PluginFyber::setListener(new FBListener());
+    sdkbox::PluginFyber::init("123");
+
+    sdkbox::PluginFyber::setAge(4);
+    sdkbox::PluginFyber::setBirthdate("2000-01-02");
+    sdkbox::PluginFyber::setGender(sdkbox::FYB_UserGenderMale);
+    sdkbox::PluginFyber::setSexualOrientation(sdkbox::FYB_UserSexualOrientationGay);
+    sdkbox::PluginFyber::setEthnicity(sdkbox::FYB_UserEthnicityAsian);
+    sdkbox::PluginFyber::setLocation(30.67, 104.06);
+    sdkbox::PluginFyber::cleanLocation();
+    sdkbox::PluginFyber::setMaritalStatus(sdkbox::FYB_UserMartialStatusSingle);
+    sdkbox::PluginFyber::setNumberOfChildren(3);
+    sdkbox::PluginFyber::setAnnualHouseholdIncome(5);
+    sdkbox::PluginFyber::setEducation(sdkbox::FYB_UserEducationMasters);
+    sdkbox::PluginFyber::setZipcode("10086");
+    sdkbox::PluginFyber::setInterests({"sport", "game"});
+    sdkbox::PluginFyber::setIap(true);
+    sdkbox::PluginFyber::setIapAmount(10);
+    sdkbox::PluginFyber::setNumberOfSessions(2);
+    sdkbox::PluginFyber::setPsTime(100);
+    sdkbox::PluginFyber::setLastSession(1423958400);
+    sdkbox::PluginFyber::setConnectionType(sdkbox::FYB_UserConnectionType3G);
+    sdkbox::PluginFyber::setDevice(sdkbox::FYB_UserDeviceIPhone);
+    sdkbox::PluginFyber::setVersion("lion");
+    sdkbox::PluginFyber::cleanCustomParameters();
+    sdkbox::PluginFyber::addCustomParameters("int", "123");
+    sdkbox::PluginFyber::addCustomParameters("float", "123.4");
+    sdkbox::PluginFyber::addCustomParameters("boolean", "true");
+    sdkbox::PluginFyber::addCustomParameters("daterange", "1423958400"); // 15/02/2015
+    sdkbox::PluginFyber::addCustomParameters("string", "foobar");
+
 }
