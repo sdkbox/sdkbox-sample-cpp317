@@ -7,4 +7,7 @@ cocos2d
 cocos2d/
 
 
+proj.ios_mac/Appodeal.framework/
+sdkbox-appodeal_v*.tar.gz
+
 
