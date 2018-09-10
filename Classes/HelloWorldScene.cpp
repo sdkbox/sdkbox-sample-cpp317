@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginAppodeal/PluginAppodeal.h"
+
 USING_NS_CC;
 
 
@@ -62,6 +64,159 @@ static void showMsg(const std::string& msg) {
 }
 
 
+class ADListener : public sdkbox::AppodealListener {
+public:
+    virtual void onBannerDidLoadAd();
+    virtual void onBannerDidFailToLoadAd();
+    virtual void onBannerDidClick();
+    virtual void onBannerPresent();
+    
+    virtual void onInterstitialDidLoadAd();
+    virtual void onInterstitialDidFailToLoadAd();
+    virtual void onInterstitialWillPresent();
+    virtual void onInterstitialDidDismiss();
+    virtual void onInterstitialDidClick();
+    
+    virtual void onVideoDidLoadAd();
+    virtual void onVideoDidFailToLoadAd();
+    virtual void onVideoDidPresent();
+    virtual void onVideoWillDismiss();
+    virtual void onVideoDidFinish();
+    
+    virtual void onSkippableVideoDidLoadAd();
+    virtual void onSkippableVideoDidFailToLoadAd();
+    virtual void onSkippableVideoDidPresent();
+    virtual void onSkippableVideoWillDismiss();
+    virtual void onSkippableVideoDidFinish();
+    virtual void onSkippableVideoDidClick();
+    
+    virtual void onNonSkippableVideoDidLoadAd();
+    virtual void onNonSkippableVideoDidFailToLoadAd();
+    virtual void onNonSkippableVideoDidPresent();
+    virtual void onNonSkippableVideoWillDismiss();
+    virtual void onNonSkippableVideoDidFinish();
+    virtual void onNonSkippableVideoDidClick();
+    
+    virtual void onRewardVideoDidLoadAd();
+    virtual void onRewardVideoDidFailToLoadAd();
+    virtual void onRewardVideoDidPresent();
+    virtual void onRewardVideoWillDismiss();
+    virtual void onRewardVideoDidFinish(int amount, const std::string& name);
+};
+
+void ADListener::onBannerDidLoadAd() {
+    showMsg("Listener onBannerDidLoadAd");
+}
+void ADListener::onBannerDidFailToLoadAd() {
+    showMsg("Listener onBannerDidFailToLoadAd");
+}
+void ADListener::onBannerDidClick() {
+    showMsg("Listener onBannerDidClick");
+}
+void ADListener::onBannerPresent() {
+    showMsg("Listener onBannerPresent");
+}
+
+void ADListener::onInterstitialDidLoadAd() {
+    showMsg("Listener onInterstitialDidLoadAd");
+}
+void ADListener::onInterstitialDidFailToLoadAd() {
+    showMsg("Listener onInterstitialDidFailToLoadAd");
+}
+void ADListener::onInterstitialWillPresent() {
+    showMsg("Listener onInterstitialWillPresent");
+}
+void ADListener::onInterstitialDidDismiss() {
+    showMsg("Listener onInterstitialDidDismiss");
+}
+void ADListener::onInterstitialDidClick() {
+    showMsg("Listener onInterstitialDidClick");
+}
+
+void ADListener::onVideoDidLoadAd() {
+    showMsg("Listener onVideoDidLoadAd");
+}
+void ADListener::onVideoDidFailToLoadAd() {
+    showMsg("Listener onVideoDidFailToLoadAd");
+}
+void ADListener::onVideoDidPresent() {
+    showMsg("Listener onVideoDidPresent");
+}
+void ADListener::onVideoWillDismiss() {
+    showMsg("Listener onVideoWillDismiss");
+}
+void ADListener::onVideoDidFinish() {
+    showMsg("Listener onVideoDidFinish");
+}
+
+void ADListener::onSkippableVideoDidLoadAd() {
+    showMsg("Listener onSkippableVideoDidLoadAd");
+}
+
+void ADListener::onSkippableVideoDidFailToLoadAd() {
+    showMsg("Listener onSkippableVideoDidFailToLoadAd");
+}
+
+void ADListener::onSkippableVideoDidPresent() {
+    showMsg("Listener onSkippableVideoDidPresent");
+}
+
+void ADListener::onSkippableVideoWillDismiss() {
+    showMsg("Listener onSkippableVideoWillDismiss");
+}
+
+void ADListener::onSkippableVideoDidFinish() {
+    showMsg("Listener onSkippableVideoDidFinish");
+}
+
+void ADListener::onSkippableVideoDidClick() {
+    showMsg("Listener onSkippableVideoDidClick");
+}
+
+
+void ADListener::onNonSkippableVideoDidLoadAd() {
+    showMsg("Listener onNonSkippableVideoDidLoadAd");
+}
+
+void ADListener::onNonSkippableVideoDidFailToLoadAd() {
+    showMsg("Listener onNonSkippableVideoDidFailToLoadAd");
+}
+
+void ADListener::onNonSkippableVideoDidPresent() {
+    showMsg("Listener onNonSkippableVideoDidPresent");
+}
+
+void ADListener::onNonSkippableVideoWillDismiss() {
+    showMsg("Listener onNonSkippableVideoWillDismiss");
+}
+
+void ADListener::onNonSkippableVideoDidFinish() {
+    showMsg("Listener onNonSkippableVideoDidFinish");
+}
+
+void ADListener::onNonSkippableVideoDidClick() {
+    showMsg("Listener onNonSkippableVideoDidClick");
+}
+
+
+void ADListener::onRewardVideoDidLoadAd() {
+    showMsg("Listener onRewardVideoDidLoadAd");
+}
+void ADListener::onRewardVideoDidFailToLoadAd() {
+    showMsg("Listener onRewardVideoDidFailToLoadAd");
+}
+void ADListener::onRewardVideoDidPresent() {
+    showMsg("Listener onRewardVideoDidPresent");
+}
+void ADListener::onRewardVideoWillDismiss() {
+    showMsg("Listener onRewardVideoWillDismiss");
+}
+void ADListener::onRewardVideoDidFinish(int amount, const std::string& name) {
+    std::stringstream buf;
+    
+    buf << "Listener onRewardVideoDidFinish:" << amount << ":" << name;
+    showMsg(buf.str());
+}
 
 
 Scene* HelloWorld::createScene()
@@ -113,10 +268,50 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show Bottom", "arial", 24), [](Ref*){
+        if (sdkbox::PluginAppodeal::isReadyForShowWithStyle(sdkbox::PluginAppodeal::ShowStyle::AppodealShowStyleBannerBottom)) {
+            sdkbox::PluginAppodeal::showAd(sdkbox::PluginAppodeal::ShowStyle::AppodealShowStyleBannerBottom);
+        } else {
+            showMsg("bottom is not ready");
+        }
+    }));
+    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show Video", "arial", 24), [](Ref*){
+        if (sdkbox::PluginAppodeal::isReadyForShowWithStyle(sdkbox::PluginAppodeal::ShowStyle::AppodealShowStyleRewardedVideo)) {
+            sdkbox::PluginAppodeal::showAd(sdkbox::PluginAppodeal::ShowStyle::AppodealShowStyleRewardedVideo);
+        } else {
+            showMsg("video is not ready");
+        }
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    sdkbox::PluginAppodeal::setDebugEnabled(true);
+    sdkbox::PluginAppodeal::disableLocationPermissionCheck();
+    sdkbox::PluginAppodeal::setAutocache(true, sdkbox::PluginAppodeal::AdType::AppodealAdTypeAll);
+    sdkbox::PluginAppodeal::setSmartBannersEnabled(true);
+    sdkbox::PluginAppodeal::setBannerAnimationEnabled(true);
+    sdkbox::PluginAppodeal::setBannerBackgroundVisible(true);
+    
+    sdkbox::PluginAppodeal::setListener(new ADListener());
+    sdkbox::PluginAppodeal::init();
+    
+    sdkbox::PluginAppodeal::setUserVkId("user id");
+    sdkbox::PluginAppodeal::setUserFacebookId("facebook id");
+    sdkbox::PluginAppodeal::setUserEmail("test@sdkbox.com");
+    sdkbox::PluginAppodeal::setUserBirthday("11/11/1999"); //DD/MM/YYYY
+    sdkbox::PluginAppodeal::setUserAge(11);
+    sdkbox::PluginAppodeal::setUserGender(sdkbox::PluginAppodeal::Gender::AppodealUserGenderMale);
+    sdkbox::PluginAppodeal::setUserOccupation(sdkbox::PluginAppodeal::Occupation::AppodealUserOccupationSchool);
+    sdkbox::PluginAppodeal::setUserRelationship(sdkbox::PluginAppodeal::Relationship::AppodealUserRelationshipSingle);
+    sdkbox::PluginAppodeal::setUserSmokingAttitude(sdkbox::PluginAppodeal::SmokingAttitude::AppodealUserSmokingAttitudeNegative);
+    sdkbox::PluginAppodeal::setUserAlcoholAttitude(sdkbox::PluginAppodeal::AlcoholAttitude::AppodealUserAlcoholAttitudeNegative);
+    sdkbox::PluginAppodeal::setUserInterests("game");
+    
+    sdkbox::PluginAppodeal::cacheAd(sdkbox::PluginAppodeal::AdType::AppodealAdTypeAll);
+    
+    std::stringstream buf;
+    buf << "Appodeal Version:" << sdkbox::PluginAppodeal::getSDKVersion();
+    showMsg(buf.str());
 }

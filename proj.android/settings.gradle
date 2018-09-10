@@ -2,3 +2,6 @@ include ':libcocos2dx'
 project(':libcocos2dx').projectDir = new File(settingsDir, '../cocos2d/cocos/platform/android/libcocos2dx')
 include ':sdkboxcpp317'
 project(':sdkboxcpp317').projectDir = new File(settingsDir, 'app')
+
+include ':lib_adcolony'
+project(':lib_adcolony').projectDir = new File(settingsDir, 'app/libs/adcolony-3.1.2')
