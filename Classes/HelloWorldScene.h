@@ -41,6 +41,8 @@ public:
     CREATE_FUNC(HelloWorld);
     
     void createTestMenu();
+    
+    std::string userid;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

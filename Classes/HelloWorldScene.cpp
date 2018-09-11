@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginOneSignal/PluginOneSignal.h"
+
 USING_NS_CC;
 
 
@@ -62,6 +64,59 @@ static void showMsg(const std::string& msg) {
 }
 
 
+class OSListener : public sdkbox::OneSignalListener {
+
+private:
+    HelloWorld* scene;
+    
+public:
+    
+    void setScene(HelloWorld* s) {
+        scene = s;
+    }
+    
+    void onNotificationOpened(const std::string &message) {
+        showMsg("onNotificationOpened:" + message);
+    }
+    
+    void onNotification(bool isActive, const std::string& message, const std::string& additionalData) {
+        std::stringstream buf;
+        
+        buf << "onNotification:" << isActive << ":" << message << ":" << additionalData;
+        showMsg(buf.str());
+    }
+
+    void onSendTag(bool success, const std::string& k, const std::string& message) {
+        std::stringstream buf;
+        
+        buf << "onSendTag:" << success << ":" << k << ":" << message;
+        showMsg(buf.str());
+    }
+
+    void onGetTags(const std::string& jsonString) {
+        showMsg("onGetTags:" + jsonString);
+    }
+
+    void onIdsAvailable(const std::string& userId, const std::string& pushToken) {
+        std::stringstream buf;
+        
+        buf << "onIdsAvailable:" << userId << ":" << pushToken;
+        showMsg(buf.str());
+        scene->userid = userId;
+    }
+
+    void onPostNotification(bool success, const std::string& message) {
+        std::stringstream buf;
+        
+        buf << "onPostNotification:" << success << ":" << message;
+        showMsg(buf.str());
+    }
+
+    void onNotificationReceived(const std::string& message) {
+        showMsg("onNotificationReceived:" + message);
+    }
+    
+};
 
 
 Scene* HelloWorld::createScene()
@@ -113,10 +168,32 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Post Notification", "arial", 24), [this](Ref*){
+        std::string jsonStr = "{\"contents\":{\"en\":\"Test Message\"},\"include_player_ids\":[\"4db7cb0f-daca-49d6-b3dd-a96774de9f72\",\"33ad9d96-df00-42a2-b5ab-73417f777d42\",\"5ea075c5-016d-4f55-891c-3b6c4b393e49\",\"USER_ID\"],\"data\":{\"key\":\"val\"}}";
+
+        std::string patter = "USER_ID";
+        size_t pos = jsonStr.find(patter);
+        jsonStr.replace(pos, patter.size(), this->userid);
+
+        // https://documentation.onesignal.com/v2.0/docs/notifications-create-notification
+        sdkbox::PluginOneSignal::postNotification(jsonStr);
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    OSListener *l = new OSListener();
+    l->setScene(this);
+    sdkbox::PluginOneSignal::setListener(l);
+    sdkbox::PluginOneSignal::init();
+    
+    sdkbox::PluginOneSignal::setSubscription(true);
+    sdkbox::PluginOneSignal::setEmail("test@example.com");
+    sdkbox::PluginOneSignal::sendTag("key", "value");
+    sdkbox::PluginOneSignal::sendTag("key1", "value1");
+    sdkbox::PluginOneSignal::getTags();
+    sdkbox::PluginOneSignal::idsAvailable();
+    sdkbox::PluginOneSignal::enableInAppAlertNotification(true);
+
+    sdkbox::PluginOneSignal::promptLocation();
 }
