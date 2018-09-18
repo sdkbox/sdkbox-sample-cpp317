@@ -177,19 +177,25 @@ void HelloWorld::createTestMenu() {
             cocos2d::log("IAP: transactionID: %s", p.transactionID.c_str());
         }
     }));
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Products", "arial", 12), [](Ref*){
-        showMsg("Request Products");
-        sdkbox::IAP::refresh();
-    }));
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Restore", "arial", 12), [](Ref*){
-        showMsg("Restore");
-        sdkbox::IAP::restore();
+//    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Products", "arial", 12), [](Ref*){
+//        showMsg("Request Products");
+//        sdkbox::IAP::refresh();
+//    }));
+//    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Restore", "arial", 12), [](Ref*){
+//        showMsg("Restore");
+//        sdkbox::IAP::restore();
+//    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Purchase", "arial", 12), [](Ref*){
+        showMsg("Purchase coin_package");
+        sdkbox::IAP::purchase("coin_package");
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
     
-    sdkbox::IAP::setDebug(true);
     sdkbox::IAP::setListener(new IAPPluginListener());
     sdkbox::IAP::init();
+    sdkbox::IAP::setDebug(true);
+    sdkbox::IAP::enableUserSideVerification(true);
+
 }
