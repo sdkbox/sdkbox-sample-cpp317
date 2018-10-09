@@ -72,27 +72,39 @@ class UAListener : public sdkbox::UnityAdsListener {
 public:
     
     void unityAdsDidClick(const std::string& placementId) {
-        showMsg("unityAdsDidClick");
+        std::stringstream buf;
+        buf << "unityAdsDidClick" << "|" << placementId;
+        showMsg(buf.str());
     }
     
     void unityAdsPlacementStateChanged(const std::string& placementId, sdkbox::PluginUnityAds::SBUnityAdsPlacementState oldState, sdkbox::PluginUnityAds::SBUnityAdsPlacementState newState) {
-        showMsg("unityAdsPlacementStateChanged");
+        std::stringstream buf;
+        buf << "unityAdsPlacementStateChanged" << "|" << placementId << "|" << oldState << "|" << newState;
+        showMsg(buf.str());
     }
     
     void unityAdsReady(const std::string& placementId) {
-        showMsg("unityAdsReady");
+        std::stringstream buf;
+        buf << "unityAdsReady" << "|" << placementId;
+        showMsg(buf.str());
     }
     
     void unityAdsDidError(sdkbox::PluginUnityAds::SBUnityAdsError error, const std::string& message) {
-        showMsg("unityAdsDidError");
+        std::stringstream buf;
+        buf << "unityAdsDidError" << "|" << error << "|" << message;
+        showMsg(buf.str());
     }
     
     void unityAdsDidStart(const std::string& placementId) {
-        showMsg("unityAdsDidStart");
+        std::stringstream buf;
+        buf << "unityAdsDidStart" << "|" << placementId;
+        showMsg(buf.str());
     }
     
     void unityAdsDidFinish(const std::string& placementId, sdkbox::PluginUnityAds::SBUnityAdsFinishState state) {
-        showMsg("unityAdsDidFinish");
+        std::stringstream buf;
+        buf << "unityAdsDidFinish" << "|" << placementId << "|" << state;
+        showMsg(buf.str());
     }
     
 };
