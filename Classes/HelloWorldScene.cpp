@@ -25,6 +25,11 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "Plugingpg/PluginGPG.h"
+#include "gpg/player_manager.h"
+#include "gpg/builder.h"
+
+
 USING_NS_CC;
 
 
@@ -113,10 +118,85 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("SignIn", "arial", 24), [this](Ref*){
+        this->gameServices = gpg::GameServices::Builder()
+            .SetOnAuthActionFinished([this](gpg::AuthOperation op, gpg::AuthStatus status) {
+                std::stringstream buf;
+                if( status == gpg::AuthStatus::VALID ){
+                    this->gameServices->Players().FetchSelf([=](gpg::PlayerManager::FetchSelfResponse const &response) {
+                        if (gpg::IsSuccess(response.status)) {
+                            std::stringstream buf;
+                            buf << "Player Name:" << response.data.Name() << " id:" << response.data.Id();
+                            showMsg(buf.str());
+                        }
+                    });
+                    this->isSignedIn = true;
+                    buf << "SignedIn success:" << (int)status;
+                } else {
+                    this->isSignedIn = false;
+                    
+                    buf << "SignedIn failed:" << (int)status;
+                }
+                showMsg(buf.str());
+        })
+        .SetOnMultiplayerInvitationEvent([](gpg::MultiplayerEvent evt, std::string msg, gpg::MultiplayerInvitation inv){
+        })
+        .EnableSnapshots()
+        .SetDefaultOnLog(gpg::LogLevel::VERBOSE)
+        .Create(*CreatePlatformConfiguration().get());
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Create/Join", "arial", 24), [this](Ref*){
+        gpg::RealTimeRoomConfig config =
+            gpg::RealTimeRoomConfig::Builder()
+            .SetMinimumAutomatchingPlayers(2)
+            .SetMaximumAutomatchingPlayers(2)
+            .Create();
+
+        this->gameServices->RealTimeMultiplayer().CreateRealTimeRoom(config,
+                           this,
+                           [this](gpg::RealTimeMultiplayerManager::RealTimeRoomResponse const & response) {
+                               std::stringstream buf;
+                               if (gpg::MultiplayerStatus::VALID == response.status) {
+                                   buf << "Room success: " << response.room.Id();
+                               } else {
+                                   buf << "Room failed: " << response.status;
+                               }
+                               showMsg(buf.str());
+                           });
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    sdkbox::PluginGPG::init();
 }
+
+
+void HelloWorld::OnRoomStatusChanged(gpg::RealTimeRoom const &room) {
+    showMsg("OnRoomStatusChanged");
+}
+
+void HelloWorld::OnConnectedSetChanged(gpg::RealTimeRoom const &room) {
+    showMsg("OnConnectedSetChanged");
+}
+
+void HelloWorld::OnP2PConnected(gpg::RealTimeRoom const &room, gpg::MultiplayerParticipant const &participant) {
+    showMsg("OnP2PConnected");
+}
+
+void HelloWorld::OnP2PDisconnected(gpg::RealTimeRoom const &room, gpg::MultiplayerParticipant const &participant) {
+    showMsg("OnP2PDisconnected");
+}
+
+void HelloWorld::OnParticipantStatusChanged(gpg::RealTimeRoom const &room, gpg::MultiplayerParticipant const &participant) {
+    showMsg("OnParticipantStatusChanged");
+}
+
+void HelloWorld::OnDataReceived(gpg::RealTimeRoom const &room,
+                                gpg::MultiplayerParticipant const &from_participant,
+                                std::vector<uint8_t> data,
+                                bool is_reliable) {
+    showMsg("OnDataReceived");
+}
+
+

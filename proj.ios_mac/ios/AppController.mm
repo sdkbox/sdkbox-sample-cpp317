@@ -29,6 +29,9 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 
+#import <GoogleSignIn/GoogleSignIn.h>
+
+
 @implementation AppController
 
 @synthesize window;
@@ -77,10 +80,18 @@ static AppDelegate s_sharedApplication;
     cocos2d::GLView *glview = cocos2d::GLViewImpl::createWithEAGLView((__bridge void *)_viewController.view);
     cocos2d::Director::getInstance()->setOpenGLView(glview);
     
+    [GIDSignIn sharedInstance].uiDelegate = _viewController;
+    
     //run the cocos2d-x game scene
     app->run();
 
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
+    return [[GIDSignIn sharedInstance] handleURL:url
+                               sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                                      annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
 }
 
 

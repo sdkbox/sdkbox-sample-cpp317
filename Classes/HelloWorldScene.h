@@ -26,8 +26,11 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include <gpg/gpg.h>
+#include "gpg/game_services.h"
 
-class HelloWorld : public cocos2d::Scene
+
+class HelloWorld : public cocos2d::Scene, public gpg::IRealTimeEventListener
 {
 public:
     static cocos2d::Scene* createScene();
@@ -41,6 +44,26 @@ public:
     CREATE_FUNC(HelloWorld);
     
     void createTestMenu();
+
+
+protected:
+
+    void OnRoomStatusChanged(gpg::RealTimeRoom const &room);
+    void OnConnectedSetChanged(gpg::RealTimeRoom const &room);
+    void OnP2PConnected(gpg::RealTimeRoom const &room, gpg::MultiplayerParticipant const &participant);
+    void OnP2PDisconnected(gpg::RealTimeRoom const &room, gpg::MultiplayerParticipant const &participant);
+    void OnParticipantStatusChanged(gpg::RealTimeRoom const &room, gpg::MultiplayerParticipant const &participant);
+    void OnDataReceived(gpg::RealTimeRoom const &room,
+                        gpg::MultiplayerParticipant const &from_participant,
+                        std::vector<uint8_t> data,
+                        bool is_reliable);
+
+
+private:
+    
+    std::unique_ptr<gpg::GameServices> gameServices;
+    bool isSignedIn;
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__
