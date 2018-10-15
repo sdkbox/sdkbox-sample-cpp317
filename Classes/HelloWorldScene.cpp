@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,6 +29,7 @@
 
 USING_NS_CC;
 
+using namespace sdkbox;
 
 /******************
  * Show logs
@@ -45,20 +46,20 @@ static void showMsg(const std::string& msg) {
         label->setPosition(10, size.height*0.1);
         Director::getInstance()->setNotificationNode(label);
     }
-    
+
     msgbuf.push_back(msg);
     if (msgbuf.size() > 10) {
         msgbuf.erase(msgbuf.cbegin());
     }
-    
-    
+
+
     std::string text = "";
     for (int i = 0; i < msgbuf.size(); i++) {
         std::stringstream buf;
         buf << i << " " << msgbuf[i] << "\n";
         text = text + buf.str();
     }
-    
+
     label->setString(text);
 }
 
@@ -68,8 +69,30 @@ public:
 
     virtual void onConnectionStatusChanged( int status ) {
         std::stringstream buf;
-        buf << "Status:" << status;
+
+        buf
+        << "Status:" << status
+        << ". Is connected: " << (sdkbox::PluginSdkboxPlay::isConnected() ? "yes" : "no");
+
         showMsg(buf.str());
+
+        if ( status==1000 ) {
+            std::string sstr = PluginSdkboxPlay::getPlayerId() +
+                ":'" +
+                PluginSdkboxPlay::getPlayerAccountField("name")+
+                "(" +
+                PluginSdkboxPlay::getPlayerAccountField("display_name")+
+                ")'";
+
+            showMsg( sstr );
+        } else if ( status == 1003) {
+            std::string sstr =
+                PluginSdkboxPlay::getPlayerAccountField("name")+
+                "(" +
+                PluginSdkboxPlay::getPlayerAccountField("server_auth_code")+
+                ")'";
+            showMsg( sstr );
+        }
     }
     virtual void onScoreSubmitted(const std::string& leaderboard_name,
                                   long score, bool maxScoreAllTime,
@@ -132,7 +155,7 @@ bool HelloWorld::init()
     {
         return false;
     }
-    
+
     createTestMenu();
 
     return true;
@@ -166,13 +189,14 @@ void HelloWorld::createTestMenu() {
             sdkbox::PluginSdkboxPlay::signout();
         } else {
             showMsg("SP to signin");
-            sdkbox::PluginSdkboxPlay::signin();
+            bool showLoginUI = true;
+            sdkbox::PluginSdkboxPlay::signin(showLoginUI);
         }
     }));
-    
+
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
-    
+
     sdkbox::PluginSdkboxPlay::setListener(new SPListener());
     sdkbox::PluginSdkboxPlay::init();
 }

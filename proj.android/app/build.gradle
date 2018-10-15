@@ -74,8 +74,8 @@ android {
 
     buildTypes {
         release {
-            debuggable false
-            jniDebuggable false
+            debuggable true
+            jniDebuggable true
             renderscriptDebuggable false
             minifyEnabled true
             shrinkResources true
