@@ -68,15 +68,21 @@ class SPListener : public sdkbox::SdkboxPlayListener {
 public:
 
     virtual void onConnectionStatusChanged( int status ) {
+        std::string statusStr = "unknown";
+        if (status == sdkbox::GPS_CONNECTED) statusStr = "GPS_CONNECTED";
+        else if (status == sdkbox::GPS_DISCONNECTED) statusStr = "GPS_DISCONNECTED";
+        else if (status == sdkbox::GPS_CONNECTION_ERROR) statusStr = "GPS_CONNECTION_ERROR";
+        else if (status == sdkbox::GPS_FETCH_SERVER_AUTH_CODE_SUCCESS) statusStr = "GPS_FETCH_SERVER_AUTH_CODE_SUCCESS";
+
         std::stringstream buf;
 
         buf
-        << "Status:" << status
-        << ". Is connected: " << (sdkbox::PluginSdkboxPlay::isConnected() ? "yes" : "no");
+        << "Status:" << status << "=" << statusStr
+        << "\n. Is connected: " << (sdkbox::PluginSdkboxPlay::isConnected() ? "yes" : "no");
 
         showMsg(buf.str());
 
-        if ( status==1000 ) {
+        if ( status == sdkbox::GPS_CONNECTED ) {
             std::string sstr = PluginSdkboxPlay::getPlayerId() +
                 ":'" +
                 PluginSdkboxPlay::getPlayerAccountField("name")+
@@ -85,7 +91,7 @@ public:
                 ")'";
 
             showMsg( sstr );
-        } else if ( status == 1003) {
+        } else if ( status == sdkbox::GPS_FETCH_SERVER_AUTH_CODE_SUCCESS) {
             std::string sstr =
                 PluginSdkboxPlay::getPlayerAccountField("name")+
                 "(" +
