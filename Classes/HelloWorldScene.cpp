@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -50,15 +50,15 @@ static void showMsg(const std::string& msg) {
     if (msgbuf.size() > 10) {
         msgbuf.erase(msgbuf.cbegin());
     }
-    
-    
+
+
     std::string text = "";
     for (int i = 0; i < msgbuf.size(); i++) {
         std::stringstream buf;
         buf << i << " " << msgbuf[i] << "\n";
         text = text + buf.str();
     }
-    
+
     label->setString(text);
     cocos2d::log("Log: %s", msg.c_str());
 }
@@ -68,27 +68,27 @@ class OSListener : public sdkbox::OneSignalListener {
 
 private:
     HelloWorld* scene;
-    
+
 public:
-    
+
     void setScene(HelloWorld* s) {
         scene = s;
     }
-    
+
     void onNotificationOpened(const std::string &message) {
         showMsg("onNotificationOpened:" + message);
     }
-    
+
     void onNotification(bool isActive, const std::string& message, const std::string& additionalData) {
         std::stringstream buf;
-        
+
         buf << "onNotification:" << isActive << ":" << message << ":" << additionalData;
         showMsg(buf.str());
     }
 
     void onSendTag(bool success, const std::string& k, const std::string& message) {
         std::stringstream buf;
-        
+
         buf << "onSendTag:" << success << ":" << k << ":" << message;
         showMsg(buf.str());
     }
@@ -99,15 +99,15 @@ public:
 
     void onIdsAvailable(const std::string& userId, const std::string& pushToken) {
         std::stringstream buf;
-        
-        buf << "onIdsAvailable:" << userId << ":" << pushToken;
+
+        buf << "onIdsAvailable=" << userId << "\npushToken=" << pushToken;
         showMsg(buf.str());
         scene->userid = userId;
     }
 
     void onPostNotification(bool success, const std::string& message) {
         std::stringstream buf;
-        
+
         buf << "onPostNotification:" << success << ":" << message;
         showMsg(buf.str());
     }
@@ -115,7 +115,7 @@ public:
     void onNotificationReceived(const std::string& message) {
         showMsg("onNotificationReceived:" + message);
     }
-    
+
 };
 
 
@@ -140,7 +140,7 @@ bool HelloWorld::init()
     {
         return false;
     }
-    
+
     createTestMenu();
 
     return true;
@@ -178,15 +178,15 @@ void HelloWorld::createTestMenu() {
         // https://documentation.onesignal.com/v2.0/docs/notifications-create-notification
         sdkbox::PluginOneSignal::postNotification(jsonStr);
     }));
-    
+
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
-    
+
     OSListener *l = new OSListener();
     l->setScene(this);
     sdkbox::PluginOneSignal::setListener(l);
     sdkbox::PluginOneSignal::init();
-    
+
     sdkbox::PluginOneSignal::setSubscription(true);
     sdkbox::PluginOneSignal::setEmail("test@example.com");
     sdkbox::PluginOneSignal::sendTag("key", "value");

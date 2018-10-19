@@ -15,5 +15,8 @@ swithc to plugin branch to test the plugin:
 
 ```
 git branch
-git checkout admob
+git checkout onesignal
 ```
+
+**NOTE**:
+Make sure you can connect [https://www.google.com/](https://www.google.com/) when you test OneSignal.
