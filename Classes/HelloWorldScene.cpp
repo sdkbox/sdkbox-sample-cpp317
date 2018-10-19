@@ -193,7 +193,7 @@ void HelloWorld::createTestMenu() {
     sdkbox::PluginOneSignal::sendTag("key1", "value1");
     sdkbox::PluginOneSignal::getTags();
     sdkbox::PluginOneSignal::idsAvailable();
-    sdkbox::PluginOneSignal::enableInAppAlertNotification(true);
+    sdkbox::PluginOneSignal::enableInAppAlertNotification(false);
 
     sdkbox::PluginOneSignal::promptLocation();
 }
