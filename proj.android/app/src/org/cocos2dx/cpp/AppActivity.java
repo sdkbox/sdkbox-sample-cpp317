@@ -24,10 +24,11 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import org.cocos2dx.lib.Cocos2dxActivity;
 
-public class AppActivity extends Cocos2dxActivity {
+public class AppActivity extends com.sdkbox.plugin.SDKBoxActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,15 @@ public class AppActivity extends Cocos2dxActivity {
             return;
         }
         // DO OTHER INITIALIZATION BELOW
+
+        com.sdkbox.plugin.PluginMisc.onHandleNotification(getIntent());
         
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        com.sdkbox.plugin.PluginMisc.onHandleNotification(intent);
     }
 
 }

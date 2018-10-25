@@ -29,6 +29,8 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 
+#include "PluginMisc/PluginMisc.h"
+
 @implementation AppController
 
 @synthesize window;
@@ -80,9 +82,29 @@ static AppDelegate s_sharedApplication;
     //run the cocos2d-x game scene
     app->run();
 
+    if (launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]) {
+        [self handleLocalNotification:launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]];
+    }
+
     return YES;
 }
 
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    [self handleLocalNotification:notification.userInfo];
+}
+
+- (void)handleLocalNotification:(NSDictionary *)payloadDic {
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:payloadDic
+                                                       options:0
+                                                         error:&error];
+    if (nil != jsonData) {
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        sdkbox::PluginMisc::handleLocalNotify([jsonString UTF8String]);
+    } else {
+        NSLog(@"Error:%@", error);
+    }
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*

@@ -25,6 +25,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginMisc/PluginMisc.h"
+
 USING_NS_CC;
 
 
@@ -62,7 +64,17 @@ static void showMsg(const std::string& msg) {
 }
 
 
+class MListener : public sdkbox::MiscListener {
+public:
 
+    virtual void onHandleLocalNotify(const std::string& payloadJson) {
+        std::stringstream buf;
+        buf << "onHandleLocalNotify:" << payloadJson;
+        // showMsg(buf.str());
+        cocos2d::log("Log: %s", buf.str().c_str());
+    };
+
+};
 
 Scene* HelloWorld::createScene()
 {
@@ -113,10 +125,17 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("LocalNotification", "arial", 24), [](Ref*){
+        // show notification after 10 second
+        int nid = sdkbox::PluginMisc::localNotify("test title", "this a test notify content", 1000 * 10);
+        std::stringstream buf;
+        buf << "Local Notification:" << nid;
+        showMsg(buf.str());
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
+    
+    sdkbox::PluginMisc::setListener(new MListener());
+    sdkbox::PluginMisc::init();
 }
