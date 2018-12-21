@@ -112,6 +112,7 @@ namespace sdkbox
         virtual void onUpdateStorePromotionOrder(const std::string& error) {};
         virtual void onUpdateStorePromotionVisibility(const std::string& error) {};
 
+        virtual void onPurchaseHistory(const std::string& purchases) {};
     };
 
     class IAP
@@ -182,6 +183,11 @@ namespace sdkbox
         static void fetchStorePromotionVisibility(const std::string& productName);
         static void updateStorePromotionVisibility(const std::string& productName, bool visibility);
 
+
+        /*
+         * get all purchase history, include cancelled, expired
+         */
+        static void getPurchaseHistory();
     };
 }
 
