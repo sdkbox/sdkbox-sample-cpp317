@@ -26,6 +26,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "network/HttpClient.h"
 
 class HelloWorld : public cocos2d::Scene
 {
@@ -41,6 +42,12 @@ public:
     CREATE_FUNC(HelloWorld);
     
     void createTestMenu();
+
+    std::string getVerifyData();
+    void verifyReceipt();
+    void onVerifyReceipt(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+
+    std::string receipt;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

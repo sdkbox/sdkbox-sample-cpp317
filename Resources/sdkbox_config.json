@@ -36,6 +36,10 @@
                 }, 
                 "coin_package2": {
                     "id": "com.cocos2dx.plugintest3"
+                },
+                "auto_renew_subs1": {
+                    "type": "subs",
+                    "id": "com.sdkbox.test.app.sample.subs1"
                 }
             }
         }

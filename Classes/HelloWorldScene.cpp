@@ -22,10 +22,20 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#include <vector>
+
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "json/rapidjson.h"
+#include "json/document.h"
+#include "json/stringbuffer.h"
+#include "json/writer.h"
+
 #include "PluginIAP/PluginIAP.h"
+
+
+#define APP_SHARED_SECRET "bc92e25bab7741d0868256fcf8bd71e3"
 
 USING_NS_CC;
 
@@ -65,13 +75,28 @@ static void showMsg(const std::string& msg) {
 class IAPPluginListener : public sdkbox::IAPListener {
 public:
 
+    HelloWorld* hwScene;
+    
+    IAPPluginListener() {
+        hwScene = nullptr;
+    }
+
     virtual void onInitialized(bool success) {
         std::stringstream buf;
         buf << "IAP onInitialized:" << success;
         showMsg(buf.str());
     }
 
-    virtual void onSuccess(const sdkbox::Product& p) {}
+    virtual void onSuccess(const sdkbox::Product& p) {
+        std::stringstream buf;
+        buf << "IAP onSuccess:" << p.name;
+        showMsg(buf.str());
+        if (nullptr != hwScene) {
+            if (p.name == "auto_renew_subs1") {
+                hwScene->receipt = p.receiptCipheredPayload;
+            }
+        }
+    }
     virtual void onFailure(const sdkbox::Product& p, const std::string& msg) {}
     virtual void onCanceled(const sdkbox::Product& p) {}
     virtual void onRestored(const sdkbox::Product& p) {
@@ -130,6 +155,7 @@ bool HelloWorld::init()
     {
         return false;
     }
+    receipt = "";
     
     createTestMenu();
 
@@ -181,21 +207,111 @@ void HelloWorld::createTestMenu() {
 //        showMsg("Request Products");
 //        sdkbox::IAP::refresh();
 //    }));
-//    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Restore", "arial", 12), [](Ref*){
-//        showMsg("Restore");
-//        sdkbox::IAP::restore();
-//    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Restore", "arial", 12), [](Ref*){
+        showMsg("Restore");
+        sdkbox::IAP::restore();
+    }));
     menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Purchase", "arial", 12), [](Ref*){
         showMsg("Purchase coin_package");
-        sdkbox::IAP::purchase("coin_package");
+        //sdkbox::IAP::purchase("coin_package");
+        sdkbox::IAP::purchase("auto_renew_subs1");
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("VerifyReceipt", "arial", 12), [this](Ref*){
+        showMsg("Verify auto renewing receipt");
+        this->verifyReceipt();
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
     
-    sdkbox::IAP::setListener(new IAPPluginListener());
+    IAPPluginListener *lis = new IAPPluginListener();
+    lis->hwScene = this;
+    sdkbox::IAP::setListener(lis);
     sdkbox::IAP::init();
     sdkbox::IAP::setDebug(true);
     sdkbox::IAP::enableUserSideVerification(true);
 
+}
+
+
+std::string HelloWorld::getVerifyData() {
+    if (0 == this->receipt.size()) {
+        return "";
+    }
+
+    rapidjson::Document document;
+    document.SetObject();
+    rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
+    document.AddMember("receipt-data", rapidjson::StringRef(this->receipt.c_str()), allocator);
+    document.AddMember("password", APP_SHARED_SECRET, allocator);
+
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    document.Accept(writer);
+
+    return buffer.GetString();
+}
+
+/*
+ * This is for test, please DO NOT verify receipt from your app directly!
+ *
+ */
+void HelloWorld::verifyReceipt() {
+    std::string url = "https://sandbox.itunes.apple.com/verifyReceipt";
+    //std::string url = "https://buy.itunes.apple.com/verifyReceipt";
+
+    std::string postData = this->getVerifyData();
+    if (0 == postData.size()) {
+        showMsg("ERROR! post data is 0, can't verify receipt");
+        return;
+    }
+    cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest();
+    request->setUrl(url.c_str());
+    request->setRequestType(cocos2d::network::HttpRequest::Type::POST);
+    request->setResponseCallback([this](cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response) {
+        this->onVerifyReceipt(client, response);
+    });
+    request->setTag("verifyReceipt");
+
+    std::vector<std::string> headers;
+    headers.push_back("Content-Type: application/json; charset=utf-8");
+    request->setHeaders(headers);
+    request->setRequestData(postData.c_str(), postData.size());
+    
+    cocos2d::network::HttpClient::getInstance()->send(request);
+    request->release();
+}
+
+void HelloWorld::onVerifyReceipt(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response) {
+    
+    long code = response->getResponseCode();
+    if (200 != code) {
+        showMsg("ERROR! veiry receipt response code is not 200");
+        log("%ld", code);
+        return;
+    }
+    std::vector<char> *respData = response->getResponseData();
+    std::stringstream ss;
+
+    for (unsigned int i = 0; i < respData->size(); i++){
+        ss << (*respData)[i];
+    }
+    rapidjson::Document d;
+    d.Parse<0>(ss.str().c_str());
+    if (d.HasParseError()) {
+        showMsg("ERROR! parse verify receipt response fialed");
+        return;
+    }
+    if (!d.IsObject()) {
+        showMsg("ERROR! parse verify receipt response is not json object");
+        return;
+    }
+    if (d.HasMember("status")) {
+        int status = d["status"].GetInt();
+        if (0 == status) {
+            showMsg("SUCCESS! VerifyReceipt success");
+        } else {
+            showMsg("ERROR! verify receipt failed");
+        }
+    }
 }
