@@ -92,7 +92,7 @@ public:
         buf << "IAP onSuccess:" << p.name;
         showMsg(buf.str());
         if (nullptr != hwScene) {
-            if (p.name == "auto_renew_subs1") {
+            if (p.name == "subscription1") {
                 hwScene->receipt = p.receiptCipheredPayload;
             }
         }
@@ -103,6 +103,18 @@ public:
         std::stringstream buf;
         buf << "IAP onRestored:" << p.name << ":" << p.price;
         showMsg(buf.str());
+
+        rapidjson::Document d;
+        if (p.receipt.size() > 0) {
+            d.Parse<0>(p.receipt.c_str());
+            if (!d.HasParseError()) {
+                if (d.IsObject() && d.HasMember("purchaseToken")) {
+                    buf.str("");
+                    buf << "IAP onRestored: purchaseToken:" << d["purchaseToken"].GetString();
+                    showMsg(buf.str());
+                }
+            }
+        }
     }
 
     virtual void onProductRequestSuccess(const std::vector<sdkbox::Product>& products) {
@@ -203,10 +215,10 @@ void HelloWorld::createTestMenu() {
             cocos2d::log("IAP: transactionID: %s", p.transactionID.c_str());
         }
     }));
-//    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Products", "arial", 12), [](Ref*){
-//        showMsg("Request Products");
-//        sdkbox::IAP::refresh();
-//    }));
+    // menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Products", "arial", 12), [](Ref*){
+    //     showMsg("Request Products");
+    //     sdkbox::IAP::refresh();
+    // }));
     menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Restore", "arial", 12), [](Ref*){
         showMsg("Restore");
         sdkbox::IAP::restore();
@@ -214,10 +226,11 @@ void HelloWorld::createTestMenu() {
     menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Purchase", "arial", 12), [](Ref*){
         showMsg("Purchase coin_package");
         //sdkbox::IAP::purchase("coin_package");
-        sdkbox::IAP::purchase("auto_renew_subs1");
+        sdkbox::IAP::purchase("subscription1");
     }));
     menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("VerifyReceipt", "arial", 12), [this](Ref*){
         showMsg("Verify auto renewing receipt");
+        showMsg("This is for testing, please DO NOT use it in a production environment.");
         this->verifyReceipt();
     }));
     
@@ -253,7 +266,7 @@ std::string HelloWorld::getVerifyData() {
 }
 
 /*
- * This is for test, please DO NOT verify receipt from your app directly!
+ * This is for TEST, please DO NOT verify receipt in your app directly!
  *
  */
 void HelloWorld::verifyReceipt() {
