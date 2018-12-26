@@ -6,5 +6,5 @@ backup-*.zip
 cocos2d
 cocos2d/
 
-
+proj.ios_mac/gpg.framework/
 
