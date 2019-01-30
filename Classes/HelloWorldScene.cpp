@@ -133,8 +133,21 @@ public:
     virtual void onReveal( const std::string& name) {}
     virtual void onRevealError( const std::string& name, int error_code, const std::string& error_description ) {}
     virtual void onGameData(const std::string& action, const std::string& name, const std::string& data, const std::string& error) {}
-    virtual void onSaveGameData(bool success, const std::string& error) {}
-    virtual void onLoadGameData(const sdkbox::SavedGameData* savedData, const std::string& error) {}
+    virtual void onSaveGameData(bool success, const std::string& error) {
+        std::stringstream buf;
+
+        buf << "onSaveGameData:" << success << " e:" << error;
+        showMsg(buf.str());
+    }
+    virtual void onLoadGameData(const sdkbox::SavedGameData* savedData, const std::string& error) {
+        if (nullptr == savedData) {
+            return;
+        }
+        std::stringstream buf;
+
+        buf << "onLoadGameData:" << savedData->name;
+        showMsg(buf.str());
+    }
     virtual void onGameDataNames(const std::vector<std::string>& names, const std::string& error) {}
 
 };
@@ -198,6 +211,15 @@ void HelloWorld::createTestMenu() {
             bool showLoginUI = true;
             sdkbox::PluginSdkboxPlay::signin(showLoginUI);
         }
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("LoadGameData", "arial", 24), [](Ref*){
+        sdkbox::PluginSdkboxPlay::loadAllGameData();
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("SaveGameData", "arial", 24), [](Ref*){
+        std::string sData = "k3data";
+        const void* data = (const void*)sData.c_str();
+        int len = (int)sData.length();
+        sdkbox::PluginSdkboxPlay::saveGameDataBinary("key3", data, len);
     }));
 
     menu->alignItemsVerticallyWithPadding(10);
