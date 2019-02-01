@@ -199,4 +199,5 @@ void HelloWorld::createTestMenu() {
     
     sdkbox::PluginShare::setListener(new SListener());
     sdkbox::PluginShare::init();
+    sdkbox::PluginShare::setFileProviderAuthorities("com.sdkbox.cpp317.fileprovider");
 }
