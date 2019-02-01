@@ -93,6 +93,18 @@ namespace sdkbox {
          */
         static void nativeShare(const sdkbox::SocialShareInfo& info);
 
+        static void logoutTwitter();
+
+        /*
+         * when you want to share image on android N+, you must set FileProviderAuthorities
+         * 
+         * param authority is same with FileProviderAuthorities in AndroidManitest.xml
+         * 
+         * Ref:https://developer.android.com/reference/android/os/FileUriExposedException
+         * 
+         */
+        static void setFileProviderAuthorities(const std::string& authority);
+
         };
 
     class ShareListener {
