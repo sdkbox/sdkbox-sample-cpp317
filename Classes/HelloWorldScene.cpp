@@ -169,7 +169,7 @@ void HelloWorld::createTestMenu() {
         info.image = this->_captureFilename;
         info.link = "http://www.sdkbox.com";
         info.platform = sdkbox::SocialPlatform::Platform_Select;
-        info.showDialog = false; // share directly or share with dialog
+        info.showDialog = true; // share directly or share with dialog
         sdkbox::PluginShare::share(info);
     }));
 
