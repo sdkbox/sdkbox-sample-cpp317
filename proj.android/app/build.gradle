@@ -125,5 +125,6 @@ android.applicationVariants.all { variant ->
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':libcocos2dx')
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
-dependencies { compile 'com.facebook.android:facebook-android-sdk:[4,5)' }
+
