@@ -225,8 +225,8 @@ void HelloWorld::createTestMenu() {
     }));
     menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Purchase", "arial", 12), [](Ref*){
         showMsg("Purchase coin_package");
-        //sdkbox::IAP::purchase("coin_package");
-        sdkbox::IAP::purchase("subscription1");
+        sdkbox::IAP::purchase("coin_package");
+        // sdkbox::IAP::purchase("subscription1");
     }));
     menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("VerifyReceipt", "arial", 12), [this](Ref*){
         showMsg("Verify auto renewing receipt");
