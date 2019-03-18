@@ -2,6 +2,7 @@
 *.bak
 backup-*.zip
 **/.DS_Store
+proj.ios_mac/gpg.framework/
 
 cocos2d
 cocos2d/
