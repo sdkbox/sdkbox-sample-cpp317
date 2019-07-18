@@ -30,6 +30,7 @@
                 }
             ], 
             "connect_on_start": false, 
+            "web_client_id": "340534096218-goaafgmlsc8ut9730lae5kg2kh9m2i35.apps.googleusercontent.com", 
             "show_achievement_notification": true, 
             "cloud_save": true,
             "debug": true
