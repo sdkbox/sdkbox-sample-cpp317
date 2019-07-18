@@ -133,6 +133,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:+'
     implementation 'com.google.android.gms:play-services-drive:+'
     implementation 'com.google.android.gms:play-services-games:+'
+    implementation 'com.google.android.gms:play-services-base:+'
 }
 
 
