@@ -49,6 +49,13 @@ namespace sdkbox {
     class PluginSdkboxPlay {
     public:
         /**
+         * Set GDPR
+         *
+         * **NOTE**: please call before 'init' function
+         */
+        static void setGDPR(bool enabled);
+
+        /**
          * Initialize the plugin instance.
          * The plugin initializes from the sdkbox_config.json file, and reads a configuration of the form:
          * {
@@ -331,15 +338,25 @@ namespace sdkbox {
          * @param length: data length in byte
          *
          * Note: if you want to save string, please translate to void*
-         * 
+         *
          * In JavaScript, please use
          * ```javascript
          * sdkbox.PluginSdkboxPlay.saveGameDataBinary('name', 'stringdata');
          * ```
-         * 
+         *
          */
         static void saveGameDataBinary(const std::string& name, const void* data, int length);
 
+        /**
+         * Generates a signature that allows a third party server to authenticate the local player.
+         * just vaild on iOS
+         *
+         * https://developer.apple.com/documentation/gamekit/gklocalplayer/1515407-generateidentityverificationsign
+         *
+         * Note: on Android, you can get server_auth_code from getPlayerAccountField
+         *
+         */
+        static void generateIdentityVerificationSignature();
     };
 
     class SdkboxPlayListener {
@@ -521,6 +538,14 @@ namespace sdkbox {
          */
         virtual void onGameDataNames(const std::vector<std::string>& names, const std::string& error) {};
 
+        /**
+         * trigger after call generateIdentityVerificationSignature
+         */
+        virtual void onGenerateIdentityVerificationSignature(const std::string& publicKeyUrl,
+                                                             const std::string& signatureBase64,
+                                                             const std::string& saltBase64,
+                                                             unsigned long long timestamp,
+                                                             const std::string& error) {};
     };
 }
 

@@ -24,16 +24,16 @@
         }, 
         "version": [
             2, 
-            4, 
-            3, 
-            3
+            5, 
+            0, 
+            1
         ], 
         "result": "ok", 
         "message": "success", 
         "constants": {
             "code": "dependencies { compile 'com.google.android.gms:play-services-drive:15.0.0' }\n", 
             "ANDROID_STUDIO_JNI_DIR": "proj.android/app/jni/", 
-            "COCOS_BACKUP_DIR": "backup-2019-02-11/", 
+            "COCOS_BACKUP_DIR": "backup-2019-07-18/", 
             "COCOS_PROJECT_DIR": "./", 
             "VS_PROJECT_DIR": "n/a", 
             "COCOS_2DX_INSTALLATION_VERSION": "3.8.0", 
@@ -101,16 +101,16 @@
         }, 
         "version": [
             2, 
-            4, 
-            3, 
-            3
+            5, 
+            0, 
+            1
         ], 
         "result": "ok", 
         "message": "success", 
         "constants": {
             "code": "dependencies { compile 'com.google.android.gms:play-services-ads:15.0.1' }\n", 
             "ANDROID_STUDIO_JNI_DIR": "proj.android/app/jni/", 
-            "COCOS_BACKUP_DIR": "backup-2019-02-11/", 
+            "COCOS_BACKUP_DIR": "backup-2019-07-18/", 
             "COCOS_PROJECT_DIR": "./", 
             "VS_PROJECT_DIR": "n/a", 
             "COCOS_2DX_INSTALLATION_VERSION": "3.8.0", 
