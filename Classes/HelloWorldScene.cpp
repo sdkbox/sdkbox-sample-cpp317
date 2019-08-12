@@ -133,9 +133,37 @@ void HelloWorld::createTestMenu() {
         showMsg(buf.str());
     }));
     
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Clean Notification", "arial", 24), [](Ref*){
+        sdkbox::PluginMisc::cleanLocalNotify();
+    }));
+    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("KC-store", "arial", 24), [](Ref*){
+        int i = sdkbox::PluginMisc::storeStringInKeychain("account1", "data1");
+        CCLOG("Store status:%d", i);
+    }));
+    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("KC-fetch", "arial", 24), [](Ref*){
+        std::string s = sdkbox::PluginMisc::fetchStringInKeychain("account1");
+        CCLOG("Fetch: %s", s.c_str());
+    }));
+    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("KC-remove", "arial", 24), [](Ref*){
+        int i =sdkbox::PluginMisc::removeDataInKeychain("account1");
+        CCLOG("Store status:%d", i);
+    }));
+
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
     
     sdkbox::PluginMisc::setListener(new MListener());
     sdkbox::PluginMisc::init();
+    
+    CCLOG("Platform:%s", sdkbox::PluginMisc::getPlatformName().c_str());
+    CCLOG("MetaData: %s -> %s", "store", sdkbox::PluginMisc::getMetaData("store").c_str());
+    CCLOG("IAP Provider:%s", sdkbox::PluginMisc::getIAPProvider().c_str());
+    CCLOG("App Version:%s", sdkbox::PluginMisc::getAppVersion().c_str());
+    CCLOG("App Build Version:%s", sdkbox::PluginMisc::getAppBuildVersion().c_str());
+    CCLOG("App Version Code:%d", sdkbox::PluginMisc::getAppVersionCode());
+    CCLOG("DeviceInfo:%s", sdkbox::PluginMisc::getDeviceInfo().c_str());
+
 }
