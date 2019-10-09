@@ -50,7 +50,7 @@ namespace sdkbox
         std::string currencyCode;
 
         // cyphered payload
-        std::string receiptCipheredPayload;
+        std::string receiptCipheredPayload; // enableUserSideVerification(true) to get payload
 
         // receipt info. will be empty string for iOS
         std::string receipt;
@@ -118,7 +118,7 @@ namespace sdkbox
          * Called when consume completed, just trigger on android
          */
         virtual void onConsumed(const Product& p, const std::string& error) {};
-        
+
         /**
          * Called when IAP pay deferred
          *
@@ -134,6 +134,13 @@ namespace sdkbox
     class IAP
     {
     public:
+
+        /**
+         * Set GDPR
+         *
+         * **NOTE**: please call before 'init' function
+         */
+        static void setGDPR(bool enabled);
 
         /**
         * Initialize SDKBox IAP
@@ -177,7 +184,7 @@ namespace sdkbox
         */
         static void removeListener();
 
-        static void enableUserSideVerification( bool );
+        static void enableUserSideVerification( bool b);
 
         /**
          * get auto invoke finishTransaction flag
@@ -202,6 +209,10 @@ namespace sdkbox
 
         /*
          * get all purchase history, include cancelled, expired
+         *
+         * purchase history is combine results of `queryPurchases` and `queryPurchaseHistoryAsync`
+         * result of `queryPurchaseHistoryAsync` doesn't include orderId
+         *
          */
         static void getPurchaseHistory();
 
@@ -211,13 +222,15 @@ namespace sdkbox
         static std::string getInitializedErrMsg();
 
         /*
-         * request all unfinish transaction, and retrigger onSuccess, onFailed or onCancel event with corresponding transaction.
-         * just valid on iOS
+         * request all unfinish transaction, and retrigger onSuccess, onFailed or onCancel event
+         * with corresponding transaction. Only valid on iOS
          *
-         * e.g. if there have two transaction (one is success, on is canceled) havn't been finish,
-         *      after invoke requestUpdateTransaction, onSuccess will trigger with the success transaction, onCancelled will trigger with the cancelled transaction.
+         * e.g. if there are two transactions (one is success, the other is canceled) havn't been
+         * finished, after invoke requestUpdateTransaction, onSuccess will trigger with the success
+         * transaction, onCancelled will trigger with the cancelled transaction.
          *
-         * Note: for most developer, this api is needn't, onSuccess, onFailed or onCancel will auto trigger when transaction updated.
+         * Note: for most developer, this api is needn't, onSuccess, onFailed or onCancel will
+         * auto trigger when transaction updated.
          *
          */
         static void requestUpdateTransaction();

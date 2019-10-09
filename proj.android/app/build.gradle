@@ -124,8 +124,6 @@ android.applicationVariants.all { variant ->
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':libcocos2dx')
-    implementation 'com.android.billingclient:billing:1.1'
+    implementation 'com.android.billingclient:billing:2.0.1'
 }
-
-// dependencies { compile 'com.android.billingclient:billing:1.0' }
 
