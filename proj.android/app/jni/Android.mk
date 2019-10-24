@@ -39,9 +39,9 @@ $(call import-add-path, $(LOCAL_PATH)/../../../cocos2d)
 $(call import-add-path, $(LOCAL_PATH))
 $(call import-module, cocos)
 $(call import-module, ./sdkbox)
-$(call import-module, ./pluginsdkboxads)
-$(call import-module, ./pluginadmob)
-$(call import-module, ./pluginunityads)
+$(call import-module, ./PluginSdkboxAds)
+$(call import-module, ./PluginUnityAds)
+$(call import-module, ./PluginAdMob)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN
 # _COCOS_LIB_IMPORT_ANDROID_END

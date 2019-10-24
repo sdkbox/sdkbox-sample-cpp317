@@ -100,6 +100,16 @@ namespace sdkbox {
         kUnityAdsPlacementStateNoFill
     } SBUnityAdsPlacementState;
 
+        typedef enum {
+            kUnityAdsBannerPositionTopLeft,
+            kUnityAdsBannerPositionTopCenter,
+            kUnityAdsBannerPositionTopRight,
+            kUnityAdsBannerPositionBottomLeft,
+            kUnityAdsBannerPositionBottomCenter,
+            kUnityAdsBannerPositionBottomRight,
+            kUnityAdsBannerPositionCenter,
+            kUnityAdsBannerPositionNone
+        } SBUnityAdsBannerPosition;
 
         /**
          *  initialize the plugin instance.
@@ -107,7 +117,7 @@ namespace sdkbox {
         static bool init();
 
         /**
-         * Set listener to listen for inmobi events
+         * Set listener to listen for unityads events
          */
         static void setListener(UnityAdsListener* listener);
 
@@ -135,6 +145,13 @@ namespace sdkbox {
         static void setGDPR(bool enabled);
         
         static void setServerId(const std::string& sid);
+        
+        static void setBannerPosition(PluginUnityAds::SBUnityAdsBannerPosition pos);
+        
+        /**
+         * destroy current banner
+         */
+        static void hide();
     };
 
     class UnityAdsListener {
@@ -146,6 +163,14 @@ namespace sdkbox {
         virtual void unityAdsDidError(PluginUnityAds::SBUnityAdsError error, const std::string& message) {};
         virtual void unityAdsDidStart(const std::string& placementId) {};
         virtual void unityAdsDidFinish(const std::string& placementId, PluginUnityAds::SBUnityAdsFinishState state) {};
+        
+        virtual void unityAdsBannerDidLoad(const std::string& placementId) {};
+        virtual void unityAdsBannerDidUnload(const std::string& placementId) {};
+        virtual void unityAdsBannerDidShow(const std::string& placementId) {};
+        virtual void unityAdsBannerDidHide(const std::string& placementId) {};
+        virtual void unityAdsBannerDidClick(const std::string& placementId) {};
+        virtual void unityAdsBannerDidError(const std::string& message) {};
+
     };
 
 }

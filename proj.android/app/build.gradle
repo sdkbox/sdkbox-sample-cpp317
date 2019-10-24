@@ -124,5 +124,7 @@ android.applicationVariants.all { variant ->
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':libcocos2dx')
+
+    implementation 'com.google.android.gms:play-services-base:17.1.0'
 }
-dependencies { compile 'com.google.android.gms:play-services-ads:12.0.1' }
+

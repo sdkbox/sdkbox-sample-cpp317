@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		023947BF91384D7ABC8A49F2 /* CoreMedia.framework */ = {isa = PBXBuildFile; fileRef = F77448C286820D138CED3E69 /* CoreMedia.framework */; };
+		03BD4FE4B20523EF9B543096 /* GoogleAppMeasurement.framework */ = {isa = PBXBuildFile; fileRef = 9A394CA8BF7315E1FA22123C /* GoogleAppMeasurement.framework */; };
 		0CC440D095B934554F17CAF1 /* GameController.framework */ = {isa = PBXBuildFile; fileRef = 826846F1A80F9A2A20A15667 /* GameController.framework */; };
 		124A4226995FD1C4586FFDF1 /* AdSupport.framework */ = {isa = PBXBuildFile; fileRef = 8341419998E43F844BBBCB8D /* AdSupport.framework */; };
 		18A64956AE12C4A57152F626 /* PluginSdkboxAds.framework */ = {isa = PBXBuildFile; fileRef = 87D443289D65A1CE23B8CDE2 /* PluginSdkboxAds.framework */; };
@@ -21,6 +22,7 @@
 		1AF87B8B1F6F782A007BE51C /* RootViewController.mm */ = {isa = PBXBuildFile; fileRef = 1AF87B5E1F6F77D6007BE51C /* RootViewController.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		1F8B4DDE8886ADD0DE9DC249 /* JavaScriptCore.framework */ = {isa = PBXBuildFile; fileRef = 91CE4F5A90646AF5B5EC08CD /* JavaScriptCore.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
 		3C8E497EA63CB6DB80D7D9E2 /* PluginAdMob.framework */ = {isa = PBXBuildFile; fileRef = 83EB49CA8C57AAC8730DC619 /* PluginAdMob.framework */; };
@@ -53,10 +55,12 @@
 		54B5471BAE79813076337FD3 /* libsqlite3.dylib */ = {isa = PBXBuildFile; fileRef = 592E41F9B2145BF13513A759 /* libsqlite3.dylib */; };
 		56AF405DA1968829D5556795 /* SystemConfiguration.framework */ = {isa = PBXBuildFile; fileRef = 59C64ECAB437864B6CD655FF /* SystemConfiguration.framework */; };
 		71C941D1AEA01FD1970069E6 /* MediaPlayer.framework */ = {isa = PBXBuildFile; fileRef = 8BD84BA184A8645655864D7D /* MediaPlayer.framework */; };
+		72F54DE5A35EDE9029BDCB69 /* nanopb.framework */ = {isa = PBXBuildFile; fileRef = F5D24E0B96CEE5BA13C8E515 /* nanopb.framework */; };
 		765144868175E87C8521CF25 /* WebKit.framework */ = {isa = PBXBuildFile; fileRef = A5124A6E954C1996AA400F25 /* WebKit.framework */; };
 		775B45659A323C6B833B88BA /* MessageUI.framework */ = {isa = PBXBuildFile; fileRef = 1C604F75999A9E08D889D7DC /* MessageUI.framework */; };
 		7E0A461F9969C3DCBCA05C7D /* StoreKit.framework */ = {isa = PBXBuildFile; fileRef = 431D471B8FD8CC688B2801F8 /* StoreKit.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
+		89A94F009FD1067CD23FC145 /* GoogleUtilities.framework */ = {isa = PBXBuildFile; fileRef = 04974FD6AA6E43F841A01825 /* GoogleUtilities.framework */; };
 		8B8840A3A7DB781F8FD04EDB /* GLKit.framework */ = {isa = PBXBuildFile; fileRef = 56C6438C95D9C5BDB019FABC /* GLKit.framework */; };
 		8E4C4367AB78FA9366983BC4 /* PluginUnityAds.framework */ = {isa = PBXBuildFile; fileRef = 126343C2B1F7F0F7C02BAC43 /* PluginUnityAds.framework */; };
 		92AC4C38BE645B43E76D522F /* GoogleMobileAds.framework */ = {isa = PBXBuildFile; fileRef = 739B4CE69F1CC0B289EC0E76 /* GoogleMobileAds.framework */; };
@@ -81,6 +85,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04974FD6AA6E43F841A01825 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = GoogleUtilities.framework; sourceTree = SOURCE_ROOT; };
 		126343C2B1F7F0F7C02BAC43 /* PluginUnityAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PluginUnityAds.framework; path = PluginUnityAds.framework; sourceTree = SOURCE_ROOT; };
 		15ED42D9B0DF6F244434CCE0 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		176D493FB96E849E49D53E13 /* UnityAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UnityAds.framework; path = UnityAds.framework; sourceTree = SOURCE_ROOT; };
@@ -134,6 +139,8 @@
 		83EB49CA8C57AAC8730DC619 /* PluginAdMob.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PluginAdMob.framework; path = PluginAdMob.framework; sourceTree = SOURCE_ROOT; };
 		87D443289D65A1CE23B8CDE2 /* PluginSdkboxAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PluginSdkboxAds.framework; path = PluginSdkboxAds.framework; sourceTree = SOURCE_ROOT; };
 		8BD84BA184A8645655864D7D /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
+		91CE4F5A90646AF5B5EC08CD /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		9A394CA8BF7315E1FA22123C /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAppMeasurement.framework; path = GoogleAppMeasurement.framework; sourceTree = SOURCE_ROOT; };
 		A5124A6E954C1996AA400F25 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		A87E4500916D3909174D6812 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -149,6 +156,7 @@
 		E907419A8A284E00F37175C7 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreVideo.framework; sourceTree = DEVELOPER_DIR; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = compiled.mach-o.dylib; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = compiled.mach-o.dylib; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		F5D24E0B96CEE5BA13C8E515 /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nanopb.framework; path = nanopb.framework; sourceTree = SOURCE_ROOT; };
 		F77448C286820D138CED3E69 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
 		FB0D48B18DD4719510BF1B22 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -196,6 +204,10 @@
 				F1F941F8895F99DFAF7CA834 /* MobileCoreServices.framework */,
 				8E4C4367AB78FA9366983BC4 /* PluginUnityAds.framework */,
 				AC95408EB8C5FC7F9BC27FE5 /* UnityAds.framework */,
+				03BD4FE4B20523EF9B543096 /* GoogleAppMeasurement.framework */,
+				89A94F009FD1067CD23FC145 /* GoogleUtilities.framework */,
+				72F54DE5A35EDE9029BDCB69 /* nanopb.framework */,
+				1F8B4DDE8886ADD0DE9DC249 /* JavaScriptCore.framework */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +330,10 @@
 				FB0D48B18DD4719510BF1B22 /* MobileCoreServices.framework */,
 				126343C2B1F7F0F7C02BAC43 /* PluginUnityAds.framework */,
 				176D493FB96E849E49D53E13 /* UnityAds.framework */,
+				9A394CA8BF7315E1FA22123C /* GoogleAppMeasurement.framework */,
+				04974FD6AA6E43F841A01825 /* GoogleUtilities.framework */,
+				F5D24E0B96CEE5BA13C8E515 /* nanopb.framework */,
+				91CE4F5A90646AF5B5EC08CD /* JavaScriptCore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -528,6 +544,9 @@
 					"\"GoogleMobileAds.framework\"",
 					"\"PluginUnityAds.framework\"",
 					"\"UnityAds.framework\"",
+					"\"GoogleAppMeasurement.framework\"",
+					"\"GoogleUtilities.framework\"",
+					"\"nanopb.framework\"",
 				);
 				OTHER_CFLAGS = (
 					-DSDKBOX_ENABLED,
@@ -577,6 +596,9 @@
 					"\"GoogleMobileAds.framework\"",
 					"\"PluginUnityAds.framework\"",
 					"\"UnityAds.framework\"",
+					"\"GoogleAppMeasurement.framework\"",
+					"\"GoogleUtilities.framework\"",
+					"\"nanopb.framework\"",
 				);
 				OTHER_CFLAGS = (
 					-DSDKBOX_ENABLED,
