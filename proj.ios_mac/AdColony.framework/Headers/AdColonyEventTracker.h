@@ -3,13 +3,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Use the following pre-defined values to log events with the genric logEvent method.
+ * Use the following pre-defined values to log events with the generic logEvent method.
  */
 
 /** Post-install transaction event */
 FOUNDATION_EXPORT NSString *const ADCEventTransaction;
 
-/** Post-install credits_spent event*/
+/** Post-install credits_spent event */
 FOUNDATION_EXPORT NSString *const ADCEventCreditsSpent;
 
 /** Post-install payment_info_added event */
@@ -36,7 +36,7 @@ FOUNDATION_EXPORT NSString *const ADCEventSocialSharingEvent;
 /** Post-install registration_completed event */
 FOUNDATION_EXPORT NSString *const ADCEventRegistrationCompleted;
 
-/** Post-install custom_event event (5 pre-defined events, listed below)*/
+/** Post-install custom_event event (5 pre-defined events, listed below) */
 FOUNDATION_EXPORT NSString *const ADCEventCustomEvent;
 
 /** Post-install add_to_cart event */
@@ -62,7 +62,6 @@ FOUNDATION_EXPORT NSString *const ADCEventReservation;
 
 /** Post-install search event */
 FOUNDATION_EXPORT NSString *const ADCEventSearch;
-
 
 /**
  * Use the following pre-defined values for the `logCustomEvent:withDictionary` method's "event" parameter.
@@ -114,9 +113,7 @@ FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodVine;
 FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodSnapchat;
 FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodCustom;
 
-
 @interface AdColonyEventTracker : NSObject
-
 
 /**
  @abstract Report a transaction/purchase event.
@@ -124,12 +121,12 @@ FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodCustom;
  @param itemID       Identifier of item purchased
  @param quantity     Quantity of items purchased
  @param price        Total price of the items purchased
- @param code         The real-world three-letter ISO 4217 (e.g. USD) currency code of the transaction
+ @param currencyCode The real-world three-letter ISO 4217 (e.g. USD) currency code of the transaction
  @param store        The store the purchase was made through
  @param receipt      The receipt number
  @param description  Description of the purchased product. Max 512 characters.
  */
-+ (void)logTransactionWithID:(NSString *)itemID quantity:(NSInteger)quantity price:(NSNumber *)price currencyCode:(NSString *)code receipt:(NSString *)receipt store:(NSString *)store description:(NSString *)description;
++ (void)logTransactionWithID:(NSString *)itemID quantity:(NSInteger)quantity price:(NSNumber *)price currencyCode:(NSString *)currencyCode receipt:(NSString *)receipt store:(NSString *)store description:(NSString *)description;
 
 /**
  @abstract Report a credits_spent event.
@@ -138,9 +135,9 @@ FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodCustom;
  @param name         The type of credits the user has spent
  @param quantity     The quantity of the credits spent
  @param value        The real-world value of the credits spent
- @param code         The real-world three-letter ISO 4217 (e.g. USD) currency code of the transaction.
+ @param currencyCode The real-world three-letter ISO 4217 (e.g. USD) currency code of the transaction.
  */
-+ (void)logCreditsSpentWithName:(NSString *)name quantity:(NSInteger)quantity value:(NSNumber *)value currencyCode:(NSString *)code;
++ (void)logCreditsSpentWithName:(NSString *)name quantity:(NSInteger)quantity value:(NSNumber *)value currencyCode:(NSString *)currencyCode;
 
 /**
  @abstract Report a payment_info_added event, when the user has added payment info for transactions.
@@ -154,7 +151,6 @@ FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodCustom;
   @param description A String description of the in-app achievement. Max 512 characters.
  */
 + (void)logAchievementUnlocked:(NSString *)description;
-
 
 /**
   @abstract Report a level_achieved event.
@@ -182,36 +178,62 @@ FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodCustom;
 
 /**
   @abstract Report a social_sharing event.
+  @param network     Associated social network
+  @param description Description of the social sharing event. Max 512 characters.
   @discussion Invoke, for example, when user shares an achievement on Facebook, Twitter, etc.. You can also
   provide a description of the social sharing event and denote the network on which the event was shared.
-  @param network     Associated Social Network.
-  @param description Description of the social sharing event. Max 512 characters.
+  We recommend using one of the provided constants for the social network:
+    ADCSocialSharingMethodFacebook
+    ADCSocialSharingMethodTwitter
+    ADCSocialSharingMethodGoogle
+    ADCSocialSharingMethodLinkedin
+    ADCSocialSharingMethodPinterest
+    ADCSocialSharingMethodYoutube
+    ADCSocialSharingMethodInstagram
+    ADCSocialSharingMethodTumblr
+    ADCSocialSharingMethodFlickr
+    ADCSocialSharingMethodVimeo
+    ADCSocialSharingMethodFoursquare
+    ADCSocialSharingMethodVine
+    ADCSocialSharingMethodSnapchat
+    ADCSocialSharingMethodCustom
  */
 + (void)logSocialSharingEventWithNetwork:(NSString *)network description:(NSString *)description;
 
 /**
   @abstract Report a registration_completed event.
-  @discussion Invoke when a user has finished the registration process within the app.
-  You can also denote the registration method used: Facebook, Google, etc.
-  Recommend using the provided ADCRegistrationMethod* constants.
   @param method      The registration method used
   @param description Description describing the registration event. Passing a nil value is
                      allowed. Should only pass this in if you are passing in
                      ADCRegistrationMethodCustom for the method. Will be ignored otherwise. Max
                      512 characters
+  @discussion Invoke when a user has finished the registration process within the app.
+  You can also denote the registration method used: Facebook, Google, etc.
+  We recommend using one of the provided constants for the method:
+    ADCRegistrationMethodDefault
+    ADCRegistrationMethodFacebook
+    ADCRegistrationMethodTwitter
+    ADCRegistrationMethodGoogle
+    ADCRegistrationMethodLinkedIn
+    ADCRegistrationMethodOpenID
+    ADCRegistrationMethodCustom
  */
 + (void)logRegistrationCompletedWithMethod:(NSString *)method description:(NSString *)description;
 
 /**
   @abstract Report a custom_event.
-  @discussion Currently, publishers are allowed up to 5 custom event slots and are required
-  to keep track of what each corresponds to on their end.
-  Recommend using the provided ADCCustomEventSlot* constants.
   @param event       The custom event slot
   @param description The description of the custom event. Max 512 characters.
+  @discussion Currently, publishers are allowed up to 5 custom event slots and are required
+  to keep track of what each corresponds to on their end.
+  We recommend using one of the provided constants for the event:
+    ADCCustomEventSlot1
+    ADCCustomEventSlot2
+    ADCCustomEventSlot3
+    ADCCustomEventSlot4
+    ADCCustomEventSlot5
  */
 + (void)logCustomEvent:(NSString *)event description:(NSString *)description;
-
 
 /**
   @abstract Report an add_to_cart event.
@@ -220,7 +242,6 @@ FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodCustom;
   @param itemID Identifier of item added to cart
  */
 + (void)logAddToCartWithID:(NSString *)itemID;
-
 
 /**
   @abstract Report an add_to_wishlist event.
@@ -236,14 +257,13 @@ FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodCustom;
  */
 + (void)logCheckoutInitiated;
 
-
 /**
   @abstract Report a content_view event.
   @discussion Invoke when the user viewed the contents of a purchasable product
   @param contentID   Identifier of content viewed
-  @param type        Type of content viewed
+  @param contentType Type of content viewed
  */
-+ (void)logContentViewWithID:(NSString *)contentID contentType:(NSString *)type;
++ (void)logContentViewWithID:(NSString *)contentID contentType:(NSString *)contentType;
 
 /**
   @abstract Report an invite event.
@@ -253,8 +273,16 @@ FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodCustom;
 
 /**
   @abstract Report a login event.
+  @param method The login method used.
   @discussion Invoke whenever the user has successfully logged in to the app.
-  @param method The login method used. Recommend using provided ADCLoginMethod* constants.
+  We recommend using one of the provided constants for the method:
+    ADCLoginMethodDefault
+    ADCLoginMethodFacebook
+    ADCLoginMethodTwitter
+    ADCLoginMethodGoogle
+    ADCLoginMethodLinkedIn
+    ADCLoginMethodOpenID
+    ADCLoginMethodCustom
  */
 + (void)logLoginWithMethod:(NSString *)method;
 
@@ -271,13 +299,32 @@ FOUNDATION_EXPORT NSString *const ADCSocialSharingMethodCustom;
 
 /**
   @abstract Log an event.
-  @discussion Provided to allow the construction and logging of events that do not have a predefined method within this class.
   @param name Name of the event
-  @param dict Event data, including both required and optional meta information.
-  */
-+ (void)logEvent:(NSString *)name withDictionary:(NSDictionary *)dict;
+  @param payload Event data, including both required and optional meta information.
+  @discussion Provided to allow the construction and logging of events that do not have a predefined method within this class.
+  We recommend using one of the provided constants for the event name:
+    ADCEventTransaction
+    ADCEventCreditsSpent
+    ADCEventPaymentInfoAdded
+    ADCEventAchievementUnlocked
+    ADCEventLevelAchieved
+    ADCEventAppRated
+    ADCEventActivated
+    ADCEventTutorialCompleted
+    ADCEventSocialSharingEvent
+    ADCEventRegistrationCompleted
+    ADCEventCustomEvent
+    ADCEventAddToCart
+    ADCEventAddToWishlist
+    ADCEventCheckoutInitiated
+    ADCEventContentView
+    ADCEventInvite
+    ADCEventLogin
+    ADCEventReservation
+    ADCEventSearch
+ */
++ (void)logEvent:(NSString *)name withDictionary:(NSDictionary *)payload;
 
 @end
 
 NS_ASSUME_NONNULL_END
-

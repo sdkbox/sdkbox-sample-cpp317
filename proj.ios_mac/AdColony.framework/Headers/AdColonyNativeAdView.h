@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) NSString *zoneID;
 
-
 /** @name Ad Lifecycle */
 
 /**
@@ -42,7 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion This property will be set to `YES` if the in-feed video has been expanded to fullscreen.
  */
 @property (nonatomic, readonly) BOOL opened;
-
 
 /** @name Creative Content and User Interface */
 
@@ -76,7 +74,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, nullable) UIButton *engagementButton;
 
-
 /** @name Audio */
 
 /**
@@ -91,7 +88,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) BOOL muted;
 
-
 /** @name IAP */
 
 /**
@@ -99,7 +95,6 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion AdColony zone IDs can be created at the [Control Panel](http://clients.adcolony.com).
  */
 @property (nonatomic, readonly) BOOL iapEnabled;
-
 
 /** @name Event Handlers */
 
@@ -175,7 +170,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setClick:(nullable void (^)(void))click;
 
-
 /** @name Playback */
 
 /**
@@ -200,6 +194,7 @@ NS_ASSUME_NONNULL_BEGIN
  When this method is called, all internal resources are destroyed and the associated memory is freed.
  */
 - (void)destroy;
+
 @end
 
 NS_ASSUME_NONNULL_END

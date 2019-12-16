@@ -40,22 +40,41 @@ namespace sdkbox
     class AdColonyListener
     {
     public:
-        /*!
-         * called when AdColony is finished loading.
+        /*
+         * Interstitial Callback
          */
-        virtual void onAdColonyChange(const AdColonyAdInfo& info, bool available) = 0;
-        /*!
-         * reward was received.
+        virtual void adColonyInterstitialDidLoad(const std::string& interstitial) = 0;
+        virtual void adColonyInterstitialDidFailToLoad(const std::string& error) = 0;
+        virtual void adColonyInterstitialWillOpen(const std::string& interstitial) {};
+        virtual void adColonyInterstitialDidClose(const std::string& interstitial) {};
+        virtual void adColonyInterstitialExpired(const std::string& interstitial) {};
+        virtual void adColonyInterstitialWillLeaveApplication(const std::string& interstitial) {};
+        virtual void adColonyInterstitialDidReceiveClick(const std::string& interstitial) {};
+        virtual void adColonyInterstitialIapOpportunity(const std::string& interstitial, const std::string& iapProductID, int engagement) {};
+
+        /*
+         * Banner Callback
          */
-        virtual void onAdColonyReward(const AdColonyAdInfo& info, const std::string& currencyName, int amount, bool success) = 0;
-        /*!
-         * showing an ad has started.
+        virtual void adColonyAdViewDidLoad(const std::string& adView) = 0;
+        virtual void adColonyAdViewDidFailToLoad(const std::string& error) = 0;
+        virtual void adColonyAdViewWillLeaveApplication(const std::string& adView) {};
+        virtual void adColonyAdViewWillOpen(const std::string& adView) {};
+        virtual void adColonyAdViewDidClose(const std::string& adView) {};
+        virtual void adColonyAdViewDidReceiveClick(const std::string& adView) {};
+
+        /*
+         * Rewards Callback
          */
-        virtual void onAdColonyStarted(const AdColonyAdInfo& info) = 0;
-        /*!
-         * showing an ad has finished.
+        virtual void adColonyReward(const std::string& name, const std::string& currencyName, int amount, bool success) {};
+
+        /*
+         * Those four callbacks is deprecated
          */
-        virtual void onAdColonyFinished(const AdColonyAdInfo& info) = 0;
+        virtual void onAdColonyChange(const AdColonyAdInfo& info, bool available) {};
+        virtual void onAdColonyReward(const AdColonyAdInfo& info, const std::string& currencyName, int amount, bool success) {};
+        virtual void onAdColonyStarted(const AdColonyAdInfo& info) {};
+        virtual void onAdColonyFinished(const AdColonyAdInfo& info) {};
+
     };
 
     class PluginAdColony
@@ -78,6 +97,8 @@ namespace sdkbox
          * play video ad using provided name that was specified in sdkbox_config.json
          */
         static void show(const std::string& name);
+
+        static void hide(const std::string& name);
 
         /**
          * Set listener to listen for adcolony events
@@ -236,8 +257,20 @@ namespace sdkbox
         
         /**
          * Request all ads
+         *
+         * @param force true:request all ads, false:request invalid ads
          */
-        static void requestAllAds();
+        static void requestAllAds(bool force = false);
+        
+        /**
+         * reset banner alignmment
+         *
+         * @param name banner
+         * @param alignment banner alignment, "top", "center", "bottom", "left", "right", "top_left", "left_top", "top_right", "right_top", "bottom_left", "left_bottom", "bottom_right", "right_bottom"
+         *
+         */
+        static void setBannerAlignment(const std::string& name, const std::string& alignment);
+
     };
 }
 

@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  Set this property with a corresponding value of `YES` to enable.
  */
 @property (nonatomic) BOOL showPostPopup;
+
 @end
 
 NS_ASSUME_NONNULL_END

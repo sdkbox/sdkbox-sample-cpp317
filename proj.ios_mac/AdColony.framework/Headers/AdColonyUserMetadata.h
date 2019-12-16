@@ -39,7 +39,6 @@ FOUNDATION_EXPORT NSString *const ADCUserEducationBachelorsDegree;
 /** User has been awarded at least 1 masters or doctorate level degree */
 FOUNDATION_EXPORT NSString *const ADCUserEducationGraduateDegree;
 
-
 /**
  AdColonyUserMetadata objects are used to provide AdColony with per-user, non-personally-identifiable information for ad targeting purposes.
  Note that providing non-personally-identifiable information using this API will improve targeting and unlock improved earnings for your app.
@@ -105,7 +104,6 @@ FOUNDATION_EXPORT NSString *const ADCUserEducationGraduateDegree;
  */
 @property (nonatomic, strong, nullable) NSString *userEducationLevel;
 
-
 /** @name Setting Arbitrary Metadata */
 
 /**
@@ -137,7 +135,6 @@ FOUNDATION_EXPORT NSString *const ADCUserEducationGraduateDegree;
  @return Whether the option was set successfully.
  */
 - (BOOL)setMetadataWithKey:(NSString *)key andArrayValue:(NSArray<NSString *> *)value;
-
 
 /** @name Metadata Retrieval */
 

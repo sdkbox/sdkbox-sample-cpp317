@@ -31,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) BOOL enabled;
 
-
 /** @name Rewards */
 
 /**
@@ -65,7 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) NSString *rewardName;
 
-
 /** @name Handling Rewards */
 
 /**
@@ -73,9 +71,9 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion Based on the success parameter, client-side reward implementations should consider incrementing the user's currency balance in this method.
  Server-side reward implementations, however, should consider the success parameter and then contact the game server to determine the current total balance for the virtual currency.
  Note that the associated block of code will be dispatched on the main thread.
- @param reward Reward callback
+ @param reward Callback for reward grant
  */
--(void)setReward:(nullable void (^)(BOOL success, NSString *name, int amount))reward;
+- (void)setReward:(nullable void (^)(BOOL success, NSString *name, int amount))reward;
 
 @end
 

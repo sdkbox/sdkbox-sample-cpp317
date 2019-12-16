@@ -1,7 +1,8 @@
 #import "AdColonyTypes.h"
 
 /**
- AdColony ad request object
+ Typed error for AdColony ad requests.
  */
 @interface AdColonyAdRequestError : NSError
+
 @end

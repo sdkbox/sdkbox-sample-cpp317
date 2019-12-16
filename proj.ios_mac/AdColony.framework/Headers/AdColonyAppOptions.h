@@ -1,5 +1,5 @@
-#import "AdColonyTypes.h"
 #import "AdColonyOptions.h"
+#import "AdColonyTypes.h"
 #import <Foundation/Foundation.h>
 
 @class AdColonyUserMetadata;
@@ -37,7 +37,6 @@ FOUNDATION_EXPORT NSString *const ADCFyber;
 /** Corona */
 FOUNDATION_EXPORT NSString *const ADCCorona;
 
-
 /**
  * Use the following pre-defined constants to configure plugin names.
  */
@@ -50,7 +49,6 @@ FOUNDATION_EXPORT NSString *const ADCAdobeAir;
 
 /** Cocos2d-x */
 FOUNDATION_EXPORT NSString *const ADCCocos2dx;
-
 
 /**
  AdColonyAppOptions objects are used to set configurable aspects of SDK state and behavior, such as a custom user identifier.
@@ -69,27 +67,27 @@ FOUNDATION_EXPORT NSString *const ADCCocos2dx;
  @discussion AdColony logging is enabled by default.
  Set this property before calling `configureWithAppID:zoneIDs:options:completion:` with a corresponding value of `YES` to disable AdColony logging.
  */
-@property (nonatomic) BOOL disableLogging;
+@property (nonatomic, assign) BOOL disableLogging;
 
 /**
  @abstract Sets a custom identifier for the current user.
  @discussion Set this property to configure a custom identifier for the current user.
  Corresponding value must be 128 characters or less.
  */
-@property (nonatomic, strong, nullable) NSString *userID;
+@property (nonatomic, nullable, strong) NSString *userID;
 
 /**
  @abstract Sets the desired ad orientation.
  @discussion Set this property to configure the desired orientation for your ads.
  @see AdColonyOrientation
  */
-@property (nonatomic) AdColonyOrientation adOrientation;
+@property (nonatomic, assign) AdColonyOrientation adOrientation;
 
 /**
  @abstract Enables test ads for your application without changing dashboard settings.
  @discussion Set this property to `YES` to enable test ads for your application without changing dashboard settings.
  */
-@property (nonatomic) BOOL testMode;
+@property (nonatomic, assign) BOOL testMode;
 
 /**
  @abstract Sets the name of the mediation network you are using AdColony with.
@@ -97,14 +95,14 @@ FOUNDATION_EXPORT NSString *const ADCCocos2dx;
  Corresponding value must be 128 characters or less.
  Note that you should use one of the pre-defined values above if applicable.
  */
-@property (nonatomic, strong, nullable) NSString *mediationNetwork;
+@property (nonatomic, nullable, strong) NSString *mediationNetwork;
 
 /**
  @abstract Sets the version of the mediation network you are using AdColony with.
  @discussion Set this property to configure the version of the mediation network you are using AdColony with.
  Corresponding value must be 128 characters or less.
  */
-@property (nonatomic, strong, nullable) NSString *mediationNetworkVersion;
+@property (nonatomic, nullable, strong) NSString *mediationNetworkVersion;
 
 /**
  @abstract Sets the name of the plugin you are using AdColony with.
@@ -112,26 +110,26 @@ FOUNDATION_EXPORT NSString *const ADCCocos2dx;
  Corresponding value must be 128 characters or less.
  Note that you should use one of the pre-defined values above if applicable.
  */
-@property (nonatomic, strong, nullable) NSString *plugin;
+@property (nonatomic, nullable, strong) NSString *plugin;
 
 /**
  @abstract Sets the version of the plugin version you are using AdColony with.
  @discussion Set this property to configure the version of the plugin you are using AdColony with.
  Corresponding value must be 128 characters or less.
  */
-@property (nonatomic, strong, nullable) NSString *pluginVersion;
+@property (nonatomic, nullable, strong) NSString *pluginVersion;
 
 /**
  @abstract This is to inform the AdColony service if GDPR should be considered for the user based on if they are they EU citizens or from EU territories. Default is FALSE.
  @discussion This is for GDPR compliance, see https://www.adcolony.com/gdpr/
  */
-@property (nonatomic) BOOL gdprRequired;
+@property (nonatomic, assign) BOOL gdprRequired;
 
 /**
  @abstract Defines end user's consent for information collected from the user.
  @discussion The IAB Europe Transparency and Consent framework defines standard APIs and formats for communicating between Consent Management Platforms (CMPs) collecting consents from end users and vendors embedded on a website or in a mobile application. It provides a unified interface for a seamless integration where CMPs and vendors do not have to integrate manually with hundreds of partners. This is for GDPR compliance through IAB, see https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/v1.1%20Implementation%20Guidelines.md#vendors
  */
-@property (nonatomic) NSString *gdprConsentString;
+@property (nonatomic, nullable, strong) NSString *gdprConsentString;
 
 @end
 

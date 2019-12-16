@@ -43,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)setOption:(NSString *)option withNumericValue:(NSNumber *)value;
 
-
 /** @name Option Retrieval */
 
 /**

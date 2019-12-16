@@ -126,3 +126,4 @@ dependencies {
     implementation project(':libcocos2dx')
 }
 dependencies { compile 'com.google.android.gms:play-services-ads:12.0.1' }
+dependencies { compile 'com.google.android.gms:play-services-base:16.1.0' }
