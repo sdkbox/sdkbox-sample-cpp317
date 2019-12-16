@@ -66,28 +66,102 @@ static void showMsg(const std::string& msg) {
 
 class ACListener : public sdkbox::AdColonyListener {
 public:
-
-    virtual void onAdColonyChange(const sdkbox::AdColonyAdInfo& info, bool available) override {
+    /*
+     * Interstitial Callback
+     */
+    virtual void adColonyInterstitialDidLoad(const std::string& interstitial) override {
         std::stringstream buf;
-        buf << "onAdColonyChange" << ":" << info.name << ":"<< available;
+        buf << "adColonyInterstitialDidLoad" << ":" << interstitial;
         showMsg(buf.str());
     }
 
-    virtual void onAdColonyReward(const sdkbox::AdColonyAdInfo& info, const std::string& currencyName, int amount, bool success) override {
+    virtual void adColonyInterstitialDidFailToLoad(const std::string& error) override {
         std::stringstream buf;
-        buf << "onAdColonyReward" << ":" << info.name << ":"<< currencyName << ":" << amount << ":" << success;
+        buf << "adColonyInterstitialDidFailToLoad" << ":" << error;
         showMsg(buf.str());
     }
 
-    virtual void onAdColonyStarted(const sdkbox::AdColonyAdInfo& info) override {
+    virtual void adColonyInterstitialWillOpen(const std::string& interstitial) override {
         std::stringstream buf;
-        buf << "onAdColonyStarted" << ":" << info.name;
+        buf << "adColonyInterstitialWillOpen" << ":" << interstitial;
+        showMsg(buf.str());
+   }
+
+    virtual void adColonyInterstitialDidClose(const std::string& interstitial) override {
+        std::stringstream buf;
+        buf << "adColonyInterstitialDidClose" << ":" << interstitial;
+        showMsg(buf.str());
+   }
+
+    virtual void adColonyInterstitialExpired(const std::string& interstitial) override {
+        std::stringstream buf;
+        buf << "adColonyInterstitialExpired" << ":" << interstitial;
+        showMsg(buf.str());
+   }
+
+    virtual void adColonyInterstitialWillLeaveApplication(const std::string& interstitial) override {
+        std::stringstream buf;
+        buf << "adColonyInterstitialWillLeaveApplication" << ":" << interstitial;
+        showMsg(buf.str());
+   }
+
+    virtual void adColonyInterstitialDidReceiveClick(const std::string& interstitial) override {
+        std::stringstream buf;
+        buf << "adColonyInterstitialDidReceiveClick" << ":" << interstitial;
+        showMsg(buf.str());
+   }
+
+    virtual void adColonyInterstitialIapOpportunity(const std::string& interstitial, const std::string& iapProductID, int engagement) override {
+        std::stringstream buf;
+        buf << "adColonyInterstitialIapOpportunity" << ":" << interstitial;
+        showMsg(buf.str());
+   }
+
+    /*
+     * Banner Callback
+     */
+    virtual void adColonyAdViewDidLoad(const std::string& adView) override {
+        std::stringstream buf;
+        buf << "adColonyAdViewDidLoad" << ":" << adView;
+        showMsg(buf.str());
+   }
+
+    virtual void adColonyAdViewDidFailToLoad(const std::string& error) override {
+        std::stringstream buf;
+        buf << "adColonyAdViewDidFailToLoad" << ":" << error;
+        showMsg(buf.str());
+  }
+
+    virtual void adColonyAdViewWillLeaveApplication(const std::string& adView) override {
+        std::stringstream buf;
+        buf << "adColonyAdViewWillLeaveApplication" << ":" << adView;
+        showMsg(buf.str());
+    }
+    
+    virtual void adColonyAdViewWillOpen(const std::string& adView) override {
+        std::stringstream buf;
+        buf << "adColonyAdViewWillOpen" << ":" << adView;
+        showMsg(buf.str());
+    }
+    
+    virtual void adColonyAdViewDidClose(const std::string& adView) override {
+        std::stringstream buf;
+        buf << "adColonyAdViewDidClose" << ":" << adView;
+        showMsg(buf.str());
+    }
+    
+    virtual void adColonyAdViewDidReceiveClick(const std::string& adView) override {
+        std::stringstream buf;
+        buf << "adColonyAdViewDidReceiveClick" << ":" << adView;
         showMsg(buf.str());
     }
 
-    virtual void onAdColonyFinished(const sdkbox::AdColonyAdInfo& info) override {
+    /*
+     * Reward Callback
+     */
+    virtual void adColonyReward(const std::string& name, const std::string& currencyName, int amount, bool success) override {
         std::stringstream buf;
-        buf << "onAdColonyFinished" << ":" << info.name;
+        buf << "adColonyReward" << ":" << name << ":" << currencyName << ":" << amount << ":" << success;
         showMsg(buf.str());
     }
 
@@ -148,6 +222,14 @@ void HelloWorld::createTestMenu() {
             sdkbox::PluginAdColony::show("video");
         } else {
             showMsg("video is not ready, to cache");
+            sdkbox::PluginAdColony::requestAllAds();
+        }
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("ShowBanner", "arial", 24), [](Ref*){
+        if (sdkbox::AdColonyAdStatus::ADCOLONY_ZONE_STATUS_ACTIVE == sdkbox::PluginAdColony::getStatus("banner")) {
+            sdkbox::PluginAdColony::show("banner");
+        } else {
+            showMsg("banner is not ready, to cache");
             sdkbox::PluginAdColony::requestAllAds();
         }
     }));

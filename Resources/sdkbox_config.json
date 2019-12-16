@@ -13,6 +13,13 @@
                 "video": {
                     "v4vc": false, 
                     "zone": "vz06e8c32a037749699e7050"
+                },
+                "banner": {
+                    "zone": "vz785bc8d42d9c43fdaf",
+                    "type":"banner",
+                    "alignment":"bottom",
+                    "width": 320,
+                    "height": 50
                 }
             }
         }
@@ -31,6 +38,13 @@
                 "video": {
                     "v4vc": false, 
                     "zone": "vzf8fb4670a60e4a139d01b5"
+                },
+                "banner": {
+                    "zone": "vz77f5db656e2840c4ab",
+                    "type":"banner",
+                    "alignment":"bottom",
+                    "width": 320,
+                    "height": 50
                 }
             }
         }
