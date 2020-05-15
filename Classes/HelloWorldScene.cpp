@@ -24,6 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "PluginHMS/PluginHMS.h"
 
 USING_NS_CC;
 
@@ -61,8 +62,16 @@ static void showMsg(const std::string& msg) {
     cocos2d::log("Log: %s", msg.c_str());
 }
 
-
-
+class PluginHMSListener : public sdkbox::HMSListener {
+    void onLogin(int code, const std::string& msg) {
+        if (0 == code) {
+            showMsg("login success, check user info in console");
+            cocos2d::log("UserInfo: %s", msg.c_str());
+        } else {
+            showMsg("login failed:" + msg);
+        }
+    }
+};
 
 Scene* HelloWorld::createScene()
 {
@@ -87,6 +96,9 @@ bool HelloWorld::init()
     }
     
     createTestMenu();
+
+    sdkbox::PluginHMS::setListener(new PluginHMSListener());
+    sdkbox::PluginHMS::init();
 
     return true;
 }
@@ -113,8 +125,15 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Login", "arial", 24), [](Ref*){
+        showMsg("to login...");
+        // sdkbox::PluginHMS::login(0); // slient login
+        sdkbox::PluginHMS::login(1); // login (id token)
+        // sdkbox::PluginHMS::login(2); // login (author code)
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Logout", "arial", 24), [](Ref*){
+        showMsg("to logout...");
+        sdkbox::PluginHMS::logout();
     }));
     
     menu->alignItemsVerticallyWithPadding(10);
