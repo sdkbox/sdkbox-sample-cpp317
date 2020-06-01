@@ -27,6 +27,11 @@
 
 #include "cocos2d.h"
 
+typedef struct {
+    std::string id;
+    std::string type;
+} HMSProduct;
+
 class HelloWorld : public cocos2d::Scene
 {
 public:
@@ -41,6 +46,15 @@ public:
     CREATE_FUNC(HelloWorld);
     
     void createTestMenu();
+
+    void addHMSProduct(const HMSProduct& p);
+    void addPurchaseToken(const std::string& purchaseToken);
+    bool isConsumable(const std::string& pid);
+
+private:
+    std::list<HMSProduct> products;
+    std::list<std::string> consumablePurchaseToken;
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__
