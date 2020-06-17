@@ -40,7 +40,7 @@ static void showMsg(const std::string& msg) {
     Label *label = dynamic_cast<Label*>(Director::getInstance()->getNotificationNode());
     if (label == nullptr) {
         auto size = Director::getInstance()->getWinSize();
-        label = Label::createWithSystemFont("test", "arial", 6);
+        label = Label::createWithSystemFont("test", "arial", 12);
         label->setAnchorPoint(Vec2(0,0));
         label->setTextColor(Color4B(0, 255, 0, 255));
         label->setPosition(10, size.height*0.1);
@@ -69,38 +69,66 @@ public:
     PluginHMSListener(HelloWorld* scene): hw(scene) {
     }
 
-    void onLogin(int code, const std::string& msg) {
-        if (0 == code) {
-            rapidjson::Document doc;
-            doc.Parse(msg.c_str());
-            
-            std::ostringstream ss;
-            ss << "Login success:" << doc["displayName"].GetString();
-            showMsg(ss.str());
-            cocos2d::log("UserInfo: %s", msg.c_str());
-        } else {
-            showMsg("login failed:" + msg);
+    void onLogin(int code, const std::string& errorOrJson) {
+        cocos2d::log("HMS onLogin: %d, %s", code, errorOrJson.c_str());
+        if (0 != code) {
+            showMsg("login failed:" + errorOrJson);
+            return;
         }
+        rapidjson::Document doc;
+        doc.Parse(errorOrJson.c_str());
+        
+        std::ostringstream ss;
+        ss << "Login success:" << doc["displayName"].GetString();
+        showMsg(ss.str());
     }
+    
+    void onPlayerInfo(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onPlayerInfo code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    };
 
-    void onIAPReady(int code, const std::string& msg) {
+    void onPlayerExtraInfo(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onPlayerExtraInfo code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    };
+
+    void onPlayerGameBegin(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onPlayerGameBegin code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    };
+
+    void onPlayerGameEnd(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onPlayerGameEnd code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    };
+
+    void onIAPReady(int code, const std::string& errorOrJson) {
         std::ostringstream ss;
         ss << "HMS listener onIAPReady code:" << code;
         showMsg(ss.str());
-        cocos2d::log("%s", msg.c_str());
+        cocos2d::log("%s", errorOrJson.c_str());
     }
 
-    void onIAPProducts(int code, const std::string& msg) {
+    void onIAPProducts(int code, const std::string& errorOrJson) {
         std::ostringstream ss;
         ss << "HMS listener onIAPProducts code:" << code;
         showMsg(ss.str());
-        cocos2d::log("%s", msg.c_str());
+        cocos2d::log("%s", errorOrJson.c_str());
         
         if (0 != code) {
             return;
         }
         rapidjson::Document doc;
-        doc.Parse(msg.c_str());
+        doc.Parse(errorOrJson.c_str());
         if (!doc.HasMember("products")) {
             return;
         }
@@ -124,17 +152,17 @@ public:
         showMsg(ss.str());
     }
 
-    void onIAPPurchase(int code, const std::string& msg) {
+    void onIAPPurchase(int code, const std::string& errorOrJson) {
         std::ostringstream ss;
         ss << "HMS listener onIAPPurchase code:" << code;
         showMsg(ss.str());
-        cocos2d::log("%s", msg.c_str());
+        cocos2d::log("%s", errorOrJson.c_str());
         
         if (0 != code) {
             return;
         }
         rapidjson::Document doc;
-        doc.Parse(msg.c_str());
+        doc.Parse(errorOrJson.c_str());
         if (!doc.HasMember("inAppPurchaseData")
             || !doc.HasMember("inAppDataSignature")) {
             return;
@@ -175,17 +203,17 @@ public:
         }
     }
 
-    void onIAPOwnedPurchases(int code, const std::string& msg) {
+    void onIAPOwnedPurchases(int code, const std::string& errorOrJson) {
         std::ostringstream ss;
         ss << "HMS listener onIAPOwnedPurchases code:" << code;
         showMsg(ss.str());
-        cocos2d::log("%s", msg.c_str());
+        cocos2d::log("%s", errorOrJson.c_str());
 
         if (0 != code) {
             return;
         }
         rapidjson::Document doc;
-        doc.Parse(msg.c_str());
+        doc.Parse(errorOrJson.c_str());
         if (!doc.HasMember("ownedPurchases")) {
             return;
         }
@@ -213,13 +241,234 @@ public:
         showMsg(ss.str());
     }
 
-    void onIAPOwnedPurchaseRecords(int code, const std::string& msg) {
+    void onIAPOwnedPurchaseRecords(int code, const std::string& errorOrJson) {
         std::ostringstream ss;
         ss << "HMS listener onIAPOwnedPurchaseRecords code:" << code;
         showMsg(ss.str());
-        cocos2d::log("%s", msg.c_str());
+        cocos2d::log("%s", errorOrJson.c_str());
     }
 
+
+    void onAchievementList(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAchievementList code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAchievementShow(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAchievementShow code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAchievementVisualize(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAchievementVisualize code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAchievementGrow(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAchievementGrow code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAchievementMakeSteps(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAchievementMakeSteps code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAchievementReach(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAchievementReach code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onEventList(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onEventList code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onRankingSwitchStatus(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onRankingSwitchStatus code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onRankingSetSwitchStatus(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onRankingSetSwitchStatus code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onRankingSubmitScore(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onRankingSubmitScore code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onRankingShow(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onRankingShow code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onRankingList(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onRankingList code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onRankingCurPlayerScore(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onRankingCurPlayerScore code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onRankingPlayerCenteredScores(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onRankingPlayerCenteredScores code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onRankingMoreScores(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onRankingMoreScores code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onRankingTopScores(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onRankingTopScores code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onArchiveLimitThumbnailSize(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onArchiveLimitThumbnailSize code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onArchiveLimitDetailsSize(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onArchiveLimitDetailsSize code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onArchiveAdd(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onArchiveAdd code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onArchiveShow(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onArchiveShow code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onArchiveSummaryList(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onArchiveSummaryList code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+
+        if (0 != code) {
+            return;
+        }
+        if (0 == errorOrJson.length()) {
+            return;
+        }
+        rapidjson::Document doc;
+        doc.Parse(errorOrJson.c_str());
+        
+        if (!doc.HasMember("archiveSummarys")) {
+            return;
+        }
+
+        // random select archive id
+        const auto& ass = doc["archiveSummarys"];
+        std::string aid = "";
+        int asSize = ass.Size();
+        if (asSize > 0) {
+            const auto& as = ass[cocos2d::random(0, asSize - 1)];
+            aid = as["id"].GetString();
+        }
+        if (aid.length() > 0) {
+            hw->setArchiveId(aid);
+        }
+    }
+
+    void onArchiveSelect(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onArchiveSelect code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onArchiveThumbnail(int code, const std::string& errorOrJson, unsigned char* coverData, unsigned int coverDataLen) {
+        std::ostringstream ss;
+        ss << "HMS listener onArchiveThumbnail code:" << code << " len:" << coverDataLen;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onArchiveUpdate(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onArchiveUpdate code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onArchiveLoad(int code, const std::string& errorOrJson, unsigned char* contentData, unsigned int contentDataLen) {
+        std::ostringstream ss;
+        ss << "HMS listener onArchiveLoad code:" << code << " len:" << contentDataLen;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onArchiveRemove(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onArchiveRemove code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onGamePlayerStats(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onGamePlayerStats code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onGameSummary(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onGameSummary code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
 
 private:
     HelloWorld* hw;
@@ -247,11 +496,25 @@ bool HelloWorld::init()
     {
         return false;
     }
-    
-    createTestMenu();
+    cocos2d::Size vSize = cocos2d::Director::getInstance()->getVisibleSize();
+    mTitle = Label::createWithSystemFont("Main", "arial", 24);
+    mTitle->setPosition(cocos2d::Vec2(vSize.width/2, vSize.height - 100));
+    addChild(mTitle);
+
+
+    this->products.clear();
+    this->consumablePurchaseToken.clear();
+
+    this->readImageForArchiveCover();
+
+    mMenu = Menu::create();
+    addChild(mMenu);
+    showMenu("");
 
     sdkbox::PluginHMS::setListener(new PluginHMSListener(this));
     sdkbox::PluginHMS::init();
+    sdkbox::PluginHMS::login(0); // slient sigin
+    sdkbox::PluginHMS::buoyShow();
 
     return true;
 }
@@ -274,56 +537,347 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 }
 
+void HelloWorld::showMenu(const std::string& menuName) {
+    mMenu->removeAllChildrenWithCleanup(true);
+    std::string title = menuName;
+    if (title.empty()) {
+        title = "Main";
+    }
+    mTitle->setString(title);
+    if (0 == title.compare("Main")) {
+        genMainMenu();
+    } else if (0 == title.compare("Account")) {
+        genAccountMenu();
+    } else if (0 == title.compare("IAP")) {
+        genIAPMenu();
+    } else if (0 == title.compare("Game Player")) {
+        genGamePlayerMenu();
+    } else if (0 == title.compare("Achievement")) {
+        genGameAchievementMenu();
+    } else if (0 == title.compare("Event")) {
+        genGameEventMenu();
+    } else if (0 == title.compare("Ranking")) {
+        genGameRankingMenu();
+    } else if (0 == title.compare("Archive")) {
+        genGameArchiveMenu();
+    } else if (0 == title.compare("Status")) {
+        genGameStatsMenu();
+    } else {
+        CCLOG("Error, Unknow menu type");
+    }
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Back", "arial", 24), [this](Ref*){
+        this->showMenu("");
+    }));
+    mMenu->alignItemsVerticallyWithPadding(10);
+}
 
-void HelloWorld::createTestMenu() {
-    auto menu = Menu::create();
+void HelloWorld::genMainMenu() {
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Account Test", "arial", 24), [this](Ref*){
+        this->showMenu("Account");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("IAP Test", "arial", 24), [this](Ref*){
+        this->showMenu("IAP");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Player Test", "arial", 24), [this](Ref*){
+        this->showMenu("Game Player");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Archievement Test", "arial", 24), [this](Ref*){
+        this->showMenu("Achievement");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Event Test", "arial", 24), [this](Ref*){
+        this->showMenu("Event");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Ranking Test", "arial", 24), [this](Ref*){
+        this->showMenu("Ranking");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Archive Test", "arial", 24), [this](Ref*){
+        this->showMenu("Archive");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Status Test", "arial", 24), [this](Ref*){
+        this->showMenu("Status");
+    }));
+}
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Login", "arial", 6), [](Ref*){
+void HelloWorld::genAccountMenu() {
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Login", "arial", 24), [](Ref*){
         showMsg("to login...");
         // sdkbox::PluginHMS::login(0); // slient login
         sdkbox::PluginHMS::login(1); // login (id token)
         // sdkbox::PluginHMS::login(2); // login (author code)
     }));
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Logout", "arial", 6), [](Ref*){
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Logout", "arial", 24), [](Ref*){
         showMsg("to logout...");
         sdkbox::PluginHMS::logout();
     }));
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("RequestProducts", "arial", 6), [](Ref*){
+}
+
+void HelloWorld::genIAPMenu() {
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("RequestProducts", "arial", 24), [](Ref*){
         showMsg("to RequestProducts...");
         sdkbox::PluginHMS::iapRequestProducts();
     }));
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Purchase", "arial", 6), [](Ref*){
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Purchase", "arial", 24), [](Ref*){
         showMsg("to Purchase...");
         std::string productName = "coin";
 //        productName = "remove_ads";
 //        productName = "vip";
         sdkbox::PluginHMS::iapPurchase("coin");
     }));
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("PurchaseWithPrice", "arial", 6), [](Ref*){
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("PurchaseWithPrice", "arial", 24), [](Ref*){
         showMsg("to PurchaseWithPrice...");
+
         std::string productInfo = "{\"currency\":\"CNY\",\"priceType\":0,\"sdkChannel\":\"1\",\"productName\":\"test\",\"amount\":\"1.99\",\"productId\":\"consumeproduct1\",\"serviceCatalog\":\"X38\",\"country\":\"CN\",\"reservedInfor\":\"{\\\"a\\\": 1, \\\"b\\\":\\\"s\\\"}\",\"developerPayload\":\"payload1\"}";
         sdkbox::PluginHMS::iapPurchaseWithPrice(productInfo);
     }));
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Consume", "arial", 6), [this](Ref*){
-        showMsg("to Consume...");
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Consume", "arial", 24), [this](Ref*){
         if (0 == this->consumablePurchaseToken.size()) {
             return ;
         }
+        showMsg("to Consume...");
         const std::string purchaseToken = this->consumablePurchaseToken.front();
         this->consumablePurchaseToken.pop_front();
         sdkbox::PluginHMS::iapConsume(purchaseToken);
     }));
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("RequestOwnedPurchase", "arial", 6), [](Ref*){
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("RequestOwnedPurchase", "arial", 24), [](Ref*){
         showMsg("to RequestOwnedPurchase...");
         sdkbox::PluginHMS::iapRequestOwnedPurchases();
     }));
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("RequestOwnedPurchaseRecord", "arial", 6), [](Ref*){
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("RequestOwnedPurchaseRecord", "arial", 24), [](Ref*){
         showMsg("to RequestOwnedPurchaseRecord...");
         sdkbox::PluginHMS::iapRequestOwnedPurchaseRecords();
     }));
-    
-    menu->alignItemsVerticallyWithPadding(2);
-    addChild(menu);
+}
+
+void HelloWorld::genGamePlayerMenu() {
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("ReqPlayInfo", "arial", 24), [](Ref*){
+        showMsg("to request player info...");
+        sdkbox::PluginHMS::playerRequestInfo();
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("ReqPlayExtraInfo", "arial", 24), [](Ref*){
+        showMsg("to request player extra info...");
+        sdkbox::PluginHMS::playerRequestExtraInfo();
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("SubmitGameBegin", "arial", 24), [](Ref*){
+        showMsg("to submit player game begin...");
+        sdkbox::PluginHMS::playerSubmitGameBegin();
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("SubmitGameEnd", "arial", 24), [](Ref*){
+        showMsg("to submit player game end...");
+        sdkbox::PluginHMS::playerSubmitGameEnd();
+    }));
+}
+
+void HelloWorld::genGameAchievementMenu() {
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("ReqAchievementList", "arial", 24), [](Ref*){
+        showMsg("to achievementRequestList...");
+        sdkbox::PluginHMS::achievementRequestList();
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("ShowAchievementList", "arial", 24), [](Ref*){
+        showMsg("to achievementShow...");
+        sdkbox::PluginHMS::achievementShow();
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("VisualizeAchievement", "arial", 24), [](Ref*){
+        showMsg("to achievementVisualize...");
+        sdkbox::PluginHMS::achievementVisualize("5shoot");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("GrowAchievement", "arial", 24), [](Ref*){
+        showMsg("to achievementGrow...");
+        sdkbox::PluginHMS::achievementGrow("3shoot", 1);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("MakeStepsAchievement", "arial", 24), [](Ref*){
+        showMsg("to achievementMakeSteps...");
+        sdkbox::PluginHMS::achievementMakeSteps("3shoot", 2);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("ReachAchievement", "arial", 24), [](Ref*){
+        showMsg("to achievementReach...");
+        sdkbox::PluginHMS::achievementReach("freshman");
+    }));
+}
+
+void HelloWorld::genGameEventMenu() {
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Grow Event", "arial", 24), [](Ref*){
+        showMsg("to eventGrow...");
+        sdkbox::PluginHMS::eventGrow("gencoin", 1);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Event List", "arial", 24), [](Ref*){
+        showMsg("to eventRequestList...");
+        sdkbox::PluginHMS::eventRequestList(true, "gencoin,consumecoin");
+    }));
+}
+
+void HelloWorld::genGameRankingMenu() {
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Switch Status", "arial", 24), [](Ref*){
+        showMsg("to rankingRequestSwitchStatus...");
+        sdkbox::PluginHMS::rankingRequestSwitchStatus();
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Set Switch Status", "arial", 24), [](Ref*){
+        showMsg("to rankingSetSwitchStatus...");
+        sdkbox::PluginHMS::rankingSetSwitchStatus(1);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Submit Score", "arial", 24), [](Ref*){
+        showMsg("to rankingSubmitScore...");
+        sdkbox::PluginHMS::rankingSubmitScore("shooter", 23, "H");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show Ranking", "arial", 24), [](Ref*){
+        showMsg("to rankingShow...");
+        int timeDimension = 0; // day
+        timeDimension = 1; // week
+        timeDimension = 2; // all time
+        sdkbox::PluginHMS::rankingShow(timeDimension, "shooter");
+        // sdkbox::PluginHMS::rankingShow(timeDimension); // show all ranking
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Ranking List", "arial", 24), [](Ref*){
+        showMsg("to rankingRequestList...");
+        bool realtime = true;
+        realtime = false; // use cachce
+        sdkbox::PluginHMS::rankingRequestList(realtime, "shooter");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Cur Player Score", "arial", 24), [](Ref*){
+        showMsg("to rankingRequestCurPlayerScore...");
+        std::string rankingName = "shooter";
+        int timeDimension = 0; // day
+        timeDimension = 1; // week
+        timeDimension = 2; // all time
+        sdkbox::PluginHMS::rankingRequestCurPlayerScore(rankingName, timeDimension);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Player Centered Scores", "arial", 24), [](Ref*){
+        showMsg("to rankingRequestPlayerCenteredScores...");
+        std::string rankingName = "shooter";
+        int timeDimension = 0; // day
+        timeDimension = 1; // week
+        timeDimension = 2; // all time
+        sdkbox::PluginHMS::rankingRequestPlayerCenteredScores(rankingName, timeDimension, 9, false);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request More Scores", "arial", 24), [](Ref*){
+        showMsg("to rankingRequestMoreScores...");
+        std::string rankingName = "shooter";
+        int timeDimension = 0; // day
+        timeDimension = 1; // week
+        timeDimension = 2; // all time
+        int offset = 1;
+        int pageSize = 10;
+        int pageDirection = 0; //0: next page, 1: previous page
+        sdkbox::PluginHMS::rankingRequestMoreScores(rankingName, timeDimension, offset, pageSize, pageDirection);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Top Scores", "arial", 24), [](Ref*){
+        showMsg("to rankingRequestTopScores...");
+        std::string rankingName = "shooter";
+        int timeDimension = 0; // day
+        timeDimension = 1; // week
+        timeDimension = 2; // all time
+        int offset = 1;
+        int pageSize = 10;
+        int pageDirection = 0; //0: next page, 1: previous page
+        sdkbox::PluginHMS::rankingRequestTopScores(rankingName, timeDimension, offset, pageSize, pageDirection);
+    }));
+}
+
+void HelloWorld::genGameArchiveMenu() {
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request LimitThumbnailSize", "arial", 24), [](Ref*){
+        showMsg("to archiveRequestLimitThumbnailSize...");
+        sdkbox::PluginHMS::archiveRequestLimitThumbnailSize();
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request LimitDetailsSize", "arial", 24), [](Ref*){
+        showMsg("to archiveRequestLimitDetailsSize...");
+        sdkbox::PluginHMS::archiveRequestLimitDetailsSize();
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Add Archive", "arial", 24), [this](Ref*){
+        showMsg("to archiveAdd...");
+        long playedTime = cocos2d::random(1, 10000);
+        long progress = cocos2d::random(1, 100);
+        std::string description = "this is archive description";
+        bool supportCache = true;
+        unsigned char* coverBytes = this->coverData.getBytes();
+        int coverBytesLen = (int)this->coverData.getSize();
+        std::string coverBytesType = "png";
+
+        std::string archiveStr = "archiveData";
+        unsigned char* archiveData = (unsigned char*)archiveStr.c_str();
+        int archiveDataLen = (int)archiveStr.length();
+
+        sdkbox::PluginHMS::archiveAdd(playedTime, progress, description, supportCache,
+                                      coverBytes, coverBytesLen, coverBytesType,
+                                      archiveData, archiveDataLen);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show Archives", "arial", 24), [](Ref*){
+        showMsg("to archiveShow...");
+        std::string archivesTitle = "Archive Title";
+        bool showAddButton = true;
+        bool showDeleteButton = true;
+        int pageSize = 10;
+        sdkbox::PluginHMS::archiveShow(archivesTitle, showAddButton, showDeleteButton, pageSize);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Archive Summary List", "arial", 24), [](Ref*){
+        showMsg("to archiveRequestSummaryList...");
+        bool realtime = true;
+        sdkbox::PluginHMS::archiveRequestSummaryList(realtime);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Request Archive Thumbnail", "arial", 24), [this](Ref*){
+        if (0 == this->mArchiveId.size()) {
+            showMsg("archive id is empty");
+            return;
+        }
+        showMsg("to archiveRequestThumbnail...");
+        sdkbox::PluginHMS::archiveRequestThumbnail(this->mArchiveId);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Update Archive", "arial", 24), [this](Ref*){
+        if (0 == this->mArchiveId.size()) {
+            showMsg("archive id is empty");
+            return;
+        }
+        showMsg("to archiveUpdate...");
+        long playedTime = cocos2d::random(1, 10000);
+        long progress = cocos2d::random(1, 100);
+        std::string description = "this is archive description";
+        unsigned char* coverBytes = nullptr;
+        int coverBytesLen = 0;
+        std::string coverBytesType = "";
+
+        std::ostringstream ss;
+        ss << "archiveData_" << cocos2d::random(0, 100);
+        std::string archiveStr = ss.str();
+        unsigned char* archiveData = (unsigned char*)archiveStr.c_str();
+        int archiveDataLen = (int)archiveStr.length();
+
+        sdkbox::PluginHMS::archiveUpdate(this->mArchiveId,
+                                         playedTime, progress, description,
+                                         coverBytes, coverBytesLen, coverBytesType,
+                                         archiveData, archiveDataLen);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Load Archive", "arial", 24), [this](Ref*){
+        if (0 == this->mArchiveId.size()) {
+            showMsg("archive id is empty");
+            return;
+        }
+        showMsg("to archiveLoad...");
+        int conflictPolicy = -1; //hms willn't process conflict
+        conflictPolicy = 1; //hms will resolved conflict by played time
+        conflictPolicy = 2; //hms will resolved conflict by progress
+        conflictPolicy = 3; //hms will resolved conflict by last update time
+        sdkbox::PluginHMS::archiveLoad(this->mArchiveId, conflictPolicy);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Remove Archive", "arial", 24), [this](Ref*){
+        if (0 == this->mArchiveId.size()) {
+            showMsg("archive id is empty");
+            return;
+        }
+        showMsg("to archiveRemove...");
+        sdkbox::PluginHMS::archiveRemove(this->mArchiveId);
+    }));
+
+}
+
+void HelloWorld::genGameStatsMenu() {
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Player Stats", "arial", 24), [](Ref*){
+        showMsg("to gamePlayerStatsRequest...");
+        bool realtime = false;
+        sdkbox::PluginHMS::gamePlayerStatsRequest(realtime);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Summary", "arial", 24), [](Ref*){
+        showMsg("to gameSummaryRequest...");
+        bool realtime = false;
+        sdkbox::PluginHMS::gameSummaryRequest(realtime);
+    }));
 }
 
 void HelloWorld::addHMSProduct(const HMSProduct& p) {
@@ -344,6 +898,19 @@ bool HelloWorld::isConsumable(const std::string& pid) {
             }
         }
     }
+    
+    // unmanged product
+    if (0 == pid.compare("consumeproduct1")) {
+        return true;
+    }
     return false;
+}
+
+void HelloWorld::readImageForArchiveCover() {
+    this->coverData = cocos2d::FileUtils::getInstance()->getDataFromFile("icon.png");
+}
+
+void HelloWorld::setArchiveId(const std::string& aid) {
+    this->mArchiveId = aid;
 }
 

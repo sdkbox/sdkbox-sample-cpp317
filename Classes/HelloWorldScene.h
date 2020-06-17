@@ -45,16 +45,34 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
     
-    void createTestMenu();
+    // menu related
+    void showMenu(const std::string& menuName);
+    void genMainMenu();
+    void genAccountMenu();
+    void genIAPMenu();
+    void genGamePlayerMenu();
+    void genGameAchievementMenu();
+    void genGameEventMenu();
+    void genGameRankingMenu();
+    void genGameArchiveMenu();
+    void genGameStatsMenu();
 
     void addHMSProduct(const HMSProduct& p);
     void addPurchaseToken(const std::string& purchaseToken);
     bool isConsumable(const std::string& pid);
 
+    void readImageForArchiveCover();
+
+    void setArchiveId(const std::string& aid);
+
 private:
+    cocos2d::Label* mTitle;
+    cocos2d::Menu* mMenu;
     std::list<HMSProduct> products;
     std::list<std::string> consumablePurchaseToken;
 
+    std::string mArchiveId;
+    cocos2d::Data coverData;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
