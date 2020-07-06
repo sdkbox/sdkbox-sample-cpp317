@@ -56,6 +56,7 @@ public:
     void genGameRankingMenu();
     void genGameArchiveMenu();
     void genGameStatsMenu();
+    void genAdMenu();
 
     void addHMSProduct(const HMSProduct& p);
     void addPurchaseToken(const std::string& purchaseToken);
@@ -73,6 +74,9 @@ private:
 
     std::string mArchiveId;
     cocos2d::Data coverData;
+    
+    std::list<std::string> mAdList;
+    std::string mAdName;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

@@ -82,7 +82,7 @@ public:
         ss << "Login success:" << doc["displayName"].GetString();
         showMsg(ss.str());
     }
-    
+
     void onPlayerInfo(int code, const std::string& errorOrJson) {
         std::ostringstream ss;
         ss << "HMS listener onPlayerInfo code:" << code;
@@ -190,11 +190,11 @@ public:
         }
     }
 
-    void onIAPPConsume(int code, const std::string& msg) {
+    void onIAPConsume(int code, const std::string& errorOrJson) {
         std::ostringstream ss;
-        ss << "HMS listener onIAPPConsume code:" << code;
+        ss << "HMS listener onIAPConsume code:" << code;
         showMsg(ss.str());
-        cocos2d::log("%s", msg.c_str());
+        cocos2d::log("%s", errorOrJson.c_str());
         if (0 == code) {
             // consume success, delivery this consumable to player
             ss.str("");
@@ -470,6 +470,63 @@ public:
         cocos2d::log("%s", errorOrJson.c_str());
     }
 
+    void onAdClose(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAdClose code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAdFail(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAdFail code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAdLeave(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAdLeave code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAdOpen(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAdOpen code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAdLoad(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAdLoad code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAdClick(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAdClick code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAdImpression(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAdImpression code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+    void onAdReward(int code, const std::string& errorOrJson) {
+        std::ostringstream ss;
+        ss << "HMS listener onAdReward code:" << code;
+        showMsg(ss.str());
+        cocos2d::log("%s", errorOrJson.c_str());
+    }
+
+
 private:
     HelloWorld* hw;
 
@@ -504,6 +561,11 @@ bool HelloWorld::init()
 
     this->products.clear();
     this->consumablePurchaseToken.clear();
+    this->mAdList.push_back("banner");
+    this->mAdList.push_back("interstitial");
+    this->mAdList.push_back("rewarded-video");
+    this->mAdName = this->mAdList.front();
+    this->mAdList.pop_front();
 
     this->readImageForArchiveCover();
 
@@ -515,6 +577,43 @@ bool HelloWorld::init()
     sdkbox::PluginHMS::init();
     sdkbox::PluginHMS::login(0); // slient sigin
     sdkbox::PluginHMS::buoyShow();
+
+
+    sdkbox::PluginHMS::adSetRewardData("cdata");
+    sdkbox::PluginHMS::adSetRewardUserId("uid666");
+
+    /*
+     * adContentClassification:
+     *   "W"->Content suitable for toddlers and older audiences;
+     *  "PI"->Content suitable for kids and older audiences
+     *   "J"->Content suitable for teenagers and older audiences.
+     *   "A"->Content suitable only for adults.
+     *    ""->Unknown rating.
+     */
+    sdkbox::PluginHMS::adSetAdContentClassification("A");
+
+    /*
+     * tagForUnderAgeOfPromise:
+     *  0->Do not process ad requests as directed to users under the age of consent;
+     *  1->Process ad requests as directed to users under the age of consent;
+     * -1->Whether to process ad requests as directed to users under the age of consent is not specified;
+     */
+    sdkbox::PluginHMS::adSetTagForUnderAgeOfPromise(0);
+
+    /*
+    * tagForChildProtection:
+    *  0->Do not process ad requests according to the COPPA;
+    *  1->Process ad requests according to the COPPA;
+    * -1->Whether to process ad requests according to the COPPA is not specified;
+    */
+    sdkbox::PluginHMS::adSetTagForChildProtection(0);
+
+    /*
+    * nonPersonalizedAd
+    *  0->Request both personalized and non-personalized ads (default);
+    *  1->Request only non-personalized ads;
+    */
+    sdkbox::PluginHMS::adSetNonPersonalizedAd(0);
 
     return true;
 }
@@ -562,6 +661,8 @@ void HelloWorld::showMenu(const std::string& menuName) {
         genGameArchiveMenu();
     } else if (0 == title.compare("Status")) {
         genGameStatsMenu();
+    } else if (0 == title.compare("Ad")) {
+        genAdMenu();
     } else {
         CCLOG("Error, Unknow menu type");
     }
@@ -581,7 +682,7 @@ void HelloWorld::genMainMenu() {
     mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Player Test", "arial", 24), [this](Ref*){
         this->showMenu("Game Player");
     }));
-    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Archievement Test", "arial", 24), [this](Ref*){
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Achievement Test", "arial", 24), [this](Ref*){
         this->showMenu("Achievement");
     }));
     mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Event Test", "arial", 24), [this](Ref*){
@@ -595,6 +696,9 @@ void HelloWorld::genMainMenu() {
     }));
     mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Game Status Test", "arial", 24), [this](Ref*){
         this->showMenu("Status");
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Ad Test", "arial", 24), [this](Ref*){
+        this->showMenu("Ad");
     }));
 }
 
@@ -877,6 +981,32 @@ void HelloWorld::genGameStatsMenu() {
         showMsg("to gameSummaryRequest...");
         bool realtime = false;
         sdkbox::PluginHMS::gameSummaryRequest(realtime);
+    }));
+}
+
+void HelloWorld::genAdMenu() {
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Change Ad Name", "arial", 24), [this](Ref*){
+        showMsg("to change ad");
+        this->mAdList.push_back(std::move(this->mAdName));
+        this->mAdName = std::move(this->mAdList.front());
+        this->mAdList.pop_front();
+        showMsg("Current Ad Name:" + this->mAdName);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Cache", "arial", 24), [this](Ref*){
+        showMsg("to adCache...");
+        sdkbox::PluginHMS::adCache(this->mAdName);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Show", "arial", 24), [this](Ref*){
+        if (!sdkbox::PluginHMS::adIsAvailable(this->mAdName)) {
+            showMsg("ad is not ready");
+            return;
+        }
+        showMsg("to adShow...");
+        sdkbox::PluginHMS::adShow(this->mAdName);
+    }));
+    mMenu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Hide", "arial", 24), [this](Ref*){
+        showMsg("to adHide...");
+        sdkbox::PluginHMS::adHide(this->mAdName);
     }));
 }
 
