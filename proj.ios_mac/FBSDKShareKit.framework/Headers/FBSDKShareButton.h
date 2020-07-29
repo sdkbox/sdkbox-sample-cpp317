@@ -16,11 +16,17 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
 #import <UIKit/UIKit.h>
 
-#import <FBSDKCoreKit/FBSDKButton.h>
+#import "FBSDKCoreKitImport.h"
 
-#import <FBSDKShareKit/FBSDKSharingButton.h>
+#import "FBSDKSharingButton.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
   A button to share content.
@@ -28,6 +34,11 @@
  Tapping the receiver will invoke the FBSDKShareDialog with the attached shareContent.  If the dialog cannot
  be shown, the button will be disabled.
  */
+NS_SWIFT_NAME(FBShareButton)
 @interface FBSDKShareButton : FBSDKButton <FBSDKSharingButton>
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+#endif

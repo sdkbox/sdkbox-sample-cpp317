@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">sdkboxcpp317</string>
     <string name="facebook_app_id">280194012150923</string>
+    <string name="fb_login_protocol_scheme">fbyour_app_id</string>
 </resources>
