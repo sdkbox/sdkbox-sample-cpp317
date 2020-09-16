@@ -25,6 +25,9 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "PluginSignInWithApple/PluginSignInWithApple.h"
+
+
 USING_NS_CC;
 
 
@@ -61,7 +64,31 @@ static void showMsg(const std::string& msg) {
     cocos2d::log("Log: %s", msg.c_str());
 }
 
+class PluginSignInWithAppleListener : public sdkbox::SignInWithAppleListener {
+    /**
+     * authorization delegate
+     *
+     * https://developer.apple.com/documentation/authenticationservices/asauthorizationcontrollerdelegate
+     *
+     */
+    virtual void onAuthorizationDidComplete(const std::string& authInfo) {
+        cocos2d::log("onAuthorizationDidComplete: %s", authInfo.c_str());
+    };
 
+    virtual void onAuthorizationCompleteWithError(const std::string& authInfo) {
+        cocos2d::log("onAuthorizationCompleteWithError: %s", authInfo.c_str());
+    };
+
+    /**
+     * authorization status
+     *
+     * https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidprovidercredentialstate
+     *
+     */
+    virtual void onAuthorizationStatus(const std::string& authState) {
+        cocos2d::log("onAuthorizationStatus: %s", authState.c_str());
+    };
+};
 
 
 Scene* HelloWorld::createScene()
@@ -86,8 +113,17 @@ bool HelloWorld::init()
         return false;
     }
     
+    auto winSize = Director::getInstance()->getWinSize();
+    auto title = Label::createWithSystemFont("SignInWithApple", "arial", 16);
+    title->setPosition(winSize.width/2, winSize.height - 50);
+    addChild(title);
+    
     createTestMenu();
 
+    sdkbox::PluginSignInWithApple::setListener(new PluginSignInWithAppleListener());
+    sdkbox::PluginSignInWithApple::init();
+
+    sdkbox::PluginSignInWithApple::signWithExistingAccount();
     return true;
 }
 
@@ -113,8 +149,9 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Menu1", "arial", 24), [](Ref*){
-        showMsg("Menu1 Clicked");
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("SignIn", "arial", 24), [](Ref*){
+        showMsg("to sign in with Apple ...");
+        sdkbox::PluginSignInWithApple::sign();
     }));
     
     menu->alignItemsVerticallyWithPadding(10);

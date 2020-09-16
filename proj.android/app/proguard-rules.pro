@@ -15,6 +15,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+#sdkbox
+-keep class com.sdkbox.** { *; }
+-dontwarn com.sdkbox.**
 
 # Proguard Cocos2d-x for release
 -keep public class org.cocos2dx.** { *; }
