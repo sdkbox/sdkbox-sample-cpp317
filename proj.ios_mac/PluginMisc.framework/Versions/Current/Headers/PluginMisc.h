@@ -44,7 +44,7 @@ namespace sdkbox {
         /**
          * Local Notification
          *
-         * title: notification title, just valid on android
+         * title: notification title
          * content: notification content
          * delayMillisecond: delay millisecond to notify
          *
@@ -134,6 +134,17 @@ namespace sdkbox {
          * remove account in keychain
          */
         static int removeDataInKeychain(const std::string& account);
+
+        /**
+         * request tracking authorization
+         * App Tracking Transparency
+         * just valid on iOS
+         * 
+         * iOS 14+, authorized result by user
+         * iOS 14+ without AppTrackingTransparency.framework will always ATTrackingManagerAuthorizationStatusDenied
+         * iOS 13-, will always ATTrackingManagerAuthorizationStatusAuthorized
+         */
+        static void requestTrackingAuthorization();
     };
 
     class MiscListener {
@@ -143,6 +154,16 @@ namespace sdkbox {
          * Notifies the delegate that user tap the notify
          */
         virtual void onHandleLocalNotify(const std::string& payloadJson) {};
+
+        /**
+         * status value:
+         * 0: ATTrackingManagerAuthorizationStatusNotDetermined
+         * 1: ATTrackingManagerAuthorizationStatusRestricted
+         * 2: ATTrackingManagerAuthorizationStatusDenied
+         * 3: ATTrackingManagerAuthorizationStatusAuthorized
+         *
+         */
+        virtual void onTrackingAuthorization(int status) {};
 
     };
 }

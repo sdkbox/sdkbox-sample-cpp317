@@ -67,9 +67,16 @@ static void showMsg(const std::string& msg) {
 class MListener : public sdkbox::MiscListener {
 public:
 
-    virtual void onHandleLocalNotify(const std::string& payloadJson) {
+    virtual void onHandleLocalNotify(const std::string& payloadJson) override {
         std::stringstream buf;
         buf << "onHandleLocalNotify:" << payloadJson;
+        // showMsg(buf.str());
+        cocos2d::log("Log: %s", buf.str().c_str());
+    };
+    
+    virtual void onTrackingAuthorization(int status) override {
+        std::stringstream buf;
+        buf << "onTrackingAuthorization:" << status;
         // showMsg(buf.str());
         cocos2d::log("Log: %s", buf.str().c_str());
     };
@@ -150,6 +157,10 @@ void HelloWorld::createTestMenu() {
     menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("KC-remove", "arial", 24), [](Ref*){
         int i =sdkbox::PluginMisc::removeDataInKeychain("account1");
         CCLOG("Store status:%d", i);
+    }));
+    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Req Tracking Auth", "arial", 24), [](Ref*){
+        sdkbox::PluginMisc::requestTrackingAuthorization();
     }));
 
     menu->alignItemsVerticallyWithPadding(10);
