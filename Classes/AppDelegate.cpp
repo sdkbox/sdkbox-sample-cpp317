@@ -24,6 +24,7 @@
 
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
+#include "PluginAdMob/PluginAdMob.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -148,4 +149,11 @@ void AppDelegate::applicationWillEnterForeground() {
     SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
     SimpleAudioEngine::getInstance()->resumeAllEffects();
 #endif
+
+    std::string appopen = "appopen";
+    if (sdkbox::PluginAdMob::isAvailable(appopen)) {
+        sdkbox::PluginAdMob::show(appopen);
+    } else {
+        sdkbox::PluginAdMob::cache(appopen);
+    }
 }
