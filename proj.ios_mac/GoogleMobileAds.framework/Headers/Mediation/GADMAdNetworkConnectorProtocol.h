@@ -5,10 +5,8 @@
 //  Copyright 2011 Google. All rights reserved.
 //
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
-#import <UIKit/UIKit.h>
-
-#import "GADMediationAdRequest.h"
+#import <GoogleMobileAds/Mediation/GADMediatedUnifiedNativeAd.h>
+#import <GoogleMobileAds/Mediation/GADMediationAdRequest.h>
 
 @protocol GADMAdNetworkAdapter;
 
@@ -16,12 +14,12 @@
 /// GADMAdNetworkConnector protocol. The connector object can be used to obtain necessary
 /// information for ad requests, and to call back to the mediation SDK on ad request returns and
 /// user interactions.
-@protocol GADMAdNetworkConnector<GADMediationAdRequest>
+@protocol GADMAdNetworkConnector <GADMediationAdRequest>
 
 /// When you need to show a landing page or any other modal view, such as when a user clicks or when
 /// your Ads SDK needs to show an interstitial, use this method to obtain a UIViewController that
 /// you can use to show your modal view. Call the -presentViewController:animated:completion: method
-/// of the returned UIViewController .
+/// of the returned UIViewController.
 - (UIViewController *)viewControllerForPresentingModalView;
 
 /// Returns the preferred ad volume as a fraction of system volume (0.0 to 1.0).
@@ -40,11 +38,6 @@
 
 /// Tells the connector that the adapter received an interstitial.
 - (void)adapterDidReceiveInterstitial:(id<GADMAdNetworkAdapter>)adapter;
-
-/// Tells the connector that the adapter has received a mediated native ad. |mediatedNativeAd| is
-/// used by the Google Mobile Ads SDK to construct a native ad object.
-- (void)adapter:(id<GADMAdNetworkAdapter>)adapter
-    didReceiveMediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd;
 
 /// Tells the connector that the adapter has received a unified mediated native ad.
 /// mediatedUnifiedNativeAd is used by the Google Mobile Ads SDK to construct a unified native ad
