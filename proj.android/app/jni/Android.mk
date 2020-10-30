@@ -19,9 +19,7 @@ LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
 LOCAL_LDLIBS := -landroid \
 -llog
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
-LOCAL_WHOLE_STATIC_LIBRARIES := PluginSdkboxAds \
-sdkbox \
-PluginAdMob
+LOCAL_WHOLE_STATIC_LIBRARIES := sdkbox PluginAdMob
 
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END
@@ -38,7 +36,7 @@ $(call import-add-path, $(LOCAL_PATH)/../../../cocos2d)
 $(call import-add-path, $(LOCAL_PATH))
 $(call import-module, cocos)
 $(call import-module, ./sdkbox)
-$(call import-module, ./pluginsdkboxads)
+# $(call import-module, ./pluginsdkboxads)
 $(call import-module, ./PluginAdMob)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN
