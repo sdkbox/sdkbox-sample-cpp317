@@ -27,6 +27,13 @@ namespace sdkbox {
     public:
 
         /**
+         * Set GDPR
+         *
+         * **NOTE**: please call before 'init' function
+         */
+        static void setGDPR(bool enabled);
+
+        /**
          *  initialize the plugin instance.
          */
         static bool init();
@@ -123,10 +130,36 @@ namespace sdkbox {
          * Note: Make sure you also have the required location permission in your AndroidManifest.xml.
          */
         static void promptLocation();
+
+        /**
+         * For GDPR users, your application should call this method before initialization of the SDK.
+         * If you pass in true, your application will need to call provideConsent(true) before the
+         * OneSignal SDK gets fully initialized.
+         *
+         * @param enabled [description]
+         */
+        static void setRequiresUserPrivacyConsent(bool enabled);
+
+        /**
+         * If you set the SDK to require the user's privacy consent, your application can use this
+         * method once the user does or doesn't provide privacy consent to use the OneSignal SDK.
+         *
+         * @param enabled [description]
+         */
+        static void consentGranted(bool enabled);
+
+        /**
+         * You can use this property to check if the OneSignal SDK is waiting for the user to
+         * provide privacy consent.
+         *
+         * @return [description]
+         */
+        static bool requiresUserPrivacyConsent();
         };
 
     class OneSignalListener {
     public:
+        virtual void onPromptUserResponse(bool accepted) {}
         virtual void onSendTag(bool success, const std::string& key, const std::string& message) {}
         virtual void onGetTags(const std::string& jsonString) {}
         virtual void onIdsAvailable(const std::string& userId, const std::string& pushToken) {}

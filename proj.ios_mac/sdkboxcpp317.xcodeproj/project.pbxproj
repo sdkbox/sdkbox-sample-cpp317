@@ -50,6 +50,7 @@
 		53584B9BAFFF4A0D652A9344 /* sdkbox.framework */ = {isa = PBXBuildFile; fileRef = FA1249D8B2DBF34ADA5C8D3D /* sdkbox.framework */; };
 		6711412DAF0ADD3CC737185A /* sdkbox_config.json */ = {isa = PBXBuildFile; fileRef = E02E40828E0C4C2DFEDAC050 /* sdkbox_config.json */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
+		9008412191F21748BA0C4973 /* WebKit.framework */ = {isa = PBXBuildFile; fileRef = E16847CB8FF87A3DA6561CB5 /* WebKit.framework */; };
 		A3C34D89B7141C08A6A6C9F2 /* UserNotifications.framework */ = {isa = PBXBuildFile; fileRef = F2BF407AAB1D57AEE8F7687C /* UserNotifications.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -113,6 +114,7 @@
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		E02E40828E0C4C2DFEDAC050 /* sdkbox_config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = sdkbox_config.json; path = ../Resources/sdkbox_config.json; sourceTree = SOURCE_ROOT; };
+		E16847CB8FF87A3DA6561CB5 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = compiled.mach-o.dylib; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = compiled.mach-o.dylib; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		F2BF407AAB1D57AEE8F7687C /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UserNotifications.framework; sourceTree = DEVELOPER_DIR; };
@@ -145,6 +147,7 @@
 				27F54ACD8DBE0FC1559D836A /* MediaPlayer.framework */,
 				149E4E369FD386FA8701C097 /* GameController.framework */,
 				A3C34D89B7141C08A6A6C9F2 /* UserNotifications.framework */,
+				9008412191F21748BA0C4973 /* WebKit.framework */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +253,7 @@
 				AECF442B90E554F2BE42BBF8 /* MediaPlayer.framework */,
 				9822407F91D8E5726D6C14E3 /* GameController.framework */,
 				F2BF407AAB1D57AEE8F7687C /* UserNotifications.framework */,
+				E16847CB8FF87A3DA6561CB5 /* WebKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

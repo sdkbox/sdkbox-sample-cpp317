@@ -37,7 +37,7 @@ $(call import-add-path, $(LOCAL_PATH)/../../../cocos2d)
 $(call import-add-path,$(LOCAL_PATH))
 $(call import-module, cocos)
 $(call import-module, ./sdkbox)
-$(call import-module, ./pluginonesignal)
+$(call import-module, ./PluginOneSignal)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN
 # _COCOS_LIB_IMPORT_ANDROID_END
