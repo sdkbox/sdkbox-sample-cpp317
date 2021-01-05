@@ -194,6 +194,7 @@ void HelloWorld::createTestMenu() {
     sdkbox::PluginOneSignal::getTags();
     sdkbox::PluginOneSignal::idsAvailable();
     sdkbox::PluginOneSignal::enableInAppAlertNotification(false);
+    sdkbox::PluginOneSignal::setRequiresUserPrivacyConsent(false);
 
     sdkbox::PluginOneSignal::promptLocation();
 }
