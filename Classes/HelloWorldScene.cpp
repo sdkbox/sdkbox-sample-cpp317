@@ -98,7 +98,9 @@ public:
     }
 
     virtual void onFetchFriends(bool ok, const std::string& msg) {
-        
+        std::stringstream buf;
+        buf << "onFetchFriends:" << ok << ":" << msg;
+        showMsg(buf.str());
     }
 
     virtual void onRequestInvitableFriends( const sdkbox::FBInvitableFriendsInfo& friends ) {
@@ -206,6 +208,19 @@ void HelloWorld::createTestMenu() {
         buf.str("");
         buf << "FBSDK ver:" << sdkbox::PluginFacebook::getSDKVersion();
         showMsg(buf.str());
+    }));
+
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Firends", "arial", 24), [](Ref*){
+        std::stringstream buf;
+        for (auto& friendInfo : sdkbox::PluginFacebook::getFriends()) {
+            buf.str("");
+            buf << "Friend:" << friendInfo.getName();
+            showMsg(buf.str());
+        }
+
+        // just get your friends that are using the app.
+        // The number of friends defaults to 25.
+        sdkbox::PluginFacebook::fetchFriends();
     }));
 
     menu->alignItemsVerticallyWithPadding(10);
