@@ -1,12 +1,12 @@
 {
     "android": {
         "Review": {
-            "LaunchLimit": 3, 
-            "DayForReminding": 1, 
+            "LaunchLimit": 0,
+            "DayForReminding": 0,
             "tryPromptWhenInit": true, 
             "DayLimit": 0, 
-            "LaunchForReminding": 2, 
-            "UserEventLimit": 0
+            "LaunchForReminding": 0,
+            "UserEventLimit": 3
         }
     }, 
     "ios": {

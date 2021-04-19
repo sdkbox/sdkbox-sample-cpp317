@@ -136,13 +136,19 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::createTestMenu() {
     auto menu = Menu::create();
 
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Rate Directly", "arial", 24), [](Ref*){
-        sdkbox::PluginReview::rate();
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Try Show Rate Dialog", "arial", 24), [](Ref*){
+        sdkbox::PluginReview::show(false);
     }));
-    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Force Show", "arial", 24), [](Ref*){
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Force Show Rate Dialog", "arial", 24), [](Ref*){
         sdkbox::PluginReview::show(true);
     }));
-    
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Rate Directly Without Dialog", "arial", 24), [](Ref*){
+        sdkbox::PluginReview::rate();
+    }));
+    menu->addChild(MenuItemLabel::create(Label::createWithSystemFont("Inserse User Event", "arial", 24), [](Ref*){
+        sdkbox::PluginReview::userDidSignificantEvent(true);
+    }));
+
     menu->alignItemsVerticallyWithPadding(10);
     addChild(menu);
     
