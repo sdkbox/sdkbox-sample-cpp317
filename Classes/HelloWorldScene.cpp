@@ -36,6 +36,9 @@ USING_NS_CC;
 std::vector<std::string> msgbuf;
 static void showMsg(const std::string& msg) {
     //
+
+    CCLOG("%s", msg.c_str());
+
     Label *label = dynamic_cast<Label*>(Director::getInstance()->getNotificationNode());
     if (label == nullptr) {
         auto size = Director::getInstance()->getWinSize();
@@ -89,6 +92,9 @@ public:
 
     virtual void onAPI(const std::string& key, const std::string& jsonData) {
         
+        std::stringstream buf;
+        buf << "onAPI:" << key << ":" << jsonData;
+        showMsg(buf.str());
     }
 
     virtual void onPermission(bool isLogin, const std::string& msg) {

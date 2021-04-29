@@ -6,7 +6,7 @@
     }, 
     "ios": {
         "Facebook": {
-            "debug": true
+            "debug": false
         }
     }
 }
