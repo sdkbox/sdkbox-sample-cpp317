@@ -7,7 +7,7 @@ $(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/external)
 $(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos)
 $(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos/audio/include)
 
-LOCAL_MODULE := MyGame_shared
+LOCAL_MODULE := MyGame
 
 LOCAL_MODULE_FILENAME := libMyGame
 
@@ -37,7 +37,7 @@ $(call import-add-path, $(LOCAL_PATH)/../../../cocos2d)
 $(call import-add-path,$(LOCAL_PATH))
 $(call import-module, cocos)
 $(call import-module, ./sdkbox)
-$(call import-module, ./pluginfirebase)
+$(call import-module, ./PluginFirebase)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN
 # _COCOS_LIB_IMPORT_ANDROID_END
