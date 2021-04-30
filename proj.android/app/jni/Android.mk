@@ -19,7 +19,9 @@ LOCAL_CPPFLAGS := -DSDKBOX_ENABLED
 LOCAL_LDLIBS := -landroid \
 -llog
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
-LOCAL_WHOLE_STATIC_LIBRARIES := sdkbox PluginAdMob
+LOCAL_WHOLE_STATIC_LIBRARIES := sdkbox \
+PluginAdMob \
+PluginSdkboxAds
 
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END
@@ -38,6 +40,7 @@ $(call import-module, cocos)
 $(call import-module, ./sdkbox)
 # $(call import-module, ./pluginsdkboxads)
 $(call import-module, ./PluginAdMob)
+$(call import-module, ./PluginSdkboxAds)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN
 # _COCOS_LIB_IMPORT_ANDROID_END

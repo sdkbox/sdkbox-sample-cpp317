@@ -127,3 +127,4 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-ads:19.5.0'
 }
+dependencies { compile 'com.google.android.gms:play-services-base:16.1.0' }

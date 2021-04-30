@@ -67,7 +67,14 @@ namespace sdkbox {
     public:
 
         /**
-         * Initialize the plugin instance. 
+         * Set GDPR
+         *
+         * **NOTE**: please call before 'init' function
+         */
+        static void setGDPR(bool enabled);
+
+        /**
+         * Initialize the plugin instance.
          * The plugin initializes from the sdkbox_config.json file and reads configuration of the form:
          *
          *  <code>
@@ -106,7 +113,7 @@ namespace sdkbox {
          * like location, position, etc.
          *
          * Check each AdUnit's documentation to find specifics on its configuration.
-         */ 
+         */
         static void init();
 
         /**
@@ -119,7 +126,7 @@ namespace sdkbox {
 
         /**
          * Retrieve plugin's listener.
-         */ 
+         */
         static PluginSdkboxAdsListener * getListener();
 
         /**
@@ -127,7 +134,7 @@ namespace sdkbox {
          * AdUnits like Fyber which don't have zones, will use common placeholders like "INTERSTITIAL" or "REWARDED".
          * Some AdUnits may require extra information to play an Ad, and should use the params for that purpose.
          * You should refer to the documentation of each specific AdUnit about what parameters will accept.
-         * 
+         *
          * The ad will be played for a specific AdUnit based on its identifier. The identifiers are the
          * values in the "units" node of the sdkbox_config.json file.
          * For example: "AdColony" or "Fyber".
@@ -149,7 +156,7 @@ namespace sdkbox {
          * For example, AdColony will play the first video zone, or the first Reward if there's no one.
          */
         static void playAd();
-        
+
         /**
          * A placement is a collection of mediated AdUnits.
          * When you want to invoke a placement, just call this method.
@@ -189,8 +196,14 @@ namespace sdkbox {
          *      }
          *  </code>
          */
-        static void cacheControl( const std::string& ad_unit, const std::map<std::string, std::string>& cacheOpts );
-        
+         static void cacheControl( const std::string& ad_unit, const std::map<std::string, std::string>& cacheOpts );
+
+        /**
+         * Cache AdUnits' ad
+         * Example: sdkbox::PluginSdkboxAds::cache("AdMob", "reward")
+         */
+        static void cache(const std::string& ad_unit, const std::string& ad_name);
+
         /**
          * check if placement available
          */
