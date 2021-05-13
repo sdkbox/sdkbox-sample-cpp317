@@ -143,6 +143,22 @@ public:
                                                  const std::string& error) {};
     virtual void onUpdateStorePromotionOrder(const std::string& error) {};
     virtual void onUpdateStorePromotionVisibility(const std::string& error) {};
+
+    virtual void onConsumed(const sdkbox::Product& p, const std::string& error) {
+        std::stringstream buf;
+        buf << "IAP onConsumed:" << p.name;
+        if (error.empty()) {
+            buf << " Suc";
+        } else {
+            buf << " fal:" << error;
+        }
+        showMsg(buf.str());
+
+        if (!error.empty()) {
+            // consume failed, try again
+            sdkbox::IAP::finishTransaction(p.id);
+        }
+    };
 };
 
 
