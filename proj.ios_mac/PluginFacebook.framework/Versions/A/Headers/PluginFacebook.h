@@ -53,6 +53,7 @@ namespace sdkbox
         std::string title;
         std::string text;
         std::string image;
+        std::string tag;
     };
 
     class FBGraphUser
