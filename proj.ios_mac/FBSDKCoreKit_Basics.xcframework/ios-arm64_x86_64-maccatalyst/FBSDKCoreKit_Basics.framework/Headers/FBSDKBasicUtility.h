@@ -41,6 +41,7 @@ extern void fb_dispatch_on_default_thread(dispatch_block_t block);
 typedef id _Nullable (^FBSDKInvalidObjectHandler)(id object, BOOL *stop)
 NS_SWIFT_NAME(InvalidObjectHandler);
 
+NS_SWIFT_NAME(BasicUtility)
 @interface FBSDKBasicUtility : NSObject
 
 /**
@@ -84,8 +85,8 @@ setJSONStringForObject:(id)object
  @return Query string representation of the parameters.
  */
 + (nullable NSString *)queryStringWithDictionary:(NSDictionary<NSString *, id> *)dictionary
-                                  error:(NSError *__autoreleasing *)errorRef
-                   invalidObjectHandler:(nullable FBSDKInvalidObjectHandler)invalidObjectHandler;
+                                           error:(NSError *__autoreleasing *)errorRef
+                            invalidObjectHandler:(nullable FBSDKInvalidObjectHandler)invalidObjectHandler;
 
 /**
  Converts simple value types to the string equivalent for serializing to a request query or body.

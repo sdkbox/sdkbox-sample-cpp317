@@ -83,11 +83,11 @@ NS_SWIFT_NAME(encode(urlString:));
 
  @param input The data that needs to be hashed, it could be NSString or NSData.
  */
-+ (nullable NSString *)SHA256Hash:(nullable NSObject *)input
++ (nullable NSString *)SHA256Hash:(NSObject *)input
 NS_SWIFT_NAME(sha256Hash(_:));
 
 /**
- Returns the graphdomain stored in FBSDKAuthenticationToken or FBSDKAccessToken 
+ Returns the graphdomain stored in FBSDKAuthenticationToken
  */
 + (NSString *)getGraphDomainFromToken;
 
@@ -99,7 +99,7 @@ NS_SWIFT_NAME(sha256Hash(_:));
  */
 + (NSURL *)unversionedFacebookURLWithHostPrefix:(NSString *)hostPrefix
                                            path:(NSString *)path
-                                queryParameters:(NSDictionary *)queryParameters
+                                queryParameters:(NSDictionary<NSString *, id> *)queryParameters
                                           error:(NSError *__autoreleasing *)errorRef;
 
 @end

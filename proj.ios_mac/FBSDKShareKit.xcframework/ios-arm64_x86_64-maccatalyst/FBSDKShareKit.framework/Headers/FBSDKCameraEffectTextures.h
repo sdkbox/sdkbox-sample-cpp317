@@ -16,13 +16,11 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
 #if !TARGET_OS_TV
 
 #import <UIKit/UIKit.h>
 
-#import "FBSDKCoreKitImport.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  * A texture for a camera effect is an UIImages identified by a NSString key.
  */
 NS_SWIFT_NAME(CameraEffectTextures)
-@interface FBSDKCameraEffectTextures : NSObject <FBSDKCopying, NSSecureCoding>
+@interface FBSDKCameraEffectTextures : NSObject <NSCopying, NSObject, NSSecureCoding>
 
 /**
  Sets the image for a texture key.

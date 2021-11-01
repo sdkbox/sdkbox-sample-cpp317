@@ -19,9 +19,9 @@
 #import <Photos/Photos.h>
 #import <UIKit/UIKit.h>
 
-#import "FBSDKCoreKitImport.h"
-#import "FBSDKShareMediaContent.h"
-#import "FBSDKSharingValidation.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKShareKit/FBSDKShareMediaContent.h>
+#import <FBSDKShareKit/FBSDKSharingValidation.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @class FBSDKSharePhoto;
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
   A video for sharing.
  */
 NS_SWIFT_NAME(ShareVideo)
-@interface FBSDKShareVideo : NSObject <NSSecureCoding, FBSDKCopying, FBSDKShareMedia, FBSDKSharingValidation>
+@interface FBSDKShareVideo : NSObject <NSSecureCoding, NSCopying, NSObject, FBSDKShareMedia, FBSDKSharingValidation>
 
 /**
  Convenience method to build a new video object from raw data.

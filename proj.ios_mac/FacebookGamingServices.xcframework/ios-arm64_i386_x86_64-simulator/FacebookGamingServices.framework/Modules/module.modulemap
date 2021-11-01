@@ -1,0 +1,11 @@
+framework module FacebookGamingServices {
+  umbrella header "FacebookGamingServices.h"
+
+  export *
+  module * { export * }
+}
+
+module FacebookGamingServices.Swift {
+    header "FacebookGamingServices-Swift.h"
+    requires objc
+}

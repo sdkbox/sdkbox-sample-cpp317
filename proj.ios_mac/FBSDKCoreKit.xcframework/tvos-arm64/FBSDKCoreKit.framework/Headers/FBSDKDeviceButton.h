@@ -16,22 +16,21 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
 #if TARGET_OS_TV
 
-#import "FBSDKButton.h"
+#import <FBSDKCoreKit/FBSDKButton.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /*
-  An internal base class for device related flows.
+ An internal base class for device related flows.
 
  This is an internal API that should not be used directly and is subject to change.
  */
 NS_SWIFT_NAME(FBDeviceButton)
 @interface FBSDKDeviceButton : FBSDKButton
-
+- (CGSize)sizeThatFits:(CGSize)size attributedTitle:(NSAttributedString *)title;
+- (nullable NSAttributedString *)attributedTitleStringFromString:(NSString *)string;
 @end
 
 NS_ASSUME_NONNULL_END

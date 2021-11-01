@@ -22,200 +22,32 @@
 #import <WebKit/WebKit.h>
 #endif
 
-#ifdef BUCK
 #import <FBSDKCoreKit/FBSDKGraphRequest.h>
 #import <FBSDKCoreKit/FBSDKGraphRequestConnection.h>
 #import <FBSDKCoreKit/FBSDKAppEventParameterName.h>
 #import <FBSDKCoreKit/FBSDKAppEventName.h>
+#import <FBSDKCoreKit/FBSDKAppEventUserDataType.h>
 #import <FBSDKCoreKit/FBSDKAppEventsFlushBehavior.h>
-#else
-#import "FBSDKGraphRequest.h"
-#import "FBSDKGraphRequestConnection.h"
-#import "FBSDKAppEventParameterName.h"
-#import "FBSDKAppEventName.h"
-#import "FBSDKAppEventsFlushBehavior.h"
-#endif
+#import <FBSDKCoreKit/FBSDKProductAvailability.h>
+#import <FBSDKCoreKit/FBSDKProductCondition.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class FBSDKAccessToken;
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-
 /**  NSNotificationCenter name indicating a result of a failed log flush attempt. The posted object will be an NSError instance. */
 FOUNDATION_EXPORT NSNotificationName const FBSDKAppEventsLoggingResultNotification
 NS_SWIFT_NAME(AppEventsLoggingResult);
-
-#else
-
-/**  NSNotificationCenter name indicating a result of a failed log flush attempt. The posted object will be an NSError instance. */
-FOUNDATION_EXPORT NSString *const FBSDKAppEventsLoggingResultNotification
-NS_SWIFT_NAME(AppEventsLoggingResultNotification);
-
-#endif
 
 /**  optional plist key ("FacebookLoggingOverrideAppID") for setting `loggingOverrideAppID` */
 FOUNDATION_EXPORT NSString *const FBSDKAppEventsOverrideAppIDBundleKey
 NS_SWIFT_NAME(AppEventsOverrideAppIDBundleKey);
 
-/**
-  NS_ENUM(NSUInteger, FBSDKProductAvailability)
-    Specifies product availability for Product Catalog product item update
- */
-typedef NS_ENUM(NSUInteger, FBSDKProductAvailability)
-{
-  /**
-   * Item ships immediately
-   */
-  FBSDKProductAvailabilityInStock = 0,
-  /**
-   * No plan to restock
-   */
-  FBSDKProductAvailabilityOutOfStock,
-  /**
-   * Available in future
-   */
-  FBSDKProductAvailabilityPreOrder,
-  /**
-   * Ships in 1-2 weeks
-   */
-  FBSDKProductAvailabilityAvailableForOrder,
-  /**
-   * Discontinued
-   */
-  FBSDKProductAvailabilityDiscontinued,
-} NS_SWIFT_NAME(AppEvents.ProductAvailability);
+/** Parameter key used to specify event name. */
+FOUNDATION_EXPORT NSString *const FBSDKAppEventParameterEventName;
 
-/**
- NS_ENUM(NSUInteger, FBSDKProductCondition)
- Specifies product condition for Product Catalog product item update
- */
-typedef NS_ENUM(NSUInteger, FBSDKProductCondition)
-{
-  FBSDKProductConditionNew = 0,
-  FBSDKProductConditionRefurbished,
-  FBSDKProductConditionUsed,
-} NS_SWIFT_NAME(AppEvents.ProductCondition);
-
-/// typedef for FBSDKAppEventUserDataType
-typedef NSString *const FBSDKAppEventUserDataType NS_TYPED_EXTENSIBLE_ENUM;
-
-/** Parameter key used to specify user's email. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventEmail;
-
-/** Parameter key used to specify user's first name. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventFirstName;
-
-/** Parameter key used to specify user's last name. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventLastName;
-
-/** Parameter key used to specify user's phone. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventPhone;
-
-/** Parameter key used to specify user's date of birth. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventDateOfBirth;
-
-/** Parameter key used to specify user's gender. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventGender;
-
-/** Parameter key used to specify user's city. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventCity;
-
-/** Parameter key used to specify user's state. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventState;
-
-/** Parameter key used to specify user's zip. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventZip;
-
-/** Parameter key used to specify user's country. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventCountry;
-
-/** Parameter key used to specify user's external id. */
-FOUNDATION_EXPORT FBSDKAppEventUserDataType FBSDKAppEventExternalId;
-
-/**
- @methodgroup Predefined event name parameters for common additional information to accompany events logged through the `logProductItem` method on `FBSDKAppEvents`.
- */
-
-/// typedef for FBSDKAppEventParameterProduct
-typedef NSString *const FBSDKAppEventParameterProduct NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(AppEvents.ParameterProduct);
-
-/** Parameter key used to specify the product item's category. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductCategory;
-
-/** Parameter key used to specify the product item's custom label 0. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductCustomLabel0;
-
-/** Parameter key used to specify the product item's custom label 1. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductCustomLabel1;
-
-/** Parameter key used to specify the product item's custom label 2. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductCustomLabel2;
-
-/** Parameter key used to specify the product item's custom label 3. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductCustomLabel3;
-
-/** Parameter key used to specify the product item's custom label 4. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductCustomLabel4;
-
-/** Parameter key used to specify the product item's AppLink app URL for iOS. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkIOSUrl;
-
-/** Parameter key used to specify the product item's AppLink app ID for iOS App Store. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkIOSAppStoreID;
-
-/** Parameter key used to specify the product item's AppLink app name for iOS. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkIOSAppName;
-
-/** Parameter key used to specify the product item's AppLink app URL for iPhone. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkIPhoneUrl;
-
-/** Parameter key used to specify the product item's AppLink app ID for iPhone App Store. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkIPhoneAppStoreID;
-
-/** Parameter key used to specify the product item's AppLink app name for iPhone. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkIPhoneAppName;
-
-/** Parameter key used to specify the product item's AppLink app URL for iPad. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkIPadUrl;
-
-/** Parameter key used to specify the product item's AppLink app ID for iPad App Store. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkIPadAppStoreID;
-
-/** Parameter key used to specify the product item's AppLink app name for iPad. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkIPadAppName;
-
-/** Parameter key used to specify the product item's AppLink app URL for Android. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkAndroidUrl;
-
-/** Parameter key used to specify the product item's AppLink fully-qualified package name for intent generation. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkAndroidPackage;
-
-/** Parameter key used to specify the product item's AppLink app name for Android. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkAndroidAppName;
-
-/** Parameter key used to specify the product item's AppLink app URL for Windows Phone. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkWindowsPhoneUrl;
-
-/** Parameter key used to specify the product item's AppLink app ID, as a GUID, for App Store. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkWindowsPhoneAppID;
-
-/** Parameter key used to specify the product item's AppLink app name for Windows Phone. */
-FOUNDATION_EXPORT FBSDKAppEventParameterProduct FBSDKAppEventParameterProductAppLinkWindowsPhoneAppName;
-
-/*
- @methodgroup Predefined values to assign to event parameters that accompany events logged through the `logEvent` family
- of methods on `FBSDKAppEvents`.  Common event parameters are provided in the `FBSDKAppEventParameterName*` constants.
- */
-
-/// typedef for FBSDKAppEventParameterValue
-typedef NSString *const FBSDKAppEventParameterValue NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(AppEvents.ParameterValue);
-
-/** Yes-valued parameter value to be used with parameter keys that need a Yes/No value */
-FOUNDATION_EXPORT FBSDKAppEventParameterValue FBSDKAppEventParameterValueYes;
-
-/** No-valued parameter value to be used with parameter keys that need a Yes/No value */
-FOUNDATION_EXPORT FBSDKAppEventParameterValue FBSDKAppEventParameterValueNo;
+/** Parameter key used to specify event log time. */
+FOUNDATION_EXPORT NSString *const FBSDKAppEventParameterLogTime;
 
 /** Parameter key used to specify the type of ad in an FBSDKAppEventNameAdImpression
  * or FBSDKAppEventNameAdClick event.
@@ -283,12 +115,9 @@ NS_SWIFT_NAME(AppEvents)
 + (instancetype)new NS_UNAVAILABLE;
 
 /**
- Internal Type exposed to facilitate transition to Swift.
- API Subject to change or removal without warning. Do not use.
-
- @warning UNSAFE - DO NOT USE
+ The shared instance of AppEvents.
  */
-@property (class, nonatomic, readonly, strong) FBSDKAppEvents *singleton;
+@property (class, nonatomic, readonly, strong) FBSDKAppEvents *shared;
 
 /*
  * Control over event batching/flushing
@@ -308,7 +137,7 @@ NS_SWIFT_NAME(AppEvents)
  In some cases, apps want to use one Facebook App ID for login and social presence and another
  for App Event logging.  (An example is if multiple apps from the same company share an app ID for login, but
  want distinct logging.)  By default, this value is `nil`, and defers to the `FBSDKAppEventsOverrideAppIDBundleKey`
- plist value.  If that's not set, it defaults to `[FBSDKSettings appID]`.
+ plist value.  If that's not set, it defaults to `FBSDKSettings.sharedSettings.appID`.
 
  This should be set before any other calls are made to `FBSDKAppEvents`.  Thus, you should set it in your application
  delegate's `application:didFinishLaunchingWithOptions:` delegate.
@@ -369,7 +198,7 @@ NS_SWIFT_NAME(AppEvents)
  are provided in `FBSDKAppEventParameterName*` constants.
  */
 + (void)logEvent:(FBSDKAppEventName)eventName
-      parameters:(NSDictionary<FBSDKAppEventParameterName, id> *)parameters;
+      parameters:(nullable NSDictionary<FBSDKAppEventParameterName, id> *)parameters;
 
 /**
 
@@ -390,7 +219,7 @@ NS_SWIFT_NAME(AppEvents)
  */
 + (void)logEvent:(FBSDKAppEventName)eventName
       valueToSum:(double)valueToSum
-      parameters:(NSDictionary<FBSDKAppEventParameterName, id> *)parameters;
+      parameters:(nullable NSDictionary<FBSDKAppEventParameterName, id> *)parameters;
 
 
 /**
@@ -415,7 +244,7 @@ NS_SWIFT_NAME(AppEvents)
  */
 + (void)logEvent:(FBSDKAppEventName)eventName
       valueToSum:(nullable NSNumber *)valueToSum
-      parameters:(NSDictionary<FBSDKAppEventParameterName, id> *)parameters
+      parameters:(nullable NSDictionary<FBSDKAppEventParameterName, id> *)parameters
      accessToken:(nullable FBSDKAccessToken *)accessToken;
 
 /*
@@ -463,7 +292,7 @@ NS_SWIFT_NAME(AppEvents)
  */
 + (void)logPurchase:(double)purchaseAmount
            currency:(NSString *)currency
-         parameters:(NSDictionary<NSString *, id> *)parameters;
+         parameters:(nullable NSDictionary<NSString *, id> *)parameters;
 
 /**
 
@@ -490,7 +319,7 @@ NS_SWIFT_NAME(AppEvents)
  */
 + (void)logPurchase:(double)purchaseAmount
            currency:(NSString *)currency
-         parameters:(NSDictionary<NSString *, id> *)parameters
+         parameters:(nullable NSDictionary<NSString *, id> *)parameters
         accessToken:(nullable FBSDKAccessToken *)accessToken;
 
 
@@ -503,7 +332,7 @@ NS_SWIFT_NAME(AppEvents)
 
  @param payload Notification payload received via `UIApplicationDelegate`.
  */
-+ (void)logPushNotificationOpen:(NSDictionary *)payload;
++ (void)logPushNotificationOpen:(NSDictionary<NSString *, id> *)payload;
 
 /**
   Log an app event that tracks that a custom action was taken from a push notification.
@@ -511,7 +340,7 @@ NS_SWIFT_NAME(AppEvents)
  @param payload Notification payload received via `UIApplicationDelegate`.
  @param action  Name of the action that was taken.
  */
-+ (void)logPushNotificationOpen:(NSDictionary *)payload action:(NSString *)action;
++ (void)logPushNotificationOpen:(NSDictionary<NSString *, id> *)payload action:(NSString *)action;
 
 /**
   Uploads product catalog product item as an app event
@@ -552,9 +381,6 @@ NS_SWIFT_NAME(AppEvents)
                    mpn:(nullable NSString *)mpn
                  brand:(nullable NSString *)brand
             parameters:(nullable NSDictionary<NSString *, id> *)parameters;
-
-+ (void)activateApp
-DEPRECATED_MSG_ATTRIBUTE("The class method `activateApp` is deprecated. It is replaced by an instance method of the same name.");
 
 /**
 
@@ -633,12 +459,12 @@ NS_SWIFT_NAME(setPushNotificationsDeviceToken(_:));
  */
 + (nullable FBSDKGraphRequest *)requestForCustomAudienceThirdPartyIDWithAccessToken:(nullable FBSDKAccessToken *)accessToken;
 
-/*
+/**
  Clears the custom user ID to associate with all app events.
  */
 + (void)clearUserID;
 
-/*
+/**
   Sets custom user data to associate with all app events. All user data are hashed
   and used to match Facebook user from this instance of an application.
 
@@ -665,19 +491,61 @@ NS_SWIFT_NAME(setPushNotificationsDeviceToken(_:));
                state:(nullable NSString *)state
                  zip:(nullable NSString *)zip
              country:(nullable NSString *)country
+NS_SWIFT_NAME(setUser(email:firstName:lastName:phone:dateOfBirth:gender:city:state:zip:country:))
+DEPRECATED_MSG_ATTRIBUTE("Class methods for setting user information are deprecated and will be removed in the next major release. Please use the instance method versions instead.");
+
+/**
+  Sets custom user data to associate with all app events. All user data are hashed
+  and used to match Facebook user from this instance of an application.
+
+  The user data will be persisted between application instances.
+
+ @param email user's email
+ @param firstName user's first name
+ @param lastName user's last name
+ @param phone user's phone
+ @param dateOfBirth user's date of birth
+ @param gender user's gender
+ @param city user's city
+ @param state user's state
+ @param zip user's zip
+ @param country user's country
+ */
+- (void)setUserEmail:(nullable NSString *)email
+           firstName:(nullable NSString *)firstName
+            lastName:(nullable NSString *)lastName
+               phone:(nullable NSString *)phone
+         dateOfBirth:(nullable NSString *)dateOfBirth
+              gender:(nullable NSString *)gender
+                city:(nullable NSString *)city
+               state:(nullable NSString *)state
+                 zip:(nullable NSString *)zip
+             country:(nullable NSString *)country
 NS_SWIFT_NAME(setUser(email:firstName:lastName:phone:dateOfBirth:gender:city:state:zip:country:));
 
-/*
+/**
   Returns the set user data else nil
 */
-+ (nullable NSString *)getUserData;
++ (nullable NSString *)getUserData
+DEPRECATED_MSG_ATTRIBUTE("Class methods for getting user information are deprecated and will be removed in the next major release. Please use the instance method versions instead.");
 
-/*
+/**
+  Returns the set user data else nil
+*/
+- (nullable NSString *)getUserData;
+
+/**
   Clears the current user data
 */
-+ (void)clearUserData;
++ (void)clearUserData
+DEPRECATED_MSG_ATTRIBUTE("Class methods for setting user information are deprecated and will be removed in the next major release. Please use the instance method versions instead.");
 
-/*
+/**
+  Clears the current user data
+*/
+- (void)clearUserData;
+
+/**
  Sets custom user data to associate with all app events. All user data are hashed
  and used to match Facebook user from this instance of an application.
 
@@ -687,15 +555,34 @@ NS_SWIFT_NAME(setUser(email:firstName:lastName:phone:dateOfBirth:gender:city:sta
  @param type  data type, e.g. FBSDKAppEventEmail, FBSDKAppEventPhone
  */
 + (void)setUserData:(nullable NSString *)data
+            forType:(FBSDKAppEventUserDataType)type
+DEPRECATED_MSG_ATTRIBUTE("Class methods for setting user information are deprecated and will be removed in the next major release. Please use the instance method versions instead.");
+
+/**
+ Sets custom user data to associate with all app events. All user data are hashed
+ and used to match Facebook user from this instance of an application.
+
+ The user data will be persisted between application instances.
+
+ @param data  data
+ @param type  data type, e.g. FBSDKAppEventEmail, FBSDKAppEventPhone
+ */
+- (void)setUserData:(nullable NSString *)data
             forType:(FBSDKAppEventUserDataType)type;
 
-/*
+/**
  Clears the current user data of certain type
  */
-+ (void)clearUserDataForType:(FBSDKAppEventUserDataType)type;
++ (void)clearUserDataForType:(FBSDKAppEventUserDataType)type
+DEPRECATED_MSG_ATTRIBUTE("Class methods for setting user information are deprecated and will be removed in the next major release. Please use the instance method versions instead.");
+
+/**
+ Clears the current user data of certain type
+ */
+- (void)clearUserDataForType:(FBSDKAppEventUserDataType)type;
 
 #if !TARGET_OS_TV
-/*
+/**
   Intended to be used as part of a hybrid webapp.
  If you call this method, the FB SDK will inject a new JavaScript object into your webview.
  If the FB Pixel is used within the webview, and references the app ID of this app,
@@ -720,7 +607,7 @@ NS_SWIFT_NAME(setUser(email:firstName:lastName:phone:dateOfBirth:gender:city:sta
  */
 + (void)setIsUnityInit:(BOOL)isUnityInit;
 
-/*
+/**
  Send event binding to Unity
  */
 + (void)sendEventBindingsToUnity;
@@ -737,7 +624,7 @@ NS_SWIFT_NAME(setUser(email:firstName:lastName:phone:dateOfBirth:gender:city:sta
  @warning UNSAFE - DO NOT USE
  */
 + (void)logInternalEvent:(FBSDKAppEventName)eventName
-              parameters:(NSDictionary *)parameters
+              parameters:(nullable NSDictionary<NSString *, id> *)parameters
       isImplicitlyLogged:(BOOL)isImplicitlyLogged;
 
 /**
@@ -747,7 +634,7 @@ NS_SWIFT_NAME(setUser(email:firstName:lastName:phone:dateOfBirth:gender:city:sta
  @warning UNSAFE - DO NOT USE
  */
 + (void)logInternalEvent:(FBSDKAppEventName)eventName
-              parameters:(NSDictionary *)parameters
+              parameters:(nullable NSDictionary<NSString *, id> *)parameters
       isImplicitlyLogged:(BOOL)isImplicitlyLogged
              accessToken:(FBSDKAccessToken *)accessToken;
 

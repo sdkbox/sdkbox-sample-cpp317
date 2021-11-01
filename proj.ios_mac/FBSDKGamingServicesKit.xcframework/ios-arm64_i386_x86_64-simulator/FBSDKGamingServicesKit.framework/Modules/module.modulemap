@@ -1,6 +1,11 @@
 framework module FBSDKGamingServicesKit {
-    umbrella header "FBSDKGamingServicesKit.h"
+  umbrella header "FBSDKGamingServicesKit.h"
 
-    export *
-    module * { export * }
+  export *
+  module * { export * }
+}
+
+module FBSDKGamingServicesKit.Swift {
+    header "FBSDKGamingServicesKit-Swift.h"
+    requires objc
 }

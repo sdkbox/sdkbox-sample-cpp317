@@ -36,8 +36,10 @@ namespace sdkbox
     };
 
     static const int FBSDKLoginBehaviorNative = 0;
+    static const int FBSDKLoginBehaviorNativeWithFallback = 0;
     static const int FBSDKLoginBehaviorBrowser = 1;
     static const int FBSDKLoginBehaviorSystemAccount = 2;
+    static const int FBSDKLoginBehaviorNativeOnly = 4;
 
     typedef std::map<std::string, std::string> FBAPIParam;
 

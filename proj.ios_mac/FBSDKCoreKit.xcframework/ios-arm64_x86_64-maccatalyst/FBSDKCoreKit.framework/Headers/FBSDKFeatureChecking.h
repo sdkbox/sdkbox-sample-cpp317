@@ -16,7 +16,9 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "FBSDKFeature.h"
+#import <FBSDKCoreKit/FBSDKFeature.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  Internal Type exposed to facilitate transition to Swift.
@@ -33,3 +35,5 @@ NS_SWIFT_NAME(FeatureChecking)
      completionBlock:(FBSDKFeatureManagerBlock)completionBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

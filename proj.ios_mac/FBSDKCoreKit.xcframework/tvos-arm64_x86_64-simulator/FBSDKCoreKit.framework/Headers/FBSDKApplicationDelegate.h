@@ -18,7 +18,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "FBSDKApplicationObserving.h"
+#import <FBSDKCoreKit/FBSDKApplicationObserving.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -65,7 +65,6 @@ NS_SWIFT_NAME(shared);
   sourceApplication:(nullable NSString *)sourceApplication
          annotation:(nullable id)annotation;
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_9_0
 /**
   Call this method from the [UIApplicationDelegate application:openURL:options:] method
  of the AppDelegate for your app. It should be invoked for the proper processing of responses during interaction
@@ -82,7 +81,6 @@ NS_SWIFT_NAME(shared);
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options;
-#endif
 
 /**
   Call this method from the [UIApplicationDelegate application:didFinishLaunchingWithOptions:] method
@@ -98,6 +96,17 @@ controlled via 'FacebookAutoLogAppEventsEnabled' key in the project info plist f
  */
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(nullable NSDictionary<UIApplicationLaunchOptionsKey, id> *)launchOptions;
+
+/**
+ Initializes the SDK.
+
+ If you are using the SDK within the context of the UIApplication lifecycle, do not use this method.
+ Instead use `application: didFinishLaunchingWithOptions:`.
+
+ As part of SDK initialization basic auto logging of app events will occur, this can be
+ controlled via 'FacebookAutoLogAppEventsEnabled' key in the project info plist file.
+ */
+- (void)initializeSDK;
 
 /**
   Adds an observer that will be informed about application lifecycle events.

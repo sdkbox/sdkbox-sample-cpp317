@@ -16,14 +16,14 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
 #if !TARGET_OS_TV
 
 #import <Foundation/Foundation.h>
 
-#import "FBSDKAppLink.h"
-#import "FBSDKAppLinkResolving.h"
+#import <FBSDKCoreKit/FBSDKAppLink.h>
+#import <FBSDKCoreKit/FBSDKAppLinkResolving.h>
+
+@protocol FBSDKSettings;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -95,10 +95,18 @@ NS_SWIFT_NAME(default);
 + (instancetype)navigationWithAppLink:(FBSDKAppLink *)appLink
                                extras:(NSDictionary<NSString *, id> *)extras
                           appLinkData:(NSDictionary<NSString *, id> *)appLinkData
-NS_SWIFT_NAME(init(appLink:extras:appLinkData:));
+NS_SWIFT_NAME(init(appLink:extras:appLinkData:))
+DEPRECATED_MSG_ATTRIBUTE("`init(appLink:extras:appLinkData:)` is deprecated and will be removed in the next major release, please use `init(appLink:extras:appLinkData:settings:)` instead");
+
+/** Creates an AppLinkNavigation with the given link, extras, and App Link data */
++ (instancetype)navigationWithAppLink:(FBSDKAppLink *)appLink
+                               extras:(NSDictionary<NSString *, id> *)extras
+                          appLinkData:(NSDictionary<NSString *, id> *)appLinkData
+                             settings:(id<FBSDKSettings>)settings
+NS_SWIFT_NAME(init(appLink:extras:appLinkData:settings:));
 
 /**
- Creates an NSDictionary with the correct format for iOS callback URLs,
+ Creates an NSDictionary<NSString *, id> with the correct format for iOS callback URLs,
  to be used as 'appLinkData' argument in the call to navigationWithAppLink:extras:appLinkData:
  */
 + (NSDictionary<NSString *, NSDictionary<NSString *, NSString *> *> *)callbackAppLinkDataForAppWithName:(NSString *)appName

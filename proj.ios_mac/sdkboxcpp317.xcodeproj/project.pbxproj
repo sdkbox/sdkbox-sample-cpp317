@@ -54,6 +54,8 @@
 		87E1461DA83D873DB834E48D /* sdkbox_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CB648B4AE56806A15C118AD /* sdkbox_config.json */; };
 		8D124152A30FEFA64044AF1D /* FBSDKLoginKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A02445B9B8FB3FD821717C5 /* FBSDKLoginKit.xcframework */; };
 		967C4FCE8BEFA7C5D01F47BA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D194CF7BD574089F97E6A36 /* SystemConfiguration.framework */; };
+		9A480427272FD9660091E0BC /* FBAEMKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A480426272FD9660091E0BC /* FBAEMKit.xcframework */; };
+		9A48042B272FD9700091E0BC /* FacebookGamingServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A48042A272FD9700091E0BC /* FacebookGamingServices.xcframework */; };
 		A298418BA54079ED545402AB /* FBSDKCoreKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B858406B949E8802195A706C /* FBSDKCoreKit.xcframework */; };
 		A5D942E1B40CD63BE3C4B655 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096B4FB4BF18C2E1BA950D47 /* AdSupport.framework */; };
 		AC2D4CC4B9AD00E0032B6884 /* PluginFacebook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA184A3DAA2A6BC37F063694 /* PluginFacebook.framework */; };
@@ -152,6 +154,8 @@
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		83224F12AB26E7035E6D57F6 /* FBSDKGamingServicesKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = FBSDKGamingServicesKit.xcframework; sourceTree = "<group>"; };
 		9A02445B9B8FB3FD821717C5 /* FBSDKLoginKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = FBSDKLoginKit.xcframework; sourceTree = "<group>"; };
+		9A480426272FD9660091E0BC /* FBAEMKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = FBAEMKit.xcframework; sourceTree = "<group>"; };
+		9A48042A272FD9700091E0BC /* FacebookGamingServices.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = FacebookGamingServices.xcframework; sourceTree = "<group>"; };
 		B858406B949E8802195A706C /* FBSDKCoreKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = FBSDKCoreKit.xcframework; sourceTree = "<group>"; };
 		BB514761833F31E94A308EBB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -176,6 +180,7 @@
 			files = (
 				294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */,
 				ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */,
+				9A480427272FD9660091E0BC /* FBAEMKit.xcframework in Frameworks */,
 				52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */,
 				1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */,
 				D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */,
@@ -201,6 +206,7 @@
 				54C841EEA8E215A66457BD6E /* FBSDKGamingServicesKit.xcframework in Frameworks */,
 				8D124152A30FEFA64044AF1D /* FBSDKLoginKit.xcframework in Frameworks */,
 				175B4E0AA97DB5F0C6B29168 /* FBSDKShareKit.xcframework in Frameworks */,
+				9A48042B272FD9700091E0BC /* FacebookGamingServices.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +318,8 @@
 				83224F12AB26E7035E6D57F6 /* FBSDKGamingServicesKit.xcframework */,
 				9A02445B9B8FB3FD821717C5 /* FBSDKLoginKit.xcframework */,
 				F0274CD393FC0B158ED76104 /* FBSDKShareKit.xcframework */,
+				9A480426272FD9660091E0BC /* FBAEMKit.xcframework */,
+				9A48042A272FD9700091E0BC /* FacebookGamingServices.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -537,11 +545,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3KEUDUHY3A;
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -579,7 +589,6 @@
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7";
 				USER_HEADER_SEARCH_PATHS = (
 					"$(_COCOS_HEADER_IOS_BEGIN)",
 					"$(_COCOS_HEADER_IOS_END)",
@@ -592,11 +601,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3KEUDUHY3A;
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -633,7 +644,6 @@
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7";
 				USER_HEADER_SEARCH_PATHS = (
 					"$(_COCOS_HEADER_IOS_BEGIN)",
 					"$(_COCOS_HEADER_IOS_END)",

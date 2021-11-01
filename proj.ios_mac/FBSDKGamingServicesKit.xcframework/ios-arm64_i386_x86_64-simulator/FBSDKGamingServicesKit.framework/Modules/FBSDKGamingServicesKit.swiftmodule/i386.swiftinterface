@@ -1,0 +1,40 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
+// swift-module-flags: -target i386-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name FBSDKGamingServicesKit
+import FBSDKCoreKit
+@_exported import FBSDKGamingServicesKit
+@_exported import FacebookGamingServices
+import Swift
+@objc @_inheritsConvenienceInitializers @objcMembers open class FBSDKContextDialogPresenter : ObjectiveC.NSObject {
+  @objc public class func createContextDialog(withContent content: FacebookGamingServices.CreateContextContent, delegate: FacebookGamingServices.ContextDialogDelegate?) -> FacebookGamingServices.CreateContextDialog?
+  @objc public class func showCreateContextDialog(withContent content: FacebookGamingServices.CreateContextContent, delegate: FacebookGamingServices.ContextDialogDelegate) -> Foundation.NSError?
+  @objc public class func switchContextDialog(withContent content: FacebookGamingServices.SwitchContextContent, delegate: FacebookGamingServices.ContextDialogDelegate?) -> FacebookGamingServices.SwitchContextDialog?
+  @objc public class func showSwitchContextDialog(withContent content: FacebookGamingServices.SwitchContextContent, delegate: FacebookGamingServices.ContextDialogDelegate?) -> Foundation.NSError?
+  @objc @discardableResult
+  public class func showChooseContextDialog(withContent content: FacebookGamingServices.ChooseContextContent, delegate: FacebookGamingServices.ContextDialogDelegate) -> FacebookGamingServices.ChooseContextDialog
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers open class FBSDKSwitchContextDialog : ObjectiveC.NSObject, FBSDKCoreKit.WebDialogDelegate, FacebookGamingServices.DialogProtocol, FacebookGamingServices.Showable {
+  @objc public static func dialog(withContent content: FacebookGamingServices.SwitchContextContent, windowFinder: FBSDKCoreKit.WindowFinding, delegate: FacebookGamingServices.ContextDialogDelegate) -> FBSDKGamingServicesKit.FBSDKSwitchContextDialog
+  @objc public func webDialog(_ webDialog: FBSDKCoreKit.WebDialog, didCompleteWithResults results: [Swift.String : Any])
+  @objc public func webDialog(_ webDialog: FBSDKCoreKit.WebDialog, didFailWithError error: Swift.Error)
+  @objc public func webDialogDidCancel(_ webDialog: FBSDKCoreKit.WebDialog)
+  @objc public var delegate: FacebookGamingServices.ContextDialogDelegate? {
+    @objc get
+    @objc set
+  }
+  @objc public var dialogContent: FacebookGamingServices.ValidatableProtocol? {
+    @objc get
+    @objc set
+  }
+  @objc public func show() -> Swift.Bool
+  @objc public func validate() throws
+  @objc public var currentWebDialog: FBSDKCoreKit.WebDialog? {
+    @objc get
+    @objc set
+  }
+  @objc public func createWebDialogFrame(width: CoreGraphics.CGFloat, height: CoreGraphics.CGFloat, windowFinder: FBSDKCoreKit.WindowFinding) -> CoreGraphics.CGRect
+  @objc override dynamic public init()
+  @objc deinit
+}

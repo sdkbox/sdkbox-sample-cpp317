@@ -4,53 +4,49 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/FBSDKCoreKitImport.h</key>
-		<data>
-		Dx4bs8Anww/HXD9p6ktaXolY7u4=
-		</data>
 		<key>Headers/FBSDKHashtag.h</key>
 		<data>
-		qhKDFbyKJz3I8TGs2IXgv7CBWOQ=
+		0FQ+v+8gcev0TO7IgcpKhWfgFWk=
 		</data>
 		<key>Headers/FBSDKShareConstants.h</key>
 		<data>
-		uPtE5sP8/2niyU0qTesP6E5P0ak=
+		FW2GOwwEyS1E4j3yT8QuEsO5fx8=
 		</data>
 		<key>Headers/FBSDKShareKit.h</key>
 		<data>
-		ZwDHO6bTQtuBih77AqgR63olyJM=
+		P2k2SG4uhu6chfRjof99mJMxIrg=
 		</data>
 		<key>Headers/FBSDKShareLinkContent.h</key>
 		<data>
-		4FVaITTX/gpxEuERTILEPq4NyTI=
+		o6bL7SnGTHjSZL1reX6lXgt9Pfs=
 		</data>
 		<key>Headers/FBSDKShareMediaContent.h</key>
 		<data>
-		BqLhyRgE67/jSG7n7AbtGBIPlAc=
+		WMff+Kw3Dm/UJaYX5Mu9BNJ/iHg=
 		</data>
 		<key>Headers/FBSDKSharePhoto.h</key>
 		<data>
-		yLm6Hx5M12kc3tIHinVmtJdKMsk=
+		2tpJVCtpC2hl2ikTFeOEDdUbtGM=
 		</data>
 		<key>Headers/FBSDKSharePhotoContent.h</key>
 		<data>
-		ne5vHn1yW9idzqhoUSef+ot34/w=
+		RvkBed2ARLk+TG2l0PD4FvXBSIU=
 		</data>
 		<key>Headers/FBSDKShareVideo.h</key>
 		<data>
-		Ey2vwY3xXXRHcxEqCgiLPBcigjs=
+		NSi7/68xuOA3l31PX/tP5tmxsGo=
 		</data>
 		<key>Headers/FBSDKShareVideoContent.h</key>
 		<data>
-		ThDL5JOayVep/v1ZNPHfYbvSO4k=
+		2OKX5xntsXo0HGdIeCQgWzxofww=
 		</data>
 		<key>Headers/FBSDKSharing.h</key>
 		<data>
-		CHsAmlyqQAcG71/77aiJcK2xL7A=
+		wjHibT6rOGEjliDPwdRGgjsU5xo=
 		</data>
 		<key>Headers/FBSDKSharingContent.h</key>
 		<data>
-		309jo8at/bwgqTabEZLhbdpgc0E=
+		GJ/94+xnDSUDQI54OPvuxgqFklE=
 		</data>
 		<key>Headers/FBSDKSharingValidation.h</key>
 		<data>
@@ -58,7 +54,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		KJITby77ZpEaeNDivd9nhUjpfPc=
+		snurAbPMw054AcVBZ9Cz+OSVK+Q=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -67,136 +63,125 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/FBSDKCoreKitImport.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Dx4bs8Anww/HXD9p6ktaXolY7u4=
-			</data>
-			<key>hash2</key>
-			<data>
-			RuJd1u3mkF+HMoNchRVDYdiasvM02uXpuyXb7IGreS0=
-			</data>
-		</dict>
 		<key>Headers/FBSDKHashtag.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			qhKDFbyKJz3I8TGs2IXgv7CBWOQ=
+			0FQ+v+8gcev0TO7IgcpKhWfgFWk=
 			</data>
 			<key>hash2</key>
 			<data>
-			1k4+n69BStpEyD/RVo9oTnh32x6FniBrDFbFF+ggxIg=
+			SutB1usf0spf7nS8EaupxwOLWeOyxndeFagOU/L1+dw=
 			</data>
 		</dict>
 		<key>Headers/FBSDKShareConstants.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			uPtE5sP8/2niyU0qTesP6E5P0ak=
+			FW2GOwwEyS1E4j3yT8QuEsO5fx8=
 			</data>
 			<key>hash2</key>
 			<data>
-			elZrG+shzDDQSIa0RELQX/BE5jHIVaOxAm2ojocZUuY=
+			fRPn4GbJJR1sBsdsCHkb9h/e1kbPdNqlBTujGNUdWmw=
 			</data>
 		</dict>
 		<key>Headers/FBSDKShareKit.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ZwDHO6bTQtuBih77AqgR63olyJM=
+			P2k2SG4uhu6chfRjof99mJMxIrg=
 			</data>
 			<key>hash2</key>
 			<data>
-			Dktqg0hKQulHWvnsyb5E/iu+pRkiFAj9dutyUeMiXGU=
+			rudRIClAe1iakRDG4Rwo6phz3tsjwV6d94HVLBfCenI=
 			</data>
 		</dict>
 		<key>Headers/FBSDKShareLinkContent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			4FVaITTX/gpxEuERTILEPq4NyTI=
+			o6bL7SnGTHjSZL1reX6lXgt9Pfs=
 			</data>
 			<key>hash2</key>
 			<data>
-			izEW6Hb2K5FLLTHEZooGkZVsBkI/5e6evostNRsrzZY=
+			hlKzwKufpBMzUclbZiVrIoOnDSsP+bLnh6uNbfN4STo=
 			</data>
 		</dict>
 		<key>Headers/FBSDKShareMediaContent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			BqLhyRgE67/jSG7n7AbtGBIPlAc=
+			WMff+Kw3Dm/UJaYX5Mu9BNJ/iHg=
 			</data>
 			<key>hash2</key>
 			<data>
-			MPcEIJfUccuFHcujWRWYQH1SHLjXSAxit9fC8XHaf3A=
+			AT8Q9Z/h4llXXVa0Wl12O99nYhDeJmdUdf5P18eJtCQ=
 			</data>
 		</dict>
 		<key>Headers/FBSDKSharePhoto.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			yLm6Hx5M12kc3tIHinVmtJdKMsk=
+			2tpJVCtpC2hl2ikTFeOEDdUbtGM=
 			</data>
 			<key>hash2</key>
 			<data>
-			hNOe9aexW70IWgctbz82WZQ/cAOFhGMkoglGC5cgRBI=
+			+ChIG5cKZl/sEKGhskrQr7IUC3MA522Qo/WzBXDUWvM=
 			</data>
 		</dict>
 		<key>Headers/FBSDKSharePhotoContent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ne5vHn1yW9idzqhoUSef+ot34/w=
+			RvkBed2ARLk+TG2l0PD4FvXBSIU=
 			</data>
 			<key>hash2</key>
 			<data>
-			i99hk65QQXdaRIXksUTqxgKTRuuA7Kl5fw1ZO7nWjzk=
+			QSONIeo5uiflEwGYUv9blTSdO4nijHBEWGCKh6lj1gI=
 			</data>
 		</dict>
 		<key>Headers/FBSDKShareVideo.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Ey2vwY3xXXRHcxEqCgiLPBcigjs=
+			NSi7/68xuOA3l31PX/tP5tmxsGo=
 			</data>
 			<key>hash2</key>
 			<data>
-			NO8Ifi8jTLblw/fo8lp21UjrGazYJntUNzJbqG0M+Lg=
+			aaQ6w0R8m0F+MeiTi+daGIKUQJdBBycfEONRcX+6wtw=
 			</data>
 		</dict>
 		<key>Headers/FBSDKShareVideoContent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ThDL5JOayVep/v1ZNPHfYbvSO4k=
+			2OKX5xntsXo0HGdIeCQgWzxofww=
 			</data>
 			<key>hash2</key>
 			<data>
-			1m2um5UUwRSt9cruSGvRTmSM0shQrd0C6XcFMxQxotw=
+			UnNhu6fi4PubX5NKycVw36CAACEH0PQdxQbu298xoFU=
 			</data>
 		</dict>
 		<key>Headers/FBSDKSharing.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			CHsAmlyqQAcG71/77aiJcK2xL7A=
+			wjHibT6rOGEjliDPwdRGgjsU5xo=
 			</data>
 			<key>hash2</key>
 			<data>
-			B1me9CjHUalyQbGTNHRycr90tKW5olHRNsXaVgMzM4w=
+			NNJQP/huQtJMnM7iMfCmbkeLnVX4wHNoRd7DkF4WvQ4=
 			</data>
 		</dict>
 		<key>Headers/FBSDKSharingContent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			309jo8at/bwgqTabEZLhbdpgc0E=
+			GJ/94+xnDSUDQI54OPvuxgqFklE=
 			</data>
 			<key>hash2</key>
 			<data>
-			uLC887bcsTNQ6JmYS4YWhyKka0FhU0g7FjrU6gRK0Zk=
+			rBsDvJEqObZfN7B/pJzHBkiTIcoMtyZOHF/lcAJbcWE=
 			</data>
 		</dict>
 		<key>Headers/FBSDKSharingValidation.h</key>

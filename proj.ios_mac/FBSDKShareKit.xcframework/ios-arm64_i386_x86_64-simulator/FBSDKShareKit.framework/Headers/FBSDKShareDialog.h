@@ -16,8 +16,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
 #if TARGET_OS_TV
 
 // This is an unfortunate hack for Swift Package Manager support.
@@ -37,9 +35,9 @@ NS_SWIFT_NAME(ShareDialog)
 
 #import <UIKit/UIKit.h>
 
-#import "FBSDKShareDialogMode.h"
-#import "FBSDKSharing.h"
-#import "FBSDKSharingContent.h"
+#import <FBSDKShareKit/FBSDKShareDialogMode.h>
+#import <FBSDKShareKit/FBSDKSharing.h>
+#import <FBSDKShareKit/FBSDKSharingContent.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -49,39 +47,54 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(ShareDialog)
 @interface FBSDKShareDialog : NSObject <FBSDKSharingDialog>
 
+- (instancetype)init NS_UNAVAILABLE
+DEPRECATED_MSG_ATTRIBUTE("`init` is deprecated and will be removed in the next major release. Please use one of the other available initializers");
++ (instancetype)new NS_UNAVAILABLE
+DEPRECATED_MSG_ATTRIBUTE("`new` is deprecated and will be removed in the next major release. Please use one of the other available initializers");
+
 /**
-  Convenience method to create a FBSDKShareDialog with a fromViewController, content and a delegate.
- @param viewController A UIViewController to present the dialog from, if appropriate.
+  Convenience initializer to initialize an `FBSDKShareDialog` with a view controller, content and delegate.
+ @param viewController A view controller from which to present the dialog, if appropriate.
  @param content The content to be shared.
- @param delegate The receiver's delegate.
+ @param delegate The dialog's delegate.
+ */
+- (instancetype)initWithViewController:(nullable UIViewController *)viewController
+                               content:(nullable id<FBSDKSharingContent>)content
+                              delegate:(nullable id<FBSDKSharingDelegate>)delegate;
+
+/**
+  Convenience method to create an `FBSDKShareDialog` with a view controller, content and delegate.
+ @param viewController A view controller from which to present the dialog, if appropriate.
+ @param content The content to be shared.
+ @param delegate The dialog's delegate.
  */
 + (instancetype)dialogWithViewController:(nullable UIViewController *)viewController
-                             withContent:(id<FBSDKSharingContent>)content
+                             withContent:(nullable id<FBSDKSharingContent>)content
                                 delegate:(nullable id<FBSDKSharingDelegate>)delegate
-NS_SWIFT_NAME(init(fromViewController:content:delegate:));
+NS_SWIFT_UNAVAILABLE("Use `init(viewController:content:delegate:)");
 
 /**
- Convenience method to show an FBSDKShareDialog with a fromViewController, content and a delegate.
- @param viewController A UIViewController to present the dialog from, if appropriate.
+ Convenience method to show an `FBSDKShareDialog` with a view controller, content and delegate.
+ @param viewController A view controller from which to present the dialog, if appropriate.
  @param content The content to be shared.
- @param delegate The receiver's delegate.
+ @param delegate The dialog's delegate.
  */
-+ (instancetype)showFromViewController:(UIViewController *)viewController
-                           withContent:(id<FBSDKSharingContent>)content
++ (instancetype)showFromViewController:(nullable UIViewController *)viewController
+                           withContent:(nullable id<FBSDKSharingContent>)content
                               delegate:(nullable id<FBSDKSharingDelegate>)delegate
-NS_SWIFT_UNAVAILABLE("Use init(fromViewController:content:delegate:).show() instead");
+NS_SWIFT_UNAVAILABLE("Use init(viewController:content:delegate:).show() instead");
 
 /**
-  A UIViewController to present the dialog from.
+  A UIViewController from which to present the dialog.
 
- If not specified, the top most view controller will be automatically determined as best as possible.
+ If not specified, the topmost view controller will be automatically determined as best as possible.
  */
 @property (nonatomic, weak) UIViewController *fromViewController;
 
 /**
   The mode with which to display the dialog.
 
- Defaults to FBSDKShareDialogModeAutomatic, which will automatically choose the best available mode.
+ Defaults to `FBSDKShareDialogModeAutomatic`, which will automatically choose the best available mode.
  */
 @property (nonatomic, assign) FBSDKShareDialogMode mode;
 

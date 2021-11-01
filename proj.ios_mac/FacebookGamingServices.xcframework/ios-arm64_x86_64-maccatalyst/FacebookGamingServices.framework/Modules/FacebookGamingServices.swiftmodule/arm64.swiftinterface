@@ -1,0 +1,113 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
+// swift-module-flags: -target arm64-apple-ios13.1-macabi -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name FacebookGamingServices
+import FBSDKCoreKit
+@_exported import FacebookGamingServices
+import Foundation
+import Swift
+import UIKit
+public class ContextDialogPresenter {
+  public init()
+  public func makeAndShowCreateContextDialog(content: FacebookGamingServices.CreateContextContent, delegate: FacebookGamingServices.ContextDialogDelegate) throws
+  public func makeAndShowSwitchContextDialog(content: FacebookGamingServices.SwitchContextContent, delegate: FacebookGamingServices.ContextDialogDelegate) throws
+  public func makeAndShowChooseContextDialog(content: FacebookGamingServices.ChooseContextContent, delegate: FacebookGamingServices.ContextDialogDelegate)
+  @available(*, deprecated, message: "showChooseContextDialog is deprecated. Please use the instance method `makeAndShowChooseContextDialog` instead")
+  open class func showChooseContextDialog(with content: FacebookGamingServices.ChooseContextContent, delegate: FacebookGamingServices.ContextDialogDelegate) -> FacebookGamingServices.ChooseContextDialog
+  @objc deinit
+}
+public enum ContextDialogPresenterError : Swift.Error {
+  case showCreateContext
+  case showSwitchContext
+  case showChooseContext
+  public static func == (a: FacebookGamingServices.ContextDialogPresenterError, b: FacebookGamingServices.ContextDialogPresenterError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum CustomUpdateContentError : Swift.Error {
+  case notInGameContext
+  case invalidMessage
+  case invalidMedia
+  case invalidImage
+  public static func == (a: FacebookGamingServices.CustomUpdateContentError, b: FacebookGamingServices.CustomUpdateContentError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public class CustomUpdateContentImage {
+  public init(message: Swift.String, image: UIKit.UIImage, cta: Swift.String? = nil, payload: Swift.String? = nil, messageLocalization: [Swift.String : Swift.String] = [:], ctaLocalization: [Swift.String : Swift.String] = [:])
+  @objc deinit
+}
+public class CustomUpdateContentMedia {
+  public init(message: Swift.String, media: FacebookGamingServices.URLMedia, cta: Swift.String? = nil, payload: Swift.String? = nil, messageLocalization: [Swift.String : Swift.String] = [:], ctaLocalization: [Swift.String : Swift.String] = [:])
+  @objc deinit
+}
+public enum CustomUpdateGraphRequestError : Swift.Error {
+  case server(Swift.Error)
+  case invalidAccessToken
+  case contentParsing
+  case decoding
+}
+public class CustomUpdateGraphRequest {
+  final public let graphRequestFactory: FBSDKCoreKit.GraphRequestFactoryProtocol
+  public init()
+  public init(graphRequestFactory: FBSDKCoreKit.GraphRequestFactoryProtocol = GraphRequestFactory())
+  public func request(content: FacebookGamingServices.CustomUpdateContentMedia, completionHandler: @escaping (Swift.Result<Swift.Bool, FacebookGamingServices.CustomUpdateGraphRequestError>) -> Swift.Void) throws
+  public func request(content: FacebookGamingServices.CustomUpdateContentImage, completionHandler: @escaping (Swift.Result<Swift.Bool, FacebookGamingServices.CustomUpdateGraphRequestError>) -> Swift.Void) throws
+  @objc deinit
+}
+public struct FacebookGIF : Swift.Codable, Swift.Equatable, FacebookGamingServices.URLMedia {
+  public init(withUrl url: Foundation.URL)
+  public static func == (a: FacebookGamingServices.FacebookGIF, b: FacebookGamingServices.FacebookGIF) -> Swift.Bool
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct FacebookVideo : Swift.Codable, Swift.Equatable, FacebookGamingServices.URLMedia {
+  public init(withUrl url: Foundation.URL)
+  public static func == (a: FacebookGamingServices.FacebookVideo, b: FacebookGamingServices.FacebookVideo) -> Swift.Bool
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public enum GamingServicesDialogError : Swift.Error {
+  case invalidContentType
+  case missingContent
+  public static func == (a: FacebookGamingServices.GamingServicesDialogError, b: FacebookGamingServices.GamingServicesDialogError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension InternalUtility : FBSDKCoreKit.WindowFinding {
+}
+public enum Sample {
+}
+@objc public class SwitchContextDialog : FacebookGamingServices.ContextWebDialog, FacebookGamingServices.Showable {
+  public init(content: FacebookGamingServices.SwitchContextContent, windowFinder: FBSDKCoreKit.WindowFinding, delegate: FacebookGamingServices.ContextDialogDelegate)
+  @objc override dynamic public func show() -> Swift.Bool
+  @objc override dynamic public func validate() throws
+  @objc override dynamic public init(delegate: FacebookGamingServices.ContextDialogDelegate)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum TournamentDecodingError : Swift.Error {
+  case invalidExpirationDate
+  case invalidScoreType
+  public static func == (a: FacebookGamingServices.TournamentDecodingError, b: FacebookGamingServices.TournamentDecodingError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol URLMedia : Swift.Decodable, Swift.Encodable {
+  init(withUrl: Foundation.URL)
+}
+extension FacebookGamingServices.ContextDialogPresenterError : Swift.Equatable {}
+extension FacebookGamingServices.ContextDialogPresenterError : Swift.Hashable {}
+extension FacebookGamingServices.CustomUpdateContentError : Swift.Equatable {}
+extension FacebookGamingServices.CustomUpdateContentError : Swift.Hashable {}
+extension FacebookGamingServices.GamingServicesDialogError : Swift.Equatable {}
+extension FacebookGamingServices.GamingServicesDialogError : Swift.Hashable {}
+extension FacebookGamingServices.TournamentDecodingError : Swift.Equatable {}
+extension FacebookGamingServices.TournamentDecodingError : Swift.Hashable {}

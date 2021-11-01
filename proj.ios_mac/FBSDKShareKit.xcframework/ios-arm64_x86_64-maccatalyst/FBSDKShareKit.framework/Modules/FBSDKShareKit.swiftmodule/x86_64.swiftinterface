@@ -15,9 +15,3 @@ extension AppGroupPrivacy : Swift.CustomStringConvertible {
     get
   }
 }
-@available(tvOS, unavailable)
-extension LikeObjectType : Swift.CustomStringConvertible {
-  public var description: Swift.String {
-    get
-  }
-}

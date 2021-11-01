@@ -16,15 +16,14 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
 #if !TARGET_OS_TV
 
 #import <Foundation/Foundation.h>
 
-#import "FBSDKBridgeAPIProtocolType.h"
+#import <FBSDKCoreKit/FBSDKBridgeAPIProtocolType.h>
 
-@class FBSDKBridgeAPIRequest;
+NS_ASSUME_NONNULL_BEGIN
+
 
 FOUNDATION_EXPORT NSString *const FBSDKBridgeAPIAppIDKey;
 FOUNDATION_EXPORT NSString *const FBSDKBridgeAPISchemeSuffixKey;
@@ -39,17 +38,19 @@ FOUNDATION_EXPORT NSString *const FBSDKBridgeAPIVersionKey;
 NS_SWIFT_NAME(BridgeAPIProtocol)
 @protocol FBSDKBridgeAPIProtocol <NSObject>
 
-- (NSURL *)requestURLWithActionID:(NSString *)actionID
+- (nullable NSURL *)requestURLWithActionID:(NSString *)actionID
                            scheme:(NSString *)scheme
                        methodName:(NSString *)methodName
                     methodVersion:(NSString *)methodVersion
-                       parameters:(NSDictionary *)parameters
-                            error:(NSError *__autoreleasing *)errorRef;
-- (NSDictionary *)responseParametersForActionID:(NSString *)actionID
-                                queryParameters:(NSDictionary *)queryParameters
-                                      cancelled:(BOOL *)cancelledRef
-                                          error:(NSError *__autoreleasing *)errorRef;
+                       parameters:(NSDictionary<NSString *, id> *)parameters
+                            error:( NSError * _Nullable *)errorRef;
+- (nullable NSDictionary<NSString *, id> *)responseParametersForActionID:(NSString *)actionID
+                                queryParameters:(NSDictionary<NSString *, id> *)queryParameters
+                                      cancelled:(nullable BOOL *)cancelledRef
+                                                          error:( NSError* _Nullable *)errorRef;
 
 @end
 
 #endif
+
+NS_ASSUME_NONNULL_END

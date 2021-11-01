@@ -16,17 +16,11 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
 #if !TARGET_OS_TV
 
 #import <Foundation/Foundation.h>
 
-#ifdef BUCK
 #import <FBSDKCoreKit/FBSDKConstants.h>
-#else
-#import "FBSDKConstants.h"
-#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -92,8 +86,13 @@ NS_ASSUME_NONNULL_BEGIN
  the `[FBSDKAccessToken currentAccessToken]` might still have been updated.
  .
  */
-NS_SWIFT_UNAVAILABLE("")
+NS_SWIFT_NAME(GraphErrorRecoveryProcessor)
 @interface FBSDKGraphErrorRecoveryProcessor : NSObject
+
+/**
+ Initializes a GraphErrorRecoveryProcessor with an access token string.
+ */
+- (instancetype)initWithAccessTokenString:(NSString *)accessTokenString;
 
 /**
   Attempts to process the error, return YES if the error can be processed.

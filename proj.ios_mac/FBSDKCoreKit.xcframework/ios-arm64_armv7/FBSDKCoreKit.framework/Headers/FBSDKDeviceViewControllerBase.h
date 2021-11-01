@@ -16,11 +16,11 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
 #if TARGET_OS_TV
 
-#import <UIKit/UIKit.h>
+ #import <UIKit/UIKit.h>
+
+ #import <FBSDKCoreKit/FBSDKDeviceDialogView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  This is an internal API that should not be used directly and is subject to change.
 */
 NS_SWIFT_NAME(FBDeviceViewControllerBase)
-@interface FBSDKDeviceViewControllerBase : UIViewController
+@interface FBSDKDeviceViewControllerBase : UIViewController <FBSDKDeviceDialogViewDelegate>
 @end
 
 NS_ASSUME_NONNULL_END

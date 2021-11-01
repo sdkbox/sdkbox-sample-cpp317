@@ -16,11 +16,12 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
 #if !TARGET_OS_TV
 
+#import <CoreGraphics/CGGeometry.h>
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
+@protocol FBSDKWindowFinding;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,6 +44,14 @@ NS_SWIFT_NAME(WebDialog)
  */
 @property (nonatomic) BOOL shouldDeferVisibility;
 
+/**
+ Internal Type exposed to facilitate transition to Swift.
+ API Subject to change or removal without warning. Do not use.
+
+ @warning UNSAFE - DO NOT USE
+ */
+@property (nonatomic, strong) id<FBSDKWindowFinding> windowFinder;
+
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -62,8 +71,20 @@ NS_SWIFT_NAME(WebDialog)
  @warning UNSAFE - DO NOT USE
  */
 + (instancetype)showWithName:(NSString *)name
-                  parameters:(NSDictionary *)parameters
+                  parameters:(NSDictionary<NSString *, id> *)parameters
                     delegate:(id<FBSDKWebDialogDelegate>)delegate;
+
+/**
+ Internal Type exposed to facilitate transition to Swift.
+ API Subject to change or removal without warning. Do not use.
+
+ @warning UNSAFE - DO NOT USE
+ */
++ (instancetype)createAndShow:(NSString *)name
+                   parameters:(NSDictionary<NSString *, id> *)parameters
+                        frame:(CGRect)frame
+                     delegate:(id<FBSDKWebDialogDelegate>)delegate
+                 windowFinder:(id<FBSDKWindowFinding>)windowFinder;
 
 @end
 
@@ -74,7 +95,7 @@ NS_SWIFT_NAME(WebDialog)
  @warning UNSAFE - DO NOT USE
  */
 NS_SWIFT_NAME(WebDialogDelegate)
-@protocol FBSDKWebDialogDelegate <NSObject>
+@protocol FBSDKWebDialogDelegate
 
 /**
  Internal Type exposed to facilitate transition to Swift.
@@ -82,7 +103,7 @@ NS_SWIFT_NAME(WebDialogDelegate)
 
  @warning UNSAFE - DO NOT USE
  */
-- (void)webDialog:(FBSDKWebDialog *)webDialog didCompleteWithResults:(NSDictionary *)results;
+- (void)webDialog:(FBSDKWebDialog *)webDialog didCompleteWithResults:(NSDictionary<NSString *, id> *)results;
 
 /**
  Internal Type exposed to facilitate transition to Swift.
